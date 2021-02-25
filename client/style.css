@@ -1,3 +1,203 @@
-body {
+/* body {
     background-color: ghostwhite;
+} */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    font-family: "Yanone Kaffeesatz", sans-serif;
+    font-weight: 300;
+}
+
+.super-container {
+    display: flex;
+}
+
+header {
+    height: 80px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #ea86b6;
+}
+
+.icon-menu {
+    height: 30px;
+    align-self: flex-end;
+}
+
+.menu-container {
+    width: 50vh;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.menu-container a {
+    text-decoration: none;
+    color: black;
+}
+
+.active {
+    color: white;
+}
+
+.logo-title {
+    display: flex;
+    align-items: center;
+}
+
+.logo-title img {
+    padding: 5px;
+    height: 70px;
+}
+
+.welcome-box img {
+    height: 90px;
+}
+
+.brand-title {
+    font-weight: 500;
+}
+
+.profile-pic-box img {
+    height: 300px;
+    width: 300px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.camera-icon {
+    height: 30px;
+    width: 30px;
+}
+
+.welcome-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100vh;
+}
+
+.right-box {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    height: 100vh;
+}
+
+.right-box {
+    display: flex;
+    flex-direction: column;
+    background-color: #ea86b6;
+    justify-content: center;
+    width: 100%;
+    height: 100vh;
+}
+.reg-box {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+
+.reg-text {
+    line-height: 3;
+    font-weight: 300;
+}
+
+.signup-title,
+.login {
+    color: white;
+}
+
+.reg-field {
+    min-width: 300px;
+    width: 20%;
+    color: white;
+    font-size: 1em;
+    padding: 7px 11px;
+    margin: 5px 20px;
+
+    background-color: transparent;
+    border: none;
+    border-bottom: 2px solid white;
+}
+
+.edit-field {
+    min-width: 300px;
+    width: 20%;
+    color: #e986b6;
+    font-size: 1em;
+    padding: 7px 11px;
+    margin: 5px 20px;
+
+    background-color: transparent;
+    border: none;
+    border-bottom: 2px solid #e986b6;
+}
+
+.reg-field:focus {
+    outline: none;
+}
+
+.reg-field input::placeholder {
+    color: black;
+}
+
+.link-log {
+    text-decoration: none;
+    color: white;
+    line-height: 3;
+}
+
+.reg-box h2 {
+    color: white;
+}
+
+.reg-box p {
+    color: white;
+}
+
+.profile-container h2 {
+    font-weight: 500;
+}
+
+.btn {
+    margin: 10px 0;
+    color: #ea86b6;
+    height: 30px;
+    font-size: 15px;
+    border-radius: 15px;
+    border: 1px solid #ea86b6;
+    background-color: white;
+    cursor: pointer;
+    min-width: 100px;
+}
+
+.btn:focus {
+    outline: none;
+}
+
+.profile-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.profile-container img {
+    padding: 10px;
+}
+
+.edit-profile-box {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
 }

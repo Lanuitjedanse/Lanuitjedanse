@@ -1,0 +1,10 @@
+ DROP TABLE IF EXISTS bars;
+
+ CREATE TABLE bars(
+      id SERIAL PRIMARY KEY,
+      name VARCHAR(255) NOT NULL,
+      address VARCHAR(255) NOT NULL,
+      profile_pic_url VARCHAR DEFAULT NULL,
+      music VARCHAR DEFAULT NULL,
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      );
