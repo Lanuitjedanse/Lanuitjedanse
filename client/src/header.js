@@ -12,7 +12,7 @@ export default function Header() {
     useEffect(() => {
         window.addEventListener("resize", updateSize);
         setScreenSize(window.innerWidth);
-        console.log("window.width: ", window.innerWidth);
+        // console.log("window.width: ", window.innerWidth);
     });
 
     const updateSize = () => {
@@ -20,7 +20,7 @@ export default function Header() {
         let mql = window.matchMedia("(max-width: 900px)");
         setMQuery(mql.matches);
 
-        console.log(mql.matches); // true or falses
+        // console.log(mql.matches); // true or falses
     };
 
     const [burgerOpen, setBurgerOpen] = useState(false);

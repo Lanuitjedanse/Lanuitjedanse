@@ -228,6 +228,14 @@ app.get("/api/user", (req, res) => {
         });
 });
 
+app.get("/music-taste", (req, res) => {
+    console.log("I am the get music taste route");
+});
+
+app.post("/music-taste", (req, res) => {
+    console.log("I am the post music taste route");
+});
+
 app.post("/edit-profile", (req, res) => {
     let { first, last, email, pass } = req.body;
     console.log("first: ", first);
@@ -265,6 +273,32 @@ app.post("/edit-profile", (req, res) => {
             .catch((err) => {
                 console.log("err in update profile no pass: ", err);
             });
+    }
+});
+
+app.post("/profile-pic", uploader.single("file"), s3.upload, (req, res) => {
+    console.log("I'm the post route user/profile-pic");
+    const { filename } = req.file;
+    const fullUrl = config.s3Url + filename;
+    // const fullUrl = `${userId}/${config.s3Url}${filename}`;
+
+    console.log("req.session.userId: ", req.session.userId);
+
+    if (req.file) {
+        db.uploadPic(req.session.userId, fullUrl)
+            .then(({ rows }) => {
+                res.json({ success: true, rows: rows[0].image });
+            })
+            .catch((err) => {
+                console.log(
+                    "there was an error with uploading profile pic: ",
+                    err
+                );
+                res.json({ success: false });
+            });
+    } else {
+        console.log("please add a file!");
+        res.json({ success: false });
     }
 });
 

@@ -53,7 +53,7 @@ module.exports.fetchProfileData = (userId) => {
     return db.query(q, params);
 };
 
-/// petition
+/// update profile info
 
 module.exports.updateProfileWithPass = (userId, first, last, email, pass) => {
     const q = `UPDATE users
@@ -68,5 +68,20 @@ module.exports.updateProfileNoPass = (userId, first, last, email) => {
     SET first = $2, last = $3, email = $4
     WHERE id = $1 RETURNING first, last, email`;
     const params = [userId, first, last, email];
+    return db.query(q, params);
+};
+
+// update music taste
+
+// module.exports.addMusicTaste = (userId) => {
+// const q = `INSERT INTO music_genres (electronic, hiphop, rock, pop, jazz, reggae)
+// VALUES ()`
+// }
+
+module.exports.uploadPic = (userId, image) => {
+    const q = `UPDATE users
+    SET image = $2
+    WHERE id = $1 RETURNING image`;
+    const params = [userId, image];
     return db.query(q, params);
 };

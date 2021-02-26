@@ -10,11 +10,6 @@ export default function EditProfile(props) {
     // const [id, setId] = useState("");
     let [pass, setPass] = useState("");
     let [error, setError] = useState(false);
-    const [editProfOpen, setEditProfOpen] = useState(false);
-
-    const toggleEditBox = () => {
-        setEditProfOpen(!editProfOpen);
-    };
 
     const editProfile = (e) => {
         e.preventDefault();
@@ -31,7 +26,8 @@ export default function EditProfile(props) {
                 // setFirst(res.data.rows.first);
                 // setLast(res.data.rows.last);
                 // setEmail(res.data.rows.email);
-                setEditProfOpen(!editProfOpen);
+                props.updateProfileData(res.data.rows);
+
                 setError(false);
             })
             .catch((err) => {
@@ -42,11 +38,11 @@ export default function EditProfile(props) {
 
     return (
         <>
-            <button className="btn" onClick={() => toggleEditBox()}>
+            <button className="btn" onClick={props.toggleEditBox}>
                 Edit Profile
             </button>
 
-            {editProfOpen && (
+            {props.editProfOpen && (
                 <div className="edit-profile-box">
                     <h3>Edit your profile</h3>
                     <input
@@ -83,6 +79,11 @@ export default function EditProfile(props) {
                         type="password"
                         placeholder="Password"
                         autoComplete="off"
+                    ></input>
+                    <input
+                        type="checkbox"
+                        id="electronic"
+                        name="electronic"
                     ></input>
 
                     <button className="btn" onClick={(e) => editProfile(e)}>

@@ -14,6 +14,8 @@ export default function App(props) {
     const [id, setId] = useState("");
     const [error, setError] = useState(false);
     const [email, setEmail] = useState(false);
+    const [uploaderPicVisible, setUploaderPicVisible] = useState(false);
+    const [editProfOpen, setEditProfOpen] = useState(false);
 
     console.log("props in app: ", props);
 
@@ -34,30 +36,19 @@ export default function App(props) {
             });
     }, []);
 
-    const updateProfileData = (first, last, email) => {
-        setFirst(props.first);
-        setLast(props.last);
-        setEmail(props.email);
+    const updateProfileData = (info) => {
+        console.log("first: ", info);
+        setFirst(info.first);
+        setLast(info.last);
+        setEmail(info.email);
+        setEditProfOpen(!editProfOpen);
     };
 
-    // toggleUploader() {
-    //     this.setState({
-    //         uploaderVisible: !this.state.uploaderVisible,
-    //     });
-    // }
+    const setProfilePicUrl = (image) => {
+        setImage(image);
+        setUploaderPicVisible(!uploaderPicVisible);
+    };
 
-    // setProfilePicUrl(profilePicUrl) {
-    //     this.setState({
-    //         profilePicUrl: profilePicUrl,
-    //         uploaderVisible: false,
-    //     });
-    // }
-
-    // deletePic(profilePicUrl) {
-    //     this.setState({
-    //         profilePicUrl: profilePicUrl,
-    //     });
-    // }
     return (
         <BrowserRouter>
             <div className="app">
@@ -65,14 +56,19 @@ export default function App(props) {
                 <Route
                     exact
                     path="/"
-                    render={(props) => (
+                    render={() => (
                         <Profile
                             id={id}
                             first={first}
                             last={last}
                             image={image}
                             email={email}
-                            editProfile={() => props.editProfile()}
+                            updateProfileData={(info) =>
+                                updateProfileData(info)
+                            }
+                            setProfilePicUrl={(image) =>
+                                setProfilePicUrl(image)
+                            }
 
                             // playlist={this.state.playlist}
                         />
