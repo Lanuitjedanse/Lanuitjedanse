@@ -85,3 +85,15 @@ module.exports.uploadPic = (userId, image) => {
     const params = [userId, image];
     return db.query(q, params);
 };
+
+module.exports.editMusicTaste = (userId, genres) => {
+    const q = `INSERT INTO music_genres (user_id, genres)
+    VALUES ($1, $2) RETURNING genres`;
+    const params = [userId, genres];
+    return db.query(q, params);
+};
+
+//  const q = `INSERT INTO music_genres (user_id, genres)
+//     VALUES ($1, $2)
+//     ON CONFLICT (user_id)
+//     DO UPDATE SET genres = $2 RETURNING genres`;

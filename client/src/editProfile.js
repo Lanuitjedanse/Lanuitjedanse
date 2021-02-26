@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "./Axios";
 
 export default function EditProfile(props) {
-    console.log("editprofile: ", props);
+    // console.log("editprofile: ", props);
     let [first, setFirst] = useState("");
     let [last, setLast] = useState("");
     // const [image, setImage] = useState("");
@@ -21,12 +21,10 @@ export default function EditProfile(props) {
         axios
             .post("/edit-profile", { first, email, last, pass })
             .then((res) => {
-                console.log("response: ", res);
+                // console.log("response: ", res);
 
-                // setFirst(res.data.rows.first);
-                // setLast(res.data.rows.last);
-                // setEmail(res.data.rows.email);
-                props.updateProfileData(res.data.rows);
+                props.updateProfileData(res.data.rows[0]);
+                props.toggleEditBox(!props.editProfOpen);
 
                 setError(false);
             })
@@ -38,7 +36,7 @@ export default function EditProfile(props) {
 
     return (
         <>
-            <button className="btn" onClick={props.toggleEditBox}>
+            <button className="btn" onClick={() => props.toggleEditBox()}>
                 Edit Profile
             </button>
 
@@ -79,11 +77,6 @@ export default function EditProfile(props) {
                         type="password"
                         placeholder="Password"
                         autoComplete="off"
-                    ></input>
-                    <input
-                        type="checkbox"
-                        id="electronic"
-                        name="electronic"
                     ></input>
 
                     <button className="btn" onClick={(e) => editProfile(e)}>

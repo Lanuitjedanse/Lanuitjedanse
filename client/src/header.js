@@ -3,9 +3,11 @@ import Menu from "./menu";
 import React from "react";
 import HamburgerMenu from "./hamburgerMenu";
 import { useState, useEffect } from "react";
+import ProfilePic from "./profilePic";
 // import Playlist from "./Playlist";
 
-export default function Header() {
+export default function Header(props) {
+    console.log("props in header: ", props);
     const [mQuery, setMQuery] = useState();
     const [screenSize, setScreenSize] = useState();
 
@@ -56,6 +58,7 @@ export default function Header() {
                     ) : (
                         <Menu />
                     )}
+                    <ProfilePic {...props} />
                 </div>
             </header>
             {burgerOpen && (

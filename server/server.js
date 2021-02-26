@@ -234,6 +234,19 @@ app.get("/music-taste", (req, res) => {
 
 app.post("/music-taste", (req, res) => {
     console.log("I am the post music taste route");
+    const { checkedItems } = req.body;
+
+    console.log("genres: ", checkedItems);
+
+    db.editMusicTaste(req.session.userId, checkedItems)
+        .then(({ rows }) => {
+            console.log("music genre updated!");
+            res.json({ success: true, rows: rows });
+        })
+        .catch((err) => {
+            console.log("err in updating music post: ", err);
+            res.json({ success: false });
+        });
 });
 
 app.post("/edit-profile", (req, res) => {

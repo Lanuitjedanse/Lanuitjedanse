@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 export default function Menu() {
     return (
         <>
-            <NavLink exact to="/" activeClassName="active">
+            <NavLink exact to="/profile" activeClassName="active">
                 <p>Profile</p>
             </NavLink>
             <NavLink to="/map" activeClassName="active">

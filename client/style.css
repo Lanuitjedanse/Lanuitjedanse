@@ -22,6 +22,11 @@ header {
     background-color: #ea86b6;
 }
 
+.small.profile-pic {
+    height: 60px;
+    border-radius: 50%;
+}
+
 .icon-menu {
     height: 30px;
     align-self: flex-end;

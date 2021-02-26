@@ -5,8 +5,9 @@ import Header from "./Header";
 import { BrowserRouter, Route } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Profile from "./profile";
+import MyMap from "./map";
 
-export default function App(props) {
+export default function App() {
     // console.log("this.state in app: ", this.state);
     const [first, setFirst] = useState("");
     const [last, setLast] = useState("");
@@ -14,10 +15,8 @@ export default function App(props) {
     const [id, setId] = useState("");
     const [error, setError] = useState(false);
     const [email, setEmail] = useState(false);
-    const [uploaderPicVisible, setUploaderPicVisible] = useState(false);
-    const [editProfOpen, setEditProfOpen] = useState(false);
 
-    console.log("props in app: ", props);
+    // console.log("props in app: ", props);
 
     useEffect(() => {
         axios
@@ -36,26 +35,30 @@ export default function App(props) {
             });
     }, []);
 
+    // const updateProfileData = (info) => {
+    //     console.log("info: ", info);
+    //     setFirst(info.first);
+    //     setLast(info.last);
+    //     setEmail(info.email);
+    // };
     const updateProfileData = (info) => {
-        console.log("first: ", info);
+        console.log(info);
         setFirst(info.first);
         setLast(info.last);
         setEmail(info.email);
-        setEditProfOpen(!editProfOpen);
     };
 
     const setProfilePicUrl = (image) => {
         setImage(image);
-        setUploaderPicVisible(!uploaderPicVisible);
     };
 
     return (
         <BrowserRouter>
             <div className="app">
-                <Header />
+                <Header id={id} first={first} last={last} image={image} />
                 <Route
                     exact
-                    path="/"
+                    path="/profile"
                     render={() => (
                         <Profile
                             id={id}
@@ -63,17 +66,14 @@ export default function App(props) {
                             last={last}
                             image={image}
                             email={email}
-                            updateProfileData={(info) =>
-                                updateProfileData(info)
-                            }
-                            setProfilePicUrl={(image) =>
-                                setProfilePicUrl(image)
-                            }
+                            updateProfileData={updateProfileData}
+                            setProfilePicUrl={setProfilePicUrl}
 
                             // playlist={this.state.playlist}
                         />
                     )}
                 />
+                <Route exact path="/" render={() => <MyMap />} />
             </div>
         </BrowserRouter>
     );
