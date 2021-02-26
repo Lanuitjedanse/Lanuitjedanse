@@ -1,5 +1,6 @@
 import React from "react";
 import { GoogleMap, useJsApiLoader } from "@react-google-maps/api";
+const webpack = require("webpack");
 
 const containerStyle = {
     width: "1000px",
@@ -14,7 +15,7 @@ const center = {
 function myMap() {
     const { isLoaded } = useJsApiLoader({
         id: "google-map-script",
-        googleMapsApiKey: "YOUR_API_KEY",
+        googleMapsApiKey: apiKey,
     });
 
     const [map, setMap] = React.useState(null);

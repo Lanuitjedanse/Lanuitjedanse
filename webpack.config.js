@@ -1,4 +1,6 @@
 const path = require("path");
+const webpack = require("webpack");
+const { API_KEY } = require("./secrets");
 
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
@@ -33,7 +35,8 @@ module.exports = () => ({
             {
                 test: /\.js$/,
                 loader: "babel-loader",
-            }, {
+            },
+            {
                 test: /\.css$/i,
                 use: [
                     MiniCssExtractPlugin.loader,
@@ -47,7 +50,12 @@ module.exports = () => ({
             },
         ],
     },
-    plugins: [new MiniCssExtractPlugin({
-        filename: 'bundle.css',
-    })],
+    plugins: [
+        new MiniCssExtractPlugin({
+            filename: "bundle.css",
+        }),
+        new webpack.DefinePlugin({
+            apiKey: JSON.stringify(API_KEY),
+        }),
+    ],
 });
