@@ -10,7 +10,8 @@ const containerStyle = {
     height: "90vh",
 };
 
-function myMap() {
+function myMap(props) {
+    console.log("props in map: ", props);
     const [latUser, setLatUser] = useState(0);
     const [lngUser, setLngUser] = useState(0);
     const [pinBarLocation, setPinBarLocation] = useState([]);
@@ -106,6 +107,7 @@ function myMap() {
                         toggleCreateBar={toggleCreateBar}
                         setPinBarLocation={setPinBarLocation}
                         pinBarLocation={pinBarLocation}
+                        updateBarLocation={props.updateBarLocation}
                     />
                 )}
             </>

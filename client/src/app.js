@@ -25,6 +25,8 @@ export default function App() {
     const [userIdBar, setUserIdBar] = useState("");
     const [description, setDescription] = useState("");
     const [barId, setBarId] = useState("");
+    const [lat, setLat] = useState("");
+    const [lng, setLng] = useState("");
 
     // console.log("props in app: ", props);
 
@@ -48,10 +50,8 @@ export default function App() {
             .get("/api/all-bars")
             .then((res) => {
                 console.log("response: ", res.data.rows);
-                setBarLocation({
-                    lat: res.data.rows.lat,
-                    lng: res.data.rows.lng,
-                });
+                setLat(res.data.rows.lat);
+                setLng(res.data.rows.lng);
                 console.log("barLocation: ", barLocation);
                 setBarMusic(res.data.rows.music);
                 setBarName(res.data.rows.name);
@@ -75,11 +75,20 @@ export default function App() {
 
     // };
     const updateBarLocation = (loc) => {
-        console.log(loc);
-        setBarLocation({
-            lat: loc.barLocation.lat,
-            lng: loc.barLocation.lng,
-        });
+        console.log("update: ", loc);
+        // setBarLocation({
+        //     lat: loc.lat,
+        //     lng: loc.barLocation.lng,
+        // });
+
+        setLat(loc.lat);
+        setLng(loc.lng);
+        setBarMusic(loc.music);
+        setBarName(loc.name);
+        setImgbar(loc.img_bar);
+        setUserIdBar(loc.user_id);
+        setDescription(loc.description);
+        setBarId(loc.id);
     };
 
     const updateProfileData = (info) => {
@@ -134,7 +143,19 @@ export default function App() {
                 <Route
                     exact
                     path="/"
-                    render={() => <MyMap barLocation={barLocation} />}
+                    render={() => (
+                        <MyMap
+                            updateBarLocation={updateBarLocation}
+                            barName={barName}
+                            barMusic={barMusic}
+                            imgBar={imgBar}
+                            userIdBar={userIdBar}
+                            description={description}
+                            lat={lat}
+                            lng={lng}
+                            barId={barId}
+                        />
+                    )}
                 />
                 <Route path="/yes-or-no" render={() => <YesOrNo />} />
             </div>

@@ -69,12 +69,10 @@ export default function CreateBar(props) {
             .post("/create-bar", formData)
             .then((response) => {
                 // console.log(("response: ", response.data.rows[0].address));
-                props.toggleCreateBar(!props.barPopUpVisible);
-                // props.updateBarLocation({
-                //     lat: response.data.rows[0].lat,
-                //     lng: response.data.rows[0].lng,
-                // });
+
+                props.updateBarLocation(response.data.rows[0]);
                 setError(false);
+                props.toggleCreateBar(!props.barPopUpVisible);
             })
             .catch((err) => {
                 console.log("err in axios post profile pic: ", err);

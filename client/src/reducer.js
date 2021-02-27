@@ -34,9 +34,16 @@ export default function (state = {}, action) {
             }),
         };
     }
+
     return state;
 }
 
+// if (action.type == "SHOW_ALL_BAR") {
+//     state = {
+//         ...state,
+//         allBars: action.allBars,
+//     };
+// }
 // export function reducer(state = {}, action) {}
 
 //  if (action.type === "SHOW_WANNABES") {
