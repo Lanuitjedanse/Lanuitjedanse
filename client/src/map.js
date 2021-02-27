@@ -1,7 +1,11 @@
 import React from "react";
 import { GoogleMap, useJsApiLoader, Marker } from "@react-google-maps/api";
 import { useState, useEffect, useRef, useCallback } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import CreateBar from "./createBar";
+import { showAllBars, receiveGenres } from "./actions";
+import Bar from "./bar";
+import { Link } from "react";
 
 // console.log(("apiKey", apiKey));
 
@@ -15,11 +19,20 @@ function myMap(props) {
     const [latUser, setLatUser] = useState(0);
     const [lngUser, setLngUser] = useState(0);
     const [pinBarLocation, setPinBarLocation] = useState([]);
+    const [markers, setMarkers] = useState("");
     // const [barLat, setBarLat] = useState(0);
     // const [barLng, setBarLng] = useState(0);
     const [barPopUpVisible, setBarPopUpVisible] = useState(false);
+    const [barPreviewVisible, setBarPreviewVisible] = useState(false);
+    const [selectedBar, setSelectedBar] = useState("");
 
-    // const [lngBar, setLngBar] = useState(0);
+    const dispatch = useDispatch();
+
+    const bars = useSelector(
+        (state) => state.allBars && state.allBars.filter((bar) => bar.id)
+    );
+
+    console.log("bars", bars);
 
     useEffect(() => {
         if (navigator.geolocation) {
@@ -35,6 +48,11 @@ function myMap(props) {
             //  // No Support Web
             alert("The browser doesn't support Geolocation");
         }
+    }, []);
+
+    useEffect(() => {
+        dispatch(showAllBars());
+        dispatch(receiveGenres());
     }, []);
 
     const userLocation = {
@@ -81,9 +99,23 @@ function myMap(props) {
         console.log("visibility: ", barPopUpVisible);
     };
 
+    // const toggleBarPreview = () => {
+    //     setBarPreviewVisible(!barPreviewVisible);
+    //     console.log("visibility: ", barPopUpVisible);
+    // };
+
+    const showPopUp = (marker) => {
+        console.log("e", marker);
+        setSelectedBar(marker);
+    };
+
     const loadMarker = (marker) => {
         console.log("marker: ", marker);
     };
+
+    if (!bars) {
+        return null;
+    }
 
     return isLoaded ? (
         <GoogleMap
@@ -95,13 +127,24 @@ function myMap(props) {
         >
             {/* Child components, such as markers, info windows, etc. */}
             <>
-                <Marker
-                    onLoad={loadMarker}
-                    position={{
-                        lat: parseFloat(pinBarLocation.lat),
-                        lng: parseFloat(pinBarLocation.lng),
-                    }}
-                />
+                {bars &&
+                    bars.map((marker) => (
+                        <Marker
+                            key={marker.id}
+                            position={{
+                                lat: parseFloat(marker.lat),
+                                lng: parseFloat(marker.lng),
+                            }}
+                            icon={{
+                                url: "/placeholder.svg",
+                                scaledSize: new window.google.maps.Size(30, 30),
+                                origin: new window.google.maps.Point(0, 0),
+                                anchor: new window.google.maps.Point(15, 15),
+                            }}
+                            onClick={() => showPopUp(marker)}
+                        />
+                    ))}
+
                 {barPopUpVisible && (
                     <CreateBar
                         toggleCreateBar={toggleCreateBar}
@@ -110,6 +153,8 @@ function myMap(props) {
                         updateBarLocation={props.updateBarLocation}
                     />
                 )}
+
+                {/* {barPopUpVisible && <Bar toggleBarPreview={toggleBarPreview} />} */}
             </>
         </GoogleMap>
     ) : (
@@ -119,4 +164,10 @@ function myMap(props) {
 
 export default React.memo(myMap);
 
-//    <Marker {...marker} onRightClick={() => props.onMarkerRightClick(marker)} />;
+//   <Marker
+//       onLoad={loadMarker}
+//       position={{
+//           lat: parseFloat(props.lat),
+//           lng: parseFloat(props.lng),
+//       }}
+//   />;

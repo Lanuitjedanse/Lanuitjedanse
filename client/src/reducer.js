@@ -35,15 +35,31 @@ export default function (state = {}, action) {
         };
     }
 
+    if (action.type == "SHOW_ALL_BARS") {
+        state = {
+            ...state,
+            allBars: action.allBars,
+        };
+    }
+
+    // if (action.type === "SHOW_ALL_BAR") {
+    //     state = {
+    //         ...state,
+    //         allVenues: state.allVenues.map((venue) => {
+    //             if (venue.id === action.id) {
+    //                 return {
+    //                     ...venue,
+    //                 };
+    //             } else {
+    //                 return venue;
+    //             }
+    //         }),
+    //     };
+    // }
+
     return state;
 }
 
-// if (action.type == "SHOW_ALL_BAR") {
-//     state = {
-//         ...state,
-//         allBars: action.allBars,
-//     };
-// }
 // export function reducer(state = {}, action) {}
 
 //  if (action.type === "SHOW_WANNABES") {

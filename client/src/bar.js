@@ -35,6 +35,7 @@ export default function Bar(props) {
                     <div className="bar-title">
                         <img className="bar-icon" src="/cocktails.svg" />
                         <h2>{name}</h2>
+                        <img className="close-icon" src="/x-btn.svg" />
                     </div>
 
                     <img src={imgBar} alt={name} />

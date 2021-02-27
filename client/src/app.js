@@ -9,6 +9,7 @@ import MyMap from "./map";
 import CreateBar from "./createBar";
 import Bar from "./bar";
 import YesOrNo from "./yesOrNo";
+import AllBars from "./allBars";
 
 export default function App() {
     // console.log("this.state in app: ", this.state);
@@ -49,7 +50,7 @@ export default function App() {
         axios
             .get("/api/all-bars")
             .then((res) => {
-                console.log("response: ", res.data.rows);
+                // console.log("response: ", res.data.rows);
                 setLat(res.data.rows.lat);
                 setLng(res.data.rows.lng);
                 console.log("barLocation: ", barLocation);
@@ -158,6 +159,22 @@ export default function App() {
                     )}
                 />
                 <Route path="/yes-or-no" render={() => <YesOrNo />} />
+                <Route
+                    path="/all-bars"
+                    render={() => (
+                        <AllBars
+                            updateBarLocation={updateBarLocation}
+                            barName={barName}
+                            barMusic={barMusic}
+                            imgBar={imgBar}
+                            userIdBar={userIdBar}
+                            description={description}
+                            lat={lat}
+                            lng={lng}
+                            barId={barId}
+                        />
+                    )}
+                />
             </div>
         </BrowserRouter>
     );

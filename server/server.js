@@ -426,7 +426,7 @@ app.get("/api/all-bars", (req, res) => {
     db.showAllBars()
         .then(({ rows }) => {
             console.log("rows: ", rows);
-            res.json({ success: true, rows: rows });
+            res.json({ rows });
         })
         .catch((err) => {
             console.log("err in show all bars: ", err);
