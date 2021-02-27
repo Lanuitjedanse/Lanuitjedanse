@@ -382,10 +382,21 @@ app.post("/profile-pic", uploader.single("file"), s3.upload, (req, res) => {
 app.post("/create-bar", uploader.single("file"), s3.upload, (req, res) => {
     const { filename } = req.file;
     const fullUrl = config.s3Url + filename;
-    const { barName, description, music } = req.body;
+    const { barName, description, music, lat, lng } = req.body;
+    // console.log("latLng: ", latLng[0]);
+    // const latLngDB = [latLng.lat, latLng.lng];
+    // const latLng = [lat, lng];
 
     if (req.file) {
-        db.addBar(req.session.userId, barName, description, fullUrl, music)
+        db.addBar(
+            req.session.userId,
+            barName,
+            description,
+            fullUrl,
+            lat,
+            lng,
+            music
+        )
             .then(({ rows }) => {
                 console.log("bar was added to DB");
                 res.json({ success: true, rows: rows });
@@ -407,6 +418,18 @@ app.get("/bar/:id", (req, res) => {
         })
         .catch((err) => {
             console.log("there was an error in bar dynamic route: ", err);
+        });
+});
+
+app.get("/api/all-bars", (req, res) => {
+    console.log("I am the all bar get route");
+    db.showAllBars()
+        .then(({ rows }) => {
+            console.log("rows: ", rows);
+            res.json({ success: true, rows: rows });
+        })
+        .catch((err) => {
+            console.log("err in show all bars: ", err);
         });
 });
 

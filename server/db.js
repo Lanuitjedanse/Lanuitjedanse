@@ -93,10 +93,18 @@ module.exports.editMusicTaste = (userId, genres) => {
     return db.query(q, params);
 };
 
-module.exports.addBar = (userId, name, description, imgBar, music) => {
-    const q = `INSERT INTO bars (user_id, name, description, img_bar, music)
-    VALUES ($1, $2, $3, $4, $5) RETURNING *`;
-    const params = [userId, name, description, imgBar, music];
+module.exports.addBar = (
+    userId,
+    name,
+    description,
+    imgBar,
+    lat,
+    lng,
+    music
+) => {
+    const q = `INSERT INTO bars (user_id, name, description, img_bar, lat, lng, music)
+    VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *`;
+    const params = [userId, name, description, imgBar, lat, lng, music];
     return db.query(q, params);
 };
 
@@ -104,6 +112,11 @@ module.exports.showBar = (id) => {
     const q = `SELECT * FROM bars WHERE id = $1`;
     const params = [id];
     return db.query(q, params);
+};
+
+module.exports.showAllBars = () => {
+    const q = `SELECT * FROM bars`;
+    return db.query(q);
 };
 
 // module.exports.uploadBarImg = (id, image) => {

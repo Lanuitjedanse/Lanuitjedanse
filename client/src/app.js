@@ -18,6 +18,13 @@ export default function App() {
     const [id, setId] = useState("");
     const [error, setError] = useState(false);
     const [email, setEmail] = useState(false);
+    const [barLocation, setBarLocation] = useState([]);
+    const [barName, setBarName] = useState("");
+    const [barMusic, setBarMusic] = useState("");
+    const [imgBar, setImgbar] = useState("");
+    const [userIdBar, setUserIdBar] = useState("");
+    const [description, setDescription] = useState("");
+    const [barId, setBarId] = useState("");
 
     // console.log("props in app: ", props);
 
@@ -36,6 +43,27 @@ export default function App() {
                 console.log("error in axios api/user: ", err);
                 setError(true);
             });
+
+        axios
+            .get("/api/all-bars")
+            .then((res) => {
+                console.log("response: ", res.data.rows);
+                setBarLocation({
+                    lat: res.data.rows.lat,
+                    lng: res.data.rows.lng,
+                });
+                console.log("barLocation: ", barLocation);
+                setBarMusic(res.data.rows.music);
+                setBarName(res.data.rows.name);
+                setImgbar(res.data.rows.img_bar);
+                setUserIdBar(res.data.rows.user_id);
+                setDescription(res.data.rows.description);
+                setBarId(res.data.rows.id);
+            })
+            .catch((err) => {
+                console.log("error in axios api/user: ", err);
+                setError(true);
+            });
     }, []);
 
     // const updateProfileData = (info) => {
@@ -44,6 +72,16 @@ export default function App() {
     //     setLast(info.last);
     //     setEmail(info.email);
     // };
+
+    // };
+    const updateBarLocation = (loc) => {
+        console.log(loc);
+        setBarLocation({
+            lat: loc.barLocation.lat,
+            lng: loc.barLocation.lng,
+        });
+    };
+
     const updateProfileData = (info) => {
         console.log(info);
         setFirst(info.first);
@@ -87,8 +125,17 @@ export default function App() {
                         />
                     )}
                 />
-                <Route path="/add-bar" render={() => <CreateBar />} />
-                <Route path="/map" render={() => <MyMap />} />
+                <Route
+                    path="/add-bar"
+                    render={() => (
+                        <CreateBar updateBarLocation={updateBarLocation} />
+                    )}
+                />
+                <Route
+                    exact
+                    path="/"
+                    render={() => <MyMap barLocation={barLocation} />}
+                />
                 <Route path="/yes-or-no" render={() => <YesOrNo />} />
             </div>
         </BrowserRouter>

@@ -56,9 +56,11 @@ export default function CreateBar(props) {
         // barImg.length == 0 ? barImg == "client/public/avatar.jpg"
 
         formData.append("file", barImg);
-
         formData.append("description", description);
         formData.append("barName", barName);
+        formData.append("lat", props.pinBarLocation.lat);
+        formData.append("lng", props.pinBarLocation.lng);
+
         formData.append("music", music);
 
         // formData.append("link", link);
@@ -66,7 +68,12 @@ export default function CreateBar(props) {
         axios
             .post("/create-bar", formData)
             .then((response) => {
-                console.log(("response: ", response));
+                // console.log(("response: ", response.data.rows[0].address));
+                props.toggleCreateBar(!props.barPopUpVisible);
+                // props.updateBarLocation({
+                //     lat: response.data.rows[0].lat,
+                //     lng: response.data.rows[0].lng,
+                // });
                 setError(false);
             })
             .catch((err) => {

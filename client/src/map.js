@@ -1,6 +1,6 @@
 import React from "react";
 import { GoogleMap, useJsApiLoader, Marker } from "@react-google-maps/api";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import CreateBar from "./createBar";
 
 // console.log(("apiKey", apiKey));
@@ -13,9 +13,9 @@ const containerStyle = {
 function myMap() {
     const [latUser, setLatUser] = useState(0);
     const [lngUser, setLngUser] = useState(0);
-    // const [barLocation, setBarLocation] = useState({});
-    const [barLat, setBarLat] = useState(0);
-    const [barLng, setBarLng] = useState(0);
+    const [pinBarLocation, setPinBarLocation] = useState([]);
+    // const [barLat, setBarLat] = useState(0);
+    // const [barLng, setBarLng] = useState(0);
     const [barPopUpVisible, setBarPopUpVisible] = useState(false);
 
     // const [lngBar, setLngBar] = useState(0);
@@ -50,38 +50,34 @@ function myMap() {
 
     const [map, setMap] = React.useState(null);
 
-    const onLoad = React.useCallback(function callback(map) {
-        const bounds = new window.google.maps.LatLngBounds();
-        map.fitBounds(bounds);
-        setMap(map);
+    // const onLoad = React.useCallback(function callback(map) {
+    //     const bounds = new window.google.maps.LatLngBounds();
+    //     map.fitBounds(bounds);
+    //     setMap(map);
+    // }, []);
+
+    const mapRef = useRef();
+    const onMapLoad = useCallback((map) => {
+        mapRef.current = map;
     }, []);
 
-    const onUnmount = React.useCallback(function callback(map) {
-        setMap(null);
-    }, []);
+    // const onUnmount = React.useCallback(function callback(map) {
+    //     setMap(null);
+    // }, []);
 
     const addMarker = (e) => {
         // console.log(("e, ", e.latLng));
         console.log("e: ", e);
-        console.log(("e, ", e.Wa.x)); // lat
-        console.log(("e, ", e.Wa.y)); // lng
+        console.log(("e, ", e.latLng.lat())); // lat
+        console.log(("e, ", e.latLng.lng())); // lng
+        setPinBarLocation({ lat: e.latLng.lat(), lng: e.latLng.lng() });
 
-        // barLat(e.Wa.x);
-        setBarLat(e.Wa.x);
-        setBarLng(e.Wa.y);
-        // console.log("barLocation: ", barLocation.lat);
-        // console.log("barLocation: ", barLocation.lng);
-
-        // toggleCreateBar();
+        toggleCreateBar();
     };
 
     const toggleCreateBar = () => {
         setBarPopUpVisible(!barPopUpVisible);
         console.log("visibility: ", barPopUpVisible);
-    };
-    const positionMarker = {
-        lat: barLat,
-        lng: barLng,
     };
 
     const loadMarker = (marker) => {
@@ -92,17 +88,25 @@ function myMap() {
         <GoogleMap
             mapContainerStyle={containerStyle}
             center={userLocation}
-            zoom={10}
-            onLoad={onLoad}
-            onUnmount={onUnmount}
-            onRightClick={(e) => addMarker(e)}
-            onClick={() => toggleCreateBar()}
+            zoom={13}
+            onLoad={onMapLoad}
+            onClick={(e) => addMarker(e)}
         >
             {/* Child components, such as markers, info windows, etc. */}
             <>
-                <Marker onLoad={loadMarker} position={positionMarker} />
+                <Marker
+                    onLoad={loadMarker}
+                    position={{
+                        lat: parseFloat(pinBarLocation.lat),
+                        lng: parseFloat(pinBarLocation.lng),
+                    }}
+                />
                 {barPopUpVisible && (
-                    <CreateBar toggleCreateBar={toggleCreateBar} />
+                    <CreateBar
+                        toggleCreateBar={toggleCreateBar}
+                        setPinBarLocation={setPinBarLocation}
+                        pinBarLocation={pinBarLocation}
+                    />
                 )}
             </>
         </GoogleMap>

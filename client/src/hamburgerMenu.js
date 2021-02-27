@@ -18,7 +18,8 @@ export default function HamburgerMenu({ toggleBurgerMenu }) {
                     <li>Profile</li>
                 </NavLink>
                 <NavLink
-                    to="/map"
+                    exact
+                    to="/"
                     activeClassName="burger-active"
                     onClick={toggleBurgerMenu}
                 >
