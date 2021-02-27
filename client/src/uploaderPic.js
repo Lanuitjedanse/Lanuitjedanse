@@ -30,7 +30,9 @@ export default function UploaderPic(props) {
 
     return (
         <>
-            <button onClick={() => props.togglePicUploader()}>Add a pic</button>
+            <button className="btn" onClick={() => props.togglePicUploader()}>
+                Add a pic
+            </button>
             {props.uploaderPicVisible && (
                 <>
                     <input

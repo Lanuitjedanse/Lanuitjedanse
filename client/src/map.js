@@ -1,18 +1,48 @@
 import React from "react";
-import { GoogleMap, useJsApiLoader } from "@react-google-maps/api";
-const webpack = require("webpack");
+import { GoogleMap, useJsApiLoader, Marker } from "@react-google-maps/api";
+import { useState, useEffect } from "react";
+import CreateBar from "./createBar";
+
+// console.log(("apiKey", apiKey));
 
 const containerStyle = {
-    width: "1000px",
-    height: "1000px",
-};
-
-const center = {
-    lat: -3.745,
-    lng: -38.523,
+    width: "80vw",
+    height: "90vh",
 };
 
 function myMap() {
+    const [latUser, setLatUser] = useState(0);
+    const [lngUser, setLngUser] = useState(0);
+    // const [barLocation, setBarLocation] = useState({});
+    const [barLat, setBarLat] = useState(0);
+    const [barLng, setBarLng] = useState(0);
+    const [barPopUpVisible, setBarPopUpVisible] = useState(false);
+
+    // const [lngBar, setLngBar] = useState(0);
+
+    useEffect(() => {
+        if (navigator.geolocation) {
+            navigator.geolocation.watchPosition(
+                (position) => {
+                    setLatUser(position.coords.latitude);
+                    setLngUser(position.coords.longitude);
+                },
+                (err) => console.log(err),
+                { enableHighAccuracy: true, timeout: 10000, maximumAge: 10000 }
+            );
+        } else {
+            //  // No Support Web
+            alert("The browser doesn't support Geolocation");
+        }
+    }, []);
+
+    const userLocation = {
+        lat: latUser,
+        lng: lngUser,
+    };
+
+    // console.log("userLocation: ", userLocation);
+
     const { isLoaded } = useJsApiLoader({
         id: "google-map-script",
         googleMapsApiKey: apiKey,
@@ -30,16 +60,51 @@ function myMap() {
         setMap(null);
     }, []);
 
+    const addMarker = (e) => {
+        // console.log(("e, ", e.latLng));
+        console.log("e: ", e);
+        console.log(("e, ", e.Wa.x)); // lat
+        console.log(("e, ", e.Wa.y)); // lng
+
+        // barLat(e.Wa.x);
+        setBarLat(e.Wa.x);
+        setBarLng(e.Wa.y);
+        // console.log("barLocation: ", barLocation.lat);
+        // console.log("barLocation: ", barLocation.lng);
+
+        // toggleCreateBar();
+    };
+
+    const toggleCreateBar = () => {
+        setBarPopUpVisible(!barPopUpVisible);
+        console.log("visibility: ", barPopUpVisible);
+    };
+    const positionMarker = {
+        lat: barLat,
+        lng: barLng,
+    };
+
+    const loadMarker = (marker) => {
+        console.log("marker: ", marker);
+    };
+
     return isLoaded ? (
         <GoogleMap
             mapContainerStyle={containerStyle}
-            center={center}
+            center={userLocation}
             zoom={10}
             onLoad={onLoad}
             onUnmount={onUnmount}
+            onRightClick={(e) => addMarker(e)}
+            onClick={() => toggleCreateBar()}
         >
             {/* Child components, such as markers, info windows, etc. */}
-            <></>
+            <>
+                <Marker onLoad={loadMarker} position={positionMarker} />
+                {barPopUpVisible && (
+                    <CreateBar toggleCreateBar={toggleCreateBar} />
+                )}
+            </>
         </GoogleMap>
     ) : (
         <></>
@@ -47,3 +112,5 @@ function myMap() {
 }
 
 export default React.memo(myMap);
+
+//    <Marker {...marker} onRightClick={() => props.onMarkerRightClick(marker)} />;

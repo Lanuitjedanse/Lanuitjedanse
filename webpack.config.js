@@ -1,6 +1,5 @@
 const path = require("path");
 const webpack = require("webpack");
-const { API_KEY } = require("./secrets");
 
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
@@ -55,7 +54,7 @@ module.exports = () => ({
             filename: "bundle.css",
         }),
         new webpack.DefinePlugin({
-            apiKey: JSON.stringify(API_KEY),
+            apiKey: JSON.stringify(require("./google.json")),
         }),
     ],
 });

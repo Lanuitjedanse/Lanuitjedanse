@@ -14,32 +14,32 @@ export default function MusicTaste(props) {
 
     const checkboxes = [
         {
-            name: "electronic",
+            name: "Electronic",
             key: "electronic",
             label: "electronic",
         },
         {
-            name: "hiphop",
+            name: "Hiphop",
             key: "hiphop",
             label: "hiphop",
         },
         {
-            name: "pop",
+            name: "Pop",
             key: "pop",
             label: "pop",
         },
         {
-            name: "rock",
+            name: "Rock",
             key: "rock",
             label: "rock",
         },
         {
-            name: "jazz",
+            name: "Jazz",
             key: "jazz",
             label: "jazz",
         },
         {
-            name: "reggae",
+            name: "Reggae",
             key: "reggae",
             label: "reggae",
         },
@@ -76,21 +76,30 @@ export default function MusicTaste(props) {
 
     return (
         <>
-            <button onClick={props.toggleMusicTaste}>Update music taste</button>
+            <button className="btn" onClick={props.toggleMusicTaste}>
+                Update music taste
+            </button>
 
             {props.musicTasteVisible && (
                 <>
-                    {checkboxes.map((item) => (
-                        <label key={item.key}>
-                            {item.name}
-                            <input
-                                name={item.name}
-                                type="checkbox"
-                                onChange={(e) => handleChangeCheckBox(e)}
-                            ></input>
-                        </label>
-                    ))}
-                    <button onClick={(e) => changeMusicTaste(e)}>Submit</button>
+                    <div className="checkboxes">
+                        {checkboxes.map((item) => (
+                            <label key={item.key}>
+                                {item.name}
+                                <input
+                                    name={item.name}
+                                    type="checkbox"
+                                    onChange={(e) => handleChangeCheckBox(e)}
+                                ></input>
+                            </label>
+                        ))}
+                        <button
+                            className="btn"
+                            onClick={(e) => changeMusicTaste(e)}
+                        >
+                            Submit
+                        </button>
+                    </div>
                 </>
             )}
         </>

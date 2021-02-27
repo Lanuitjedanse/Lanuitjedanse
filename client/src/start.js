@@ -7,7 +7,7 @@ import App from "./app";
 import { Provider } from "react-redux";
 import { createStore, applyMiddleware } from "redux";
 import reduxPromise from "redux-promise";
-import { reducer } from "./reducer";
+import reducer from "./reducer";
 import { composeWithDevTools } from "redux-devtools-extension";
 // import { init } from "./Socket";
 
@@ -22,8 +22,6 @@ let elem;
 if (location.pathname === "/welcome") {
     elem = <Welcome />;
 } else {
-    // init(store);
-    // elem = <App />;
     elem = (
         <Provider store={store}>
             <App />

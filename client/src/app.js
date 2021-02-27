@@ -6,6 +6,9 @@ import { BrowserRouter, Route } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Profile from "./profile";
 import MyMap from "./map";
+import CreateBar from "./createBar";
+import Bar from "./bar";
+import YesOrNo from "./yesOrNo";
 
 export default function App() {
     // console.log("this.state in app: ", this.state);
@@ -73,7 +76,20 @@ export default function App() {
                         />
                     )}
                 />
-                <Route exact path="/" render={() => <MyMap />} />
+                <Route
+                    path="/show-bar/:id"
+                    render={(props) => (
+                        <Bar
+                            path="/show-bar/:id"
+                            key={props.match.url}
+                            match={props.match}
+                            history={props.history}
+                        />
+                    )}
+                />
+                <Route path="/add-bar" render={() => <CreateBar />} />
+                <Route path="/map" render={() => <MyMap />} />
+                <Route path="/yes-or-no" render={() => <YesOrNo />} />
             </div>
         </BrowserRouter>
     );

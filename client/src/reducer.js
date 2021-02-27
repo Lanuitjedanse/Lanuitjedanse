@@ -1,4 +1,43 @@
-export function reducer(state = {}, action) {}
+export default function (state = {}, action) {
+    if (action.type == "RECEIVE_GENRES") {
+        state = {
+            ...state,
+            musicGenres: action.musicGenres,
+        };
+    }
+    if (action.type === "ADD_LIKE") {
+        state = {
+            ...state,
+            musicGenres: state.musicGenres.map((music) => {
+                if (music.id === action.genreId) {
+                    return {
+                        ...music,
+                        giveLike: true,
+                    };
+                } else {
+                    return music;
+                }
+            }),
+        };
+    } else if (action.type === "ADD_NO_LIKE") {
+        state = {
+            ...state,
+            musicGenres: state.musicGenres.map((music) => {
+                if (music.id === action.genreId) {
+                    return {
+                        ...music,
+                        giveLike: false,
+                    };
+                } else {
+                    return music;
+                }
+            }),
+        };
+    }
+    return state;
+}
+
+// export function reducer(state = {}, action) {}
 
 //  if (action.type === "SHOW_WANNABES") {
 //      state = {

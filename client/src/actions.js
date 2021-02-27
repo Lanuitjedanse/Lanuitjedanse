@@ -1,24 +1,34 @@
 import axios from "./Axios";
 
-let musicTaste = [
-    "Electronic music",
-    "Hip Hop",
-    "Jazz",
-    "Rock",
-    "Pop",
-    "Reggae",
-];
-
-export async function receiveMusicTaste() {
-    // const { data } = await axios.get(`/friends-wannabes`);
-
-    // if (data.success) {
-    // console.log("data.rows : ", data.rows);
-
+export async function receiveGenres() {
+    const { data } = await axios.get("/music-genres-pref");
+    console.log("data music genre: ", data.musicGenres);
     return {
-        type: "SHOW_WANNABES",
-        friendsList: data.rows,
-        userId: data.userId,
+        type: "RECEIVE_GENRES",
+        musicGenres: data.musicGenres,
     };
-    // }
+}
+
+export async function likeGenre(id) {
+    const { data } = await axios.post(`/like/${id}`);
+    console.log(("data: ", data));
+
+    if (data.success) {
+        return {
+            type: "ADD_LIKE",
+            genreId: id,
+        };
+    }
+}
+
+export async function noLikeGenre(id) {
+    const { data } = await axios.post(`/no-like/${id}`);
+    console.log("data: ", data);
+
+    if (data.success) {
+        return {
+            type: "ADD_NO_LIKE",
+            genreId: id,
+        };
+    }
 }

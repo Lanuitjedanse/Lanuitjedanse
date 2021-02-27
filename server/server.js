@@ -28,6 +28,45 @@ if (process.env.sessionSecret) {
     cookie_sec = require("../secrets").sessionSecret;
 }
 
+const musicGenres = [
+    {
+        id: 1,
+        genre: "Electronic",
+        image:
+            "https://images.unsplash.com/photo-1520757054960-d60bc90c6d79?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1650&q=80",
+    },
+    {
+        id: 2,
+        genre: "Hip Hop",
+        image:
+            "https://images.unsplash.com/photo-1589929168117-cd9ec5f27ab7?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80",
+    },
+    {
+        id: 3,
+        genre: "Pop",
+        image:
+            "https://images.squarespace-cdn.com/content/v1/55f45174e4b0fb5d95b07f39/1590023437168-8267CM30096WYMUZX1WV/ke17ZwdGBToddI8pDm48kBzd96Q5cD5DyEnBQqVFsdx7gQa3H78H3Y0txjaiv_0fDoOvxcdMmMKkDsyUqMSsMWxHk725yiiHCCLfrh8O1z5QPOohDIaIeljMHgDF5CVlOqpeNLcJ80NK65_fV7S1UZonbp4IyLSeXtFyJPYv4LCur-pxl2bVoXeHkDCk8e460XfLCQDpnY7FxMb_ifd4GA/Rosalia+by+Zoey+Grossman+for+ELLE+June+July+2020+%289%29.jpg",
+    },
+    {
+        id: 4,
+        genre: "Rock",
+        image:
+            "https://images.unsplash.com/photo-1528645602411-bbeb0d69a6de?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1650&q=80",
+    },
+    {
+        id: 5,
+        genre: "Jazz",
+        image:
+            "https://images.unsplash.com/photo-1484712548363-bad7b2ff3878?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=999&q=80",
+    },
+    {
+        id: 6,
+        genre: "Reggae",
+        image:
+            "https://images.unsplash.com/photo-1612265314771-2f0a4348a3ab?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=668&q=80",
+    },
+];
+
 app.use(compression());
 
 const cookieSessionMiddleware = cookieSession({
@@ -85,6 +124,31 @@ app.post("/registration", async (req, res) => {
         res.json({ success: false });
         // please fill out all fields error
     }
+});
+
+app.get("/music-genres-pref", (req, res) => {
+    console.log("musicGenres: ", musicGenres);
+    res.json({ musicGenres });
+});
+
+app.post("/like/:id", (req, res) => {
+    const genre = musicGenres.find((music) => music.id == req.params.id);
+    if (genre) {
+        genre.like = true;
+    }
+    res.json({
+        success: !!genre, // either true or false
+    });
+});
+
+app.post("/no-like/:id", (req, res) => {
+    const genre = musicGenres.find((music) => music.id == req.params.id);
+    if (genre) {
+        genre.like = false;
+    }
+    res.json({
+        success: !!genre,
+    });
 });
 
 app.post("/login", (req, res) => {
@@ -313,6 +377,37 @@ app.post("/profile-pic", uploader.single("file"), s3.upload, (req, res) => {
         console.log("please add a file!");
         res.json({ success: false });
     }
+});
+
+app.post("/create-bar", uploader.single("file"), s3.upload, (req, res) => {
+    const { filename } = req.file;
+    const fullUrl = config.s3Url + filename;
+    const { barName, description, music } = req.body;
+
+    if (req.file) {
+        db.addBar(req.session.userId, barName, description, fullUrl, music)
+            .then(({ rows }) => {
+                console.log("bar was added to DB");
+                res.json({ success: true, rows: rows });
+            })
+            .catch((err) => {
+                console.log("there was an error in adding a bar: ", err);
+            });
+    }
+});
+
+app.get("/bar/:id", (req, res) => {
+    console.log("bar dynamic route");
+
+    const { id } = req.params;
+    db.showBar(id)
+        .then(({ rows }) => {
+            console.log("rows: ", rows);
+            res.json({ success: true, rows: rows });
+        })
+        .catch((err) => {
+            console.log("there was an error in bar dynamic route: ", err);
+        });
 });
 
 app.get("/logout", (req, res) => {
