@@ -108,6 +108,13 @@ module.exports.addBar = (
     return db.query(q, params);
 };
 
+module.exports.addBarNoPic = (userId, name, description, lat, lng, music) => {
+    const q = `INSERT INTO bars (user_id, name, description, lat, lng, music)
+    VALUES ($1, $2, $3, $4, $5, $6) RETURNING *`;
+    const params = [userId, name, description, lat, lng, music];
+    return db.query(q, params);
+};
+
 module.exports.showBar = (id) => {
     const q = `SELECT * FROM bars WHERE id = $1`;
     const params = [id];
@@ -115,7 +122,12 @@ module.exports.showBar = (id) => {
 };
 
 module.exports.showAllBars = () => {
-    const q = `SELECT * FROM bars`;
+    const q = `SELECT * FROM bars ORDER BY id DESC`;
+    return db.query(q);
+};
+
+module.exports.showThreeLastBars = () => {
+    const q = `SELECT * FROM bars ORDER BY id DESC LIMIT 3`;
     return db.query(q);
 };
 

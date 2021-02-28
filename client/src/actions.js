@@ -35,10 +35,24 @@ export async function noLikeGenre(id) {
 
 export async function showAllBars() {
     const { data } = await axios.get("/api/all-bars");
-    console.log("data.rows: ", data.rows);
+    // console.log("data.rows: ", data.rows);
 
     return {
         type: "SHOW_ALL_BARS",
         allBars: data.rows,
     };
+}
+
+export async function addBar(newBar) {
+    try {
+        const { data } = await axios.post("/create-bar");
+        console.log("data.rows in addBar: ", data);
+
+        return {
+            type: "NEW_BAR",
+            newBar,
+        };
+    } catch (err) {
+        console.log("err accepting friend: ", err);
+    }
 }

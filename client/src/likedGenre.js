@@ -15,7 +15,7 @@ export default function Hot() {
         dispatch(receiveGenres());
     }, []);
 
-    console.log("users that are hot: ", musicGenres);
+    // console.log("users that are hot: ", musicGenres);
     if (!musicGenres) {
         return null;
     }

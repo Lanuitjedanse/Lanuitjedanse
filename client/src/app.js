@@ -53,7 +53,7 @@ export default function App() {
                 // console.log("response: ", res.data.rows);
                 setLat(res.data.rows.lat);
                 setLng(res.data.rows.lng);
-                console.log("barLocation: ", barLocation);
+                // console.log("barLocation: ", barLocation);
                 setBarMusic(res.data.rows.music);
                 setBarName(res.data.rows.name);
                 setImgbar(res.data.rows.img_bar);
@@ -76,7 +76,7 @@ export default function App() {
 
     // };
     const updateBarLocation = (loc) => {
-        console.log("update: ", loc);
+        // console.log("update: ", loc);
         // setBarLocation({
         //     lat: loc.lat,
         //     lng: loc.barLocation.lng,
@@ -93,7 +93,7 @@ export default function App() {
     };
 
     const updateProfileData = (info) => {
-        console.log(info);
+        // console.log(info);
         setFirst(info.first);
         setLast(info.last);
         setEmail(info.email);
@@ -125,17 +125,6 @@ export default function App() {
                     )}
                 />
                 <Route
-                    path="/show-bar/:id"
-                    render={(props) => (
-                        <Bar
-                            path="/show-bar/:id"
-                            key={props.match.url}
-                            match={props.match}
-                            history={props.history}
-                        />
-                    )}
-                />
-                <Route
                     path="/add-bar"
                     render={() => (
                         <CreateBar updateBarLocation={updateBarLocation} />
@@ -158,6 +147,7 @@ export default function App() {
                         />
                     )}
                 />
+
                 <Route path="/yes-or-no" render={() => <YesOrNo />} />
                 <Route
                     path="/all-bars"
@@ -179,3 +169,15 @@ export default function App() {
         </BrowserRouter>
     );
 }
+
+//    <Route
+//        path="/show-bar/:id"
+//        render={(props) => (
+//            <Bar
+//                path="/show-bar/:id"
+//                key={props.match.url}
+//                match={props.match}
+//                history={props.history}
+//            />
+//        )}
+//    />;

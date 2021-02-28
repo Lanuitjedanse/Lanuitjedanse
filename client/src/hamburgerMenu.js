@@ -28,6 +28,14 @@ export default function HamburgerMenu({ toggleBurgerMenu }) {
                 </NavLink>
                 <NavLink
                     onClick={toggleBurgerMenu}
+                    to="/all-bars"
+                    activeClassName="burger-active"
+                >
+                    <img className="menu-icon" src="/cocktails.svg" />
+                    <li>All Bars</li>
+                </NavLink>
+                <NavLink
+                    onClick={toggleBurgerMenu}
                     to="/feed"
                     activeClassName="burger-active"
                 >

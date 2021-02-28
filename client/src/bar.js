@@ -13,7 +13,7 @@ export default function Bar(props) {
         axios
             .get(`/bar/${props.match.params.id}`)
             .then((res) => {
-                console.log("data: ", res.data.rows[0]);
+                // console.log("data: ", res.data.rows[0]);
                 setBarId(res.data.rows[0].id);
                 setName(res.data.rows[0].name);
                 setImgBar(res.data.rows[0].img_bar);
@@ -33,16 +33,24 @@ export default function Bar(props) {
             {barId && (
                 <div className="bar-pop-box">
                     <div className="bar-title">
-                        <img className="bar-icon" src="/cocktails.svg" />
+                        <img className="menu-icon" src="/cocktails.svg" />
                         <h2>{name}</h2>
-                        <img className="close-icon" src="/x-btn.svg" />
+                        <img
+                            className="menu-icon"
+                            src="/x-btn.svg"
+                            onClick={props.showPopUpBar}
+                        />
                     </div>
 
-                    <img src={imgBar} alt={name} />
+                    <img
+                        className="img-bar-pop-up"
+                        src={imgBar || "/avatar.jpg"}
+                        alt={name}
+                    />
 
                     <p>{description}</p>
                     <div className="music-box">
-                        <img className="bar-icon" src="/subwoofer.svg" />
+                        <img className="menu-icon" src="/subwoofer.svg" />
                         <p>{music}</p>
                     </div>
                 </div>

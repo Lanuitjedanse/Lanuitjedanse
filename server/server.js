@@ -379,7 +379,26 @@ app.post("/profile-pic", uploader.single("file"), s3.upload, (req, res) => {
     }
 });
 
-app.post("/create-bar", uploader.single("file"), s3.upload, (req, res) => {
+app.post("/create-bar", (req, res) => {
+    const { barName, description, music, lat, lng } = req.body;
+    // console.log("latLng: ", latLng[0]);
+    // const latLngDB = [latLng.lat, latLng.lng];
+    // const latLng = [lat, lng];
+
+    db.addBarNoPic(req.session.userId, barName, description, lat, lng, music)
+        .then(({ rows }) => {
+            console.log("bar without pic was added to DB");
+            res.json({ success: true, rows: rows });
+        })
+        .catch((err) => {
+            console.log(
+                "there was an error in adding a bar without pic: ",
+                err
+            );
+        });
+});
+
+app.post("/create-bar-pic", uploader.single("file"), s3.upload, (req, res) => {
     const { filename } = req.file;
     const fullUrl = config.s3Url + filename;
     const { barName, description, music, lat, lng } = req.body;
@@ -398,11 +417,14 @@ app.post("/create-bar", uploader.single("file"), s3.upload, (req, res) => {
             music
         )
             .then(({ rows }) => {
-                console.log("bar was added to DB");
+                console.log("bar was added to DB with pic");
                 res.json({ success: true, rows: rows });
             })
             .catch((err) => {
-                console.log("there was an error in adding a bar: ", err);
+                console.log(
+                    "there was an error in adding a bar wtih pic: ",
+                    err
+                );
             });
     }
 });

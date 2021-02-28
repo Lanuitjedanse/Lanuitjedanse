@@ -34,7 +34,7 @@ export default function Header(props) {
     const [playlistOpen, setPlaylistOpen] = useState(false);
 
     const togglePlaylist = () => {
-        console.log("I was clicked");
+        // console.log("I was clicked");
         setPlaylistOpen(!playlistOpen);
     };
 

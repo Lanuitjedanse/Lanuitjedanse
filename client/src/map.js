@@ -15,24 +15,23 @@ const containerStyle = {
 };
 
 function myMap(props) {
-    console.log("props in map: ", props);
+    const dispatch = useDispatch();
+    // console.log("props in map: ", props);
     const [latUser, setLatUser] = useState(0);
     const [lngUser, setLngUser] = useState(0);
     const [pinBarLocation, setPinBarLocation] = useState([]);
-    const [markers, setMarkers] = useState("");
+    const [markers, setMarkers] = useState([]);
     // const [barLat, setBarLat] = useState(0);
     // const [barLng, setBarLng] = useState(0);
     const [barPopUpVisible, setBarPopUpVisible] = useState(false);
     const [barPreviewVisible, setBarPreviewVisible] = useState(false);
     const [selectedBar, setSelectedBar] = useState("");
 
-    const dispatch = useDispatch();
-
     const bars = useSelector(
         (state) => state.allBars && state.allBars.filter((bar) => bar.id)
     );
 
-    console.log("bars", bars);
+    // console.log("bars", bars);
 
     useEffect(() => {
         if (navigator.geolocation) {
@@ -84,6 +83,10 @@ function myMap(props) {
     //     setMap(null);
     // }, []);
 
+    const onMapMount = useCallback((map) => {
+        mapRef.current = map;
+    }, []);
+
     const addMarker = (e) => {
         // console.log(("e, ", e.latLng));
         console.log("e: ", e);
@@ -123,10 +126,24 @@ function myMap(props) {
             center={userLocation}
             zoom={13}
             onLoad={onMapLoad}
+            onUnmount={onMapMount}
             onClick={(e) => addMarker(e)}
         >
             {/* Child components, such as markers, info windows, etc. */}
             <>
+                <Marker
+                    onLoad={loadMarker}
+                    position={{
+                        lat: parseFloat(pinBarLocation.lat),
+                        lng: parseFloat(pinBarLocation.lng),
+                    }}
+                    icon={{
+                        url: "/placeholder-new.svg",
+                        scaledSize: new window.google.maps.Size(30, 30),
+                        origin: new window.google.maps.Point(0, 0),
+                        anchor: new window.google.maps.Point(15, 15),
+                    }}
+                />
                 {bars &&
                     bars.map((marker) => (
                         <Marker

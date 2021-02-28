@@ -42,6 +42,13 @@ export default function (state = {}, action) {
         };
     }
 
+    if (action.type == "NEW_BAR") {
+        state = {
+            ...state,
+            allBars: [...state.allBars, action.newBar],
+        };
+    }
+
     // if (action.type === "SHOW_ALL_BAR") {
     //     state = {
     //         ...state,

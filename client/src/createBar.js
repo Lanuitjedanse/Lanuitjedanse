@@ -8,6 +8,8 @@ export default function CreateBar(props) {
     // const [link, setLink] = useState("");
     const [music, setMusic] = useState("");
     const [error, setError] = useState(false);
+    const [errorNoName, setErrorNoName] = useState(false);
+    const [errorPic, setErrorPic] = useState(false);
 
     const selectGenre = [
         {
@@ -48,36 +50,53 @@ export default function CreateBar(props) {
     ];
 
     const submitBar = (e) => {
-        console.log("music: ", music);
+        // console.log("music: ", music);
         e.preventDefault();
-        let formData = new FormData();
-        // console.log("barImg: ", barImg.length);
+        let formDataPic = new FormData();
 
-        // barImg.length == 0 ? barImg == "client/public/avatar.jpg"
+        formDataPic.append("file", barImg);
+        formDataPic.append("description", description);
+        formDataPic.append("barName", barName);
+        formDataPic.append("lat", props.pinBarLocation.lat);
+        formDataPic.append("lng", props.pinBarLocation.lng);
 
-        formData.append("file", barImg);
-        formData.append("description", description);
-        formData.append("barName", barName);
-        formData.append("lat", props.pinBarLocation.lat);
-        formData.append("lng", props.pinBarLocation.lng);
+        formDataPic.append("music", music);
 
-        formData.append("music", music);
+        let lat = props.pinBarLocation.lat;
+        let lng = props.pinBarLocation.lng;
 
-        // formData.append("link", link);
+        if (barName.length == 0) {
+            setErrorNoName(true);
+        } else if (barImg != 0) {
+            axios
+                .post("/create-bar-pic", formDataPic)
+                .then((response) => {
+                    // console.log(("response: ", response.data.rows[0].address));
 
-        axios
-            .post("/create-bar", formData)
-            .then((response) => {
-                // console.log(("response: ", response.data.rows[0].address));
+                    props.updateBarLocation(response.data.rows[0]);
+                    setError(false);
+                    props.toggleCreateBar(!props.barPopUpVisible);
+                })
+                .catch((err) => {
+                    console.log("err in axios post profile pic: ", err);
+                    setErrorPic(true);
+                    setErrorNoName(false);
+                });
+        } else {
+            axios
+                .post("/create-bar", { barName, description, lat, lng, music })
+                .then((response) => {
+                    // console.log(("response: ", response.data.rows[0].address));
 
-                props.updateBarLocation(response.data.rows[0]);
-                setError(false);
-                props.toggleCreateBar(!props.barPopUpVisible);
-            })
-            .catch((err) => {
-                console.log("err in axios post profile pic: ", err);
-                setError(true);
-            });
+                    props.updateBarLocation(response.data.rows[0]);
+                    setError(false);
+                    props.toggleCreateBar(!props.barPopUpVisible);
+                })
+                .catch((err) => {
+                    console.log("err in axios post profile pic: ", err);
+                    setError(true);
+                });
+        }
     };
 
     return (
@@ -135,6 +154,8 @@ export default function CreateBar(props) {
                     >
                         Send
                     </button>
+                    {errorNoName && <p>You need to add a Name for the bar</p>}
+                    {errorPic && <p>The file is too large - max 2MB</p>}
                 </div>
             </div>
         </>
