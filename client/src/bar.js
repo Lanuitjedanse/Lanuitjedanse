@@ -33,10 +33,10 @@ export default function Bar(props) {
             {barId && (
                 <div className="bar-pop-box">
                     <div className="bar-title">
-                        <img className="menu-icon" src="/cocktails.svg" />
+                        <img className="bar-bop-icon" src="/cocktails.svg" />
                         <h2>{name}</h2>
                         <img
-                            className="menu-icon"
+                            className="bar-bop-icon "
                             src="/x-btn.svg"
                             onClick={props.showPopUpBar}
                         />
@@ -50,7 +50,7 @@ export default function Bar(props) {
 
                     <p>{description}</p>
                     <div className="music-box">
-                        <img className="menu-icon" src="/subwoofer.svg" />
+                        <img className="bar-bop-icon" src="/subwoofer.svg" />
                         <p>{music}</p>
                     </div>
                 </div>

@@ -3,15 +3,13 @@ import { GoogleMap, useJsApiLoader, Marker } from "@react-google-maps/api";
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import CreateBar from "./createBar";
-import { showAllBars, receiveGenres } from "./actions";
-import Bar from "./bar";
-import { Link } from "react";
+import { showAllBars, receiveGenres, addBar } from "./actions";
 
 // console.log(("apiKey", apiKey));
 
 const containerStyle = {
-    width: "80vw",
-    height: "90vh",
+    width: "100vw",
+    height: "100vh",
 };
 
 function myMap(props) {
@@ -21,11 +19,10 @@ function myMap(props) {
     const [lngUser, setLngUser] = useState(0);
     const [pinBarLocation, setPinBarLocation] = useState([]);
     const [markers, setMarkers] = useState([]);
-    // const [barLat, setBarLat] = useState(0);
-    // const [barLng, setBarLng] = useState(0);
     const [barPopUpVisible, setBarPopUpVisible] = useState(false);
     const [barPreviewVisible, setBarPreviewVisible] = useState(false);
-    const [selectedBar, setSelectedBar] = useState("");
+    const [selectedBar, setSelectedBar] = useState({});
+    const [selBarName, setSelBarName] = useState("");
 
     const bars = useSelector(
         (state) => state.allBars && state.allBars.filter((bar) => bar.id)
@@ -102,15 +99,32 @@ function myMap(props) {
         console.log("visibility: ", barPopUpVisible);
     };
 
-    // const toggleBarPreview = () => {
-    //     setBarPreviewVisible(!barPreviewVisible);
-    //     console.log("visibility: ", barPopUpVisible);
-    // };
+    const toggleBarPreview = () => {
+        setBarPreviewVisible(!barPreviewVisible);
+    };
 
     const showPopUp = (marker) => {
         console.log("e", marker);
-        setSelectedBar(marker);
+        setSelectedBar({
+            id: marker.id,
+            user_id: marker.user_id,
+            name: marker.name,
+            description: marker.description,
+            img: marker.img_bar,
+            lat: marker.lat,
+            lng: marker.lng,
+            music: marker.music,
+            created: marker.created_at,
+        });
+
+        // setSelBarName(marker.name);
+
+        // console.log("selectedBar: ", setSelectedBar);
+        toggleBarPreview();
+        // window.location.href = `/all-bars/${marker.id}`;
     };
+
+    console.log("selectedBar: ", selectedBar);
 
     const loadMarker = (marker) => {
         console.log("marker: ", marker);
@@ -161,7 +175,6 @@ function myMap(props) {
                             onClick={() => showPopUp(marker)}
                         />
                     ))}
-
                 {barPopUpVisible && (
                     <CreateBar
                         toggleCreateBar={toggleCreateBar}
@@ -171,7 +184,39 @@ function myMap(props) {
                     />
                 )}
 
-                {/* {barPopUpVisible && <Bar toggleBarPreview={toggleBarPreview} />} */}
+                {barPreviewVisible && (
+                    <div className="overlay">
+                        <div className="create-bar-box">
+                            <div className="bar-title">
+                                <img
+                                    className="bar-bop-icon"
+                                    src="/cocktails.svg"
+                                />
+                                <h2>{selectedBar.name}</h2>
+                                <img
+                                    className="bar-bop-icon"
+                                    src="/x-btn.svg"
+                                    onClick={toggleBarPreview}
+                                />
+                            </div>
+
+                            <img
+                                className="img-bar-pop-up"
+                                src={selectedBar.img || "/avatar.jpg"}
+                                alt={selectedBar.name}
+                            />
+
+                            <p>{selectedBar.description}</p>
+                            <div className="music-box">
+                                <img
+                                    className="bar-bop-icon"
+                                    src="/subwoofer.svg"
+                                />
+                                <p>{selectedBar.music}</p>
+                            </div>
+                        </div>
+                    </div>
+                )}
             </>
         </GoogleMap>
     ) : (
@@ -180,6 +225,23 @@ function myMap(props) {
 }
 
 export default React.memo(myMap);
+
+// {
+//     barPreviewVisible && (
+//         <Route
+//             path={"/:id"}
+//             render={(props) => (
+//                 <Bar
+//                     selectedBar={selectedBar}
+//                     barPreviewVisible={barPreviewVisible}
+//                     key={props.match.url}
+//                     match={props.match}
+//                     history={props.history}
+//                 />
+//             )}
+//         />
+//     );
+// }
 
 //   <Marker
 //       onLoad={loadMarker}

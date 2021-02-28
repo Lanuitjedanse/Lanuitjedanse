@@ -43,7 +43,7 @@ export async function showAllBars() {
     };
 }
 
-export async function addBar(newBar) {
+export async function addBarPic(newBar) {
     try {
         const { data } = await axios.post("/create-bar");
         console.log("data.rows in addBar: ", data);
