@@ -10,7 +10,9 @@ import CreateBar from "./createBar";
 import Bar from "./bar";
 import YesOrNo from "./yesOrNo";
 import AllBars from "./allBars";
-import Comments from "./comments";
+import LikedMusic from "./likedMusic";
+import DislikedMusic from "./dislikedMusic";
+import DisplayMusicTaste from "./displayMusicTaste";
 
 export default function App() {
     // console.log("this.state in app: ", this.state);
@@ -151,6 +153,16 @@ export default function App() {
                 />
 
                 <Route path="/yes-or-no" render={() => <YesOrNo />} />
+                <Route path="/liked-music" render={() => <LikedMusic />} />
+                <Route
+                    path="/disliked-music"
+                    render={() => <DislikedMusic />}
+                />
+                <Route
+                    path="/display-taste"
+                    render={() => <DisplayMusicTaste />}
+                />
+
                 <Route
                     path="/all-bars"
                     render={() => (

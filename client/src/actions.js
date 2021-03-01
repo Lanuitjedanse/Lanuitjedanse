@@ -9,26 +9,35 @@ export async function receiveGenres() {
     };
 }
 
-export async function likeGenre(id) {
-    const { data } = await axios.post(`/like/${id}`);
+export async function musicTasteUser() {
+    const { data } = await axios.get("/music-taste");
+    console.log("data music genre: ", data.musicTaste);
+    return {
+        type: "RECEIVE_PREF_USER",
+        musicTaste: data.musicTaste,
+    };
+}
+
+export async function likeGenre(genre) {
+    const { data } = await axios.post(`/like/${genre}`);
     console.log(("data: ", data));
 
     if (data.success) {
         return {
             type: "ADD_LIKE",
-            genreId: id,
+            genreId: genre,
         };
     }
 }
 
-export async function noLikeGenre(id) {
-    const { data } = await axios.post(`/no-like/${id}`);
+export async function dislikeGenre(genre) {
+    const { data } = await axios.post(`/dislike/${genre}`);
     console.log("data: ", data);
 
     if (data.success) {
         return {
             type: "ADD_NO_LIKE",
-            genreId: id,
+            genreId: genre,
         };
     }
 }
@@ -43,10 +52,9 @@ export async function showAllBars() {
     };
 }
 
-export async function addBarPic(newBar) {
+export async function addBar(newBar) {
     try {
-        const { data } = await axios.post("/create-bar");
-        console.log("data.rows in addBar: ", data);
+        // console.log("data.rows in addBar: ", data);
 
         return {
             type: "NEW_BAR",

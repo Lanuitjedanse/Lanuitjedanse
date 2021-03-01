@@ -36,6 +36,14 @@ export default function HamburgerMenu({ toggleBurgerMenu }) {
                 </NavLink>
                 <NavLink
                     onClick={toggleBurgerMenu}
+                    to="/display-taste"
+                    activeClassName="burger-active"
+                >
+                    <img className="menu-icon" src="/headphones.svg" />
+                    <li>Music Preferences</li>
+                </NavLink>
+                <NavLink
+                    onClick={toggleBurgerMenu}
                     to="/feed"
                     activeClassName="burger-active"
                 >

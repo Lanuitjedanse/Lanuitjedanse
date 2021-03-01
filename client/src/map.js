@@ -3,7 +3,7 @@ import { GoogleMap, useJsApiLoader, Marker } from "@react-google-maps/api";
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import CreateBar from "./createBar";
-import { showAllBars, receiveGenres, addBar } from "./actions";
+import { showAllBars, receiveGenres } from "./actions";
 import { Link, Route } from "react-router-dom";
 import Bar from "./bar";
 
@@ -79,8 +79,20 @@ function myMap(props) {
     let icon;
 
     if (barElectronic) {
-        icon = "/markers/electronic.svg";
+        icon = "/electronic.svg";
+    } else if (barHiphop) {
+        icon = "/hiphop.svg";
+    } else if (barPop) {
+        icon = "/pop.svg";
+    } else if (barRock) {
+        icon = "/rock.svg";
+    } else if (barReggae) {
+        icon = "/reggae.svg";
+    } else if (barJazz) {
+        icon = "/jazz.svg";
     }
+
+    barElectronic && icon == "/electronic.svg";
     // const barPerGenre = useSelector(
     //     (state) =>
     //         state.allBars &&
@@ -101,7 +113,11 @@ function myMap(props) {
                     setLngUser(position.coords.longitude);
                 },
                 (err) => console.log(err),
-                { enableHighAccuracy: true, timeout: 10000, maximumAge: 10000 }
+                {
+                    enableHighAccuracy: true,
+                    timeout: 10000,
+                    maximumAge: 10000,
+                }
             );
         } else {
             //  // No Support Web
@@ -223,8 +239,8 @@ function myMap(props) {
                         anchor: new window.google.maps.Point(15, 15),
                     }}
                 />
-                {bars &&
-                    bars.map((marker) => (
+                {barElectronic &&
+                    barElectronic.map((marker) => (
                         <Marker
                             key={marker.id}
                             position={{
@@ -232,7 +248,7 @@ function myMap(props) {
                                 lng: parseFloat(marker.lng),
                             }}
                             icon={{
-                                url: "/placeholder.svg",
+                                url: "/electronic.svg",
                                 scaledSize: new window.google.maps.Size(30, 30),
                                 origin: new window.google.maps.Point(0, 0),
                                 anchor: new window.google.maps.Point(15, 15),
@@ -240,6 +256,93 @@ function myMap(props) {
                             onClick={() => showPopUp(marker)}
                         />
                     ))}
+
+                {barHiphop &&
+                    barHiphop.map((marker) => (
+                        <Marker
+                            key={marker.id}
+                            position={{
+                                lat: parseFloat(marker.lat),
+                                lng: parseFloat(marker.lng),
+                            }}
+                            icon={{
+                                url: "/hiphop.svg",
+                                scaledSize: new window.google.maps.Size(30, 30),
+                                origin: new window.google.maps.Point(0, 0),
+                                anchor: new window.google.maps.Point(15, 15),
+                            }}
+                            onClick={() => showPopUp(marker)}
+                        />
+                    ))}
+                {barPop &&
+                    barPop.map((marker) => (
+                        <Marker
+                            key={marker.id}
+                            position={{
+                                lat: parseFloat(marker.lat),
+                                lng: parseFloat(marker.lng),
+                            }}
+                            icon={{
+                                url: "/pop.svg",
+                                scaledSize: new window.google.maps.Size(30, 30),
+                                origin: new window.google.maps.Point(0, 0),
+                                anchor: new window.google.maps.Point(15, 15),
+                            }}
+                            onClick={() => showPopUp(marker)}
+                        />
+                    ))}
+                {barRock &&
+                    barRock.map((marker) => (
+                        <Marker
+                            key={marker.id}
+                            position={{
+                                lat: parseFloat(marker.lat),
+                                lng: parseFloat(marker.lng),
+                            }}
+                            icon={{
+                                url: "/rock.svg",
+                                scaledSize: new window.google.maps.Size(30, 30),
+                                origin: new window.google.maps.Point(0, 0),
+                                anchor: new window.google.maps.Point(15, 15),
+                            }}
+                            onClick={() => showPopUp(marker)}
+                        />
+                    ))}
+                {barReggae &&
+                    barReggae.map((marker) => (
+                        <Marker
+                            key={marker.id}
+                            position={{
+                                lat: parseFloat(marker.lat),
+                                lng: parseFloat(marker.lng),
+                            }}
+                            icon={{
+                                url: "/reggae.svg",
+                                scaledSize: new window.google.maps.Size(30, 30),
+                                origin: new window.google.maps.Point(0, 0),
+                                anchor: new window.google.maps.Point(15, 15),
+                            }}
+                            onClick={() => showPopUp(marker)}
+                        />
+                    ))}
+                {barJazz &&
+                    barJazz.map((marker) => (
+                        <Marker
+                            key={marker.id}
+                            position={{
+                                lat: parseFloat(marker.lat),
+                                lng: parseFloat(marker.lng),
+                            }}
+                            icon={{
+                                url: "/jazz.svg",
+                                scaledSize: new window.google.maps.Size(30, 30),
+                                origin: new window.google.maps.Point(0, 0),
+                                anchor: new window.google.maps.Point(15, 15),
+                            }}
+                            onClick={() => showPopUp(marker)}
+                        />
+                    ))}
+
                 {barPopUpVisible && (
                     <CreateBar
                         toggleCreateBar={toggleCreateBar}

@@ -86,17 +86,35 @@ module.exports.uploadPic = (userId, image) => {
     return db.query(q, params);
 };
 
-module.exports.editMusicTaste = (userId, genres) => {
-    const q = `INSERT INTO music_genres (user_id, genres)
+// module.exports.likeMusic = (userId, genre) => {
+//     const q = `INSERT INTO music (user_id, $2)
+//     VALUES ($1, false)
+//     ON CONFLICT (user_id)
+//     DO UPDATE SET $2 = true RETURNING *`;
+//     const params = [userId, genre];
+//     return db.query(q, params);
+// };
+
+module.exports.likeMusic = (userId, value, genre) => {
+    const q = `INSERT INTO music (user_id, ${genre})
     VALUES ($1, $2) 
     ON CONFLICT (user_id)
-    DO UPDATE SET genres = $2 RETURNING *`;
-    const params = [userId, genres];
+    DO UPDATE SET ${genre} = $2 RETURNING *`;
+    const params = [userId, value];
+    return db.query(q, params);
+};
+
+module.exports.likeMusic = (userId, value, genre) => {
+    const q = `INSERT INTO music (user_id, ${genre})
+    VALUES ($1, $2) 
+    ON CONFLICT (user_id)
+    DO UPDATE SET ${genre} = $2 RETURNING *`;
+    const params = [userId, value];
     return db.query(q, params);
 };
 
 module.exports.receiveMusicTaste = (userId) => {
-    const q = `SELECT * FROM music_genres WHERE user_id = $1`;
+    const q = `SELECT * FROM music WHERE user_id = $1`;
     const params = [userId];
     return db.query(q, params);
 };

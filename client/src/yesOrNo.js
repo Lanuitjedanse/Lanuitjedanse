@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { receiveGenres, likeGenre, noLikeGenre } from "./actions";
+import { receiveGenres, likeGenre, dislikeGenre } from "./actions";
 
 export default function YesOrNo() {
     const dispatch = useDispatch();
@@ -12,7 +12,7 @@ export default function YesOrNo() {
             state.musicGenres.filter((music) => music.giveLike == null)
     );
 
-    console.log("music.genre: ", musicGenres);
+    musicGenres && musicGenres.length == 0 && window.location.replace("/");
 
     useEffect(() => {
         dispatch(receiveGenres());
@@ -32,7 +32,7 @@ export default function YesOrNo() {
                         <button
                             className="btn"
                             onClick={() =>
-                                dispatch(likeGenre(musicGenres[0].id))
+                                dispatch(likeGenre(musicGenres[0].genre))
                             }
                         >
                             Yes
@@ -40,7 +40,7 @@ export default function YesOrNo() {
                         <button
                             className="btn"
                             onClick={() =>
-                                dispatch(noLikeGenre(musicGenres[0].id))
+                                dispatch(dislikeGenre(musicGenres[0].genre))
                             }
                         >
                             No
@@ -48,6 +48,15 @@ export default function YesOrNo() {
                     </div>
                 </div>
             )}
+
+            <div id="genres">
+                <nav>
+                    <Link to="/disliked-music">
+                        See which music you don't like
+                    </Link>
+                    <Link to="/liked-music">See which music you like</Link>
+                </nav>
+            </div>
         </div>
     );
 }

@@ -511,3 +511,10 @@ textarea::placeholder {
 .user-comment-box p {
     color: white;
 }
+
+.music-genre-box {
+    display: flex;
+    margin-top: 300px;
+    align-items: center;
+    flex-direction: column;
+}

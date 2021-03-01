@@ -5,11 +5,18 @@ export default function (state = {}, action) {
             musicGenres: action.musicGenres,
         };
     }
+
+    if (action.type == "RECEIVE_PREF_USER") {
+        state = {
+            ...state,
+            musicTaste: action.musicTaste,
+        };
+    }
     if (action.type === "ADD_LIKE") {
         state = {
             ...state,
             musicGenres: state.musicGenres.map((music) => {
-                if (music.id === action.genreId) {
+                if (music.genre === action.genreId) {
                     return {
                         ...music,
                         giveLike: true,
@@ -18,12 +25,18 @@ export default function (state = {}, action) {
                     return music;
                 }
             }),
+            musicTaste: state.musicTaste && [
+                {
+                    ...state.musicTaste[0],
+                    [action.genreId]: true,
+                },
+            ],
         };
     } else if (action.type === "ADD_NO_LIKE") {
         state = {
             ...state,
             musicGenres: state.musicGenres.map((music) => {
-                if (music.id === action.genreId) {
+                if (music.genre === action.genreId) {
                     return {
                         ...music,
                         giveLike: false,
@@ -32,6 +45,12 @@ export default function (state = {}, action) {
                     return music;
                 }
             }),
+            musicTaste: state.musicTaste && [
+                {
+                    ...state.musicTaste[0],
+                    [action.genreId]: false,
+                },
+            ],
         };
     }
 

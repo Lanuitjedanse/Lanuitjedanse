@@ -65,6 +65,12 @@ const musicGenres = [
         image:
             "https://images.unsplash.com/photo-1612265314771-2f0a4348a3ab?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=668&q=80",
     },
+    {
+        id: 7,
+        genre: "disco",
+        image:
+            "https://images.unsplash.com/photo-1517263904808-5dc91e3e7044?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=668&q=80",
+    },
 ];
 
 app.use(compression());
@@ -90,7 +96,7 @@ app.use(function (req, res, next) {
     next();
 });
 app.get("/welcome", (req, res) => {
-    console.log("I'm the welcome page");
+    // console.log("I'm the welcome page");
     if (req.session.userId) {
         // if user is logged in redirect away from /welcome
         res.redirect("/");
@@ -127,32 +133,52 @@ app.post("/registration", async (req, res) => {
 });
 
 app.get("/music-genres-pref", (req, res) => {
-    console.log("musicGenres: ", musicGenres);
+    // console.log("musicGenres: ", musicGenres);
     res.json({ musicGenres });
 });
 
-app.post("/like/:id", (req, res) => {
-    const genre = musicGenres.find((music) => music.id == req.params.id);
-    if (genre) {
-        genre.like = true;
-    }
-    res.json({
-        success: !!genre, // either true or false
-    });
+app.post("/like/:genre", (req, res) => {
+    const genre = req.params.genre;
+    console.log("genre: ", genre.genre);
+    // if (genre) {
+    //     genre.giveLike = true;
+    // }
+
+    db.likeMusic(req.session.userId, true, genre)
+        .then(({ rows }) => {
+            console.log("rows in like/:id: ", rows);
+            res.json({
+                success: true,
+                giveLike: true, // either true or false
+            });
+        })
+        .catch((err) => {
+            console.log("err in adding like to DB: ", err);
+        });
 });
 
-app.post("/no-like/:id", (req, res) => {
-    const genre = musicGenres.find((music) => music.id == req.params.id);
-    if (genre) {
-        genre.like = false;
-    }
-    res.json({
-        success: !!genre,
-    });
+app.post("/dislike/:genre", (req, res) => {
+    const genre = req.params.genre;
+    // if (genre) {
+    //     genre.giveLike = false;
+    // }
+
+    db.likeMusic(req.session.userId, false, genre)
+        .then(({ rows }) => {
+            console.log("rows in dislike/:id: ", rows);
+
+            res.json({
+                success: true,
+                giveLike: false, // either true or false
+            });
+        })
+        .catch((err) => {
+            console.log("err in adding like to DB: ", err);
+        });
 });
 
 app.post("/login", (req, res) => {
-    console.log("I am the post login route");
+    // console.log("I am the post login route");
     const { email, password } = req.body;
 
     db.getLoginData(email)
@@ -188,10 +214,10 @@ app.post("/password/reset/start", (req, res) => {
 
     db.getLoginData(email)
         .then(({ rows }) => {
-            console.log("the user exists!");
-            console.log("rows :", rows);
+            // console.log("the user exists!");
+            // console.log("rows :", rows);
             const emailDB = rows[0].email;
-            console.log("emaildb: ", emailDB);
+            // console.log("emaildb: ", emailDB);
             // generates a random code
             const secretCode = cryptoRandomString({
                 length: 6,
@@ -239,7 +265,7 @@ app.post("/password/reset/start", (req, res) => {
 });
 
 app.post("/password/reset/verify", (req, res) => {
-    console.log("I am the /password/reset/verify route");
+    // console.log("I am the /password/reset/verify route");
     const { code, password } = req.body;
 
     db.verifyCode(code)
@@ -278,12 +304,12 @@ app.post("/password/reset/verify", (req, res) => {
 });
 
 app.get("/api/user", (req, res) => {
-    console.log("I'm the user get route");
-    console.log(req.session.userId);
+    // console.log("I'm the user get route");
+    // console.log(req.session.userId);
     db.fetchProfileData(req.session.userId)
         .then(({ rows }) => {
-            console.log("getting all user info");
-            console.log("rows", rows[0]);
+            // console.log("getting all user info");
+            // console.log("rows", rows[0]);
             res.json({ success: true, rows: rows[0] });
         })
         .catch((err) => {
@@ -294,6 +320,18 @@ app.get("/api/user", (req, res) => {
 
 app.get("/music-taste", (req, res) => {
     console.log("I am the get music taste route");
+
+    db.receiveMusicTaste(req.session.userId)
+        .then(({ rows }) => {
+            console.log("Music taste for user received: ", rows);
+            res.json({ success: true, musicTaste: rows });
+        })
+        .catch((err) => {
+            console.log(
+                "there was an error in getting music genres for user: ",
+                err
+            );
+        });
 });
 
 app.post("/music-taste", (req, res) => {
@@ -430,12 +468,12 @@ app.post("/create-bar-pic", uploader.single("file"), s3.upload, (req, res) => {
 });
 
 app.get("/bar/:id", (req, res) => {
-    console.log("bar dynamic route");
+    // console.log("bar dynamic route");
 
     const { id } = req.params;
     db.showBar(id)
         .then(({ rows }) => {
-            console.log("rows: ", rows);
+            // console.log("rows: ", rows);
             res.json({ success: true, rows: rows });
         })
         .catch((err) => {
@@ -444,10 +482,10 @@ app.get("/bar/:id", (req, res) => {
 });
 
 app.get("/api/all-bars", (req, res) => {
-    console.log("I am the all bar get route");
+    // console.log("I am the all bar get route");
     db.showAllBars()
         .then(({ rows }) => {
-            console.log("rows: ", rows);
+            // console.log("rows: ", rows);
             res.json({ rows });
         })
         .catch((err) => {

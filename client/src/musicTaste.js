@@ -1,8 +1,18 @@
 import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { musicTasteUser } from "./actions";
 import axios from "./Axios";
 
 export default function MusicTaste(props) {
-    // console.log("props in music taste: ", props);
+    const dispatch = useDispatch();
+
+    const userTaste = useSelector(
+        (state) =>
+            state.musicTaste && state.musicTaste.filter((music) => music.genres)
+    );
+
+    console.log("userTaste: ", userTaste);
+
     const [music, setMusic] = useState([]);
     // const [electronic, setElectronic] = useState();
     // const [hiphop, setHiphop] = useState();
@@ -14,32 +24,32 @@ export default function MusicTaste(props) {
 
     const checkboxes = [
         {
-            name: "Electronic",
+            name: "electronic",
             key: "electronic",
             label: "electronic",
         },
         {
-            name: "Hiphop",
+            name: "hiphop",
             key: "hiphop",
             label: "hiphop",
         },
         {
-            name: "Pop",
+            name: "pop",
             key: "pop",
             label: "pop",
         },
         {
-            name: "Rock",
+            name: "rock",
             key: "rock",
             label: "rock",
         },
         {
-            name: "Jazz",
+            name: "jazz",
             key: "jazz",
             label: "jazz",
         },
         {
-            name: "Reggae",
+            name: "reggae",
             key: "reggae",
             label: "reggae",
         },
@@ -47,6 +57,7 @@ export default function MusicTaste(props) {
 
     useEffect(() => {
         console.log("checkedItems: ", checkedItems);
+        dispatch(musicTasteUser());
     }, [checkedItems]);
 
     const handleChangeCheckBox = (e) => {
