@@ -67,6 +67,7 @@ export default function MusicTaste(props) {
                 console.log("response: ", response);
                 setError(false);
                 props.toggleMusicTaste(!props.musicTasteVisible);
+                setCheckedItems([]);
             })
             .catch((err) => {
                 console.log("err in axios post profile pic: ", err);

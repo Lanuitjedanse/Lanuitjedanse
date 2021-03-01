@@ -49,6 +49,26 @@ export default function (state = {}, action) {
         };
     }
 
+    if (action.type === "SHOW_COMMENTS") {
+        state = {
+            ...state,
+            comments: action.comments,
+            cookie: action.cookie,
+        };
+    }
+    if (action.type === "SEND_COMMENT") {
+        state = {
+            ...state,
+            comment: action.comment,
+        };
+    }
+    if (action.type === "SHOW_NEW_COMMENT") {
+        state = {
+            ...state,
+            comments: [...state.comments, action.newComment],
+        };
+    }
+
     // if (action.type === "SHOW_ALL_BAR") {
     //     state = {
     //         ...state,

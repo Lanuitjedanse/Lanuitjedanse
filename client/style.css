@@ -465,3 +465,49 @@ label {
     width: 100%;
     z-index: 8;
 }
+
+.comments {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 200px;
+    width: 80%;
+}
+
+.comments textarea {
+    margin-top: 30px;
+    width: 40%;
+
+    border-radius: 8px;
+}
+
+.user-pic {
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    padding: 5px;
+}
+
+textarea::placeholder {
+    color: #b088f9;
+}
+
+.user-comment-box {
+    display: flex;
+    align-items: center;
+}
+
+.previous-messages {
+    height: 500px;
+    width: 80%;
+    /* border: 1px solid black; */
+    border-radius: 10px;
+    overflow-y: scroll;
+    /* background-color: #9870fc42; */
+}
+
+.user-comment-box p {
+    color: white;
+}

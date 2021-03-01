@@ -4,6 +4,8 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import CreateBar from "./createBar";
 import { showAllBars, receiveGenres, addBar } from "./actions";
+import { Link, Route } from "react-router-dom";
+import Bar from "./bar";
 
 // console.log(("apiKey", apiKey));
 
@@ -14,7 +16,7 @@ const containerStyle = {
 
 function myMap(props) {
     const dispatch = useDispatch();
-    // console.log("props in map: ", props);
+    console.log("props in map: ", props.showPopUpBar);
     const [latUser, setLatUser] = useState(0);
     const [lngUser, setLngUser] = useState(0);
     const [pinBarLocation, setPinBarLocation] = useState([]);
@@ -23,12 +25,73 @@ function myMap(props) {
     const [barPreviewVisible, setBarPreviewVisible] = useState(false);
     const [selectedBar, setSelectedBar] = useState({});
     const [selBarName, setSelBarName] = useState("");
+    const [popAllBar, setPopAllBar] = useState(false);
 
     const bars = useSelector(
         (state) => state.allBars && state.allBars.filter((bar) => bar.id)
     );
 
-    // console.log("bars", bars);
+    // const musicGenres = useSelector(
+    //     (state) =>
+    //         state.musicGenres &&
+    //         state.musicGenres.filter((music) => music.genre)
+    // );
+
+    // const musicGenre = {
+    //     electronic: "electronic",
+    //     hiphop: "hiphop",
+    //     pop: "pop",
+    //     rock: "rock",
+    //     jazz: "jazz",
+    //     reggae: "reggae",
+    // };
+
+    const barElectronic = useSelector(
+        (state) =>
+            state.allBars &&
+            state.allBars.filter((bar) => bar.music == "electronic")
+    );
+    const barHiphop = useSelector(
+        (state) =>
+            state.allBars &&
+            state.allBars.filter((bar) => bar.music == "hiphop")
+    );
+    const barPop = useSelector(
+        (state) =>
+            state.allBars && state.allBars.filter((bar) => bar.music == "pop")
+    );
+    const barRock = useSelector(
+        (state) =>
+            state.allBars && state.allBars.filter((bar) => bar.music == "rock")
+    );
+    const barReggae = useSelector(
+        (state) =>
+            state.allBars &&
+            state.allBars.filter((bar) => bar.music == "reggae")
+    );
+
+    const barJazz = useSelector(
+        (state) =>
+            state.allBars && state.allBars.filter((bar) => bar.music == "jazz")
+    );
+    console.log("electronic: ", barElectronic);
+
+    let icon;
+
+    if (barElectronic) {
+        icon = "/markers/electronic.svg";
+    }
+    // const barPerGenre = useSelector(
+    //     (state) =>
+    //         state.allBars &&
+    //         state.allBars.map((bar) => bar.music == "electronic")
+    // );
+
+    // const music = ["electronic", "hiphop", "pop", "rock", "rock", "reggae"];
+    // const index = music.length;
+    // console.log("music: ", music);
+
+    // console.log("bar", barPerGenre);
 
     useEffect(() => {
         if (navigator.geolocation) {
@@ -124,7 +187,9 @@ function myMap(props) {
         // window.location.href = `/all-bars/${marker.id}`;
     };
 
-    console.log("selectedBar: ", selectedBar);
+    const openPopUpinAllBars = () => {
+        setPopAllBar(!popAllBar);
+    };
 
     const loadMarker = (marker) => {
         console.log("marker: ", marker);
@@ -183,7 +248,6 @@ function myMap(props) {
                         updateBarLocation={props.updateBarLocation}
                     />
                 )}
-
                 {barPreviewVisible && (
                     <div className="overlay">
                         <div className="create-bar-box">
@@ -213,6 +277,12 @@ function myMap(props) {
                                     src="/subwoofer.svg"
                                 />
                                 <p>{selectedBar.music}</p>
+                                <Link
+                                    to={`/all-bars/${selectedBar.id}`}
+                                    onClick={props.showPopUpBar}
+                                >
+                                    <p>View more</p>
+                                </Link>
                             </div>
                         </div>
                     </div>
@@ -225,6 +295,22 @@ function myMap(props) {
 }
 
 export default React.memo(myMap);
+
+//  {
+//      popAllBar && (
+//          <Route
+//              path="/all-bars/:id"
+//              render={(props) => (
+//                  <Bar
+//                      openPopUpinAllBars={openPopUpinAllBars}
+//                      key={props.match.url}
+//                      match={props.match}
+//                      history={props.history}
+//                  />
+//              )}
+//          />
+//      );
+//  }
 
 // {
 //     barPreviewVisible && (

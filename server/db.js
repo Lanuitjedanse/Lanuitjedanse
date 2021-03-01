@@ -88,10 +88,52 @@ module.exports.uploadPic = (userId, image) => {
 
 module.exports.editMusicTaste = (userId, genres) => {
     const q = `INSERT INTO music_genres (user_id, genres)
-    VALUES ($1, $2) RETURNING genres`;
+    VALUES ($1, $2) 
+    ON CONFLICT (user_id)
+    DO UPDATE SET genres = $2 RETURNING *`;
     const params = [userId, genres];
     return db.query(q, params);
 };
+
+module.exports.receiveMusicTaste = (userId) => {
+    const q = `SELECT * FROM music_genres WHERE user_id = $1`;
+    const params = [userId];
+    return db.query(q, params);
+};
+
+// INSERT INTO music_genres (user_id, genres)
+//     VALUES (3, 'electronic, jazz, hiphop')
+//     ON CONFLICT (user_id)
+//     DO UPDATE SET genres = 'electronic, jazz, disco, house' RETURNING *;
+
+// module.exports.editMusicTaste = (
+//     userId,
+//     electronic,
+//     hiphop,
+//     jazz,
+//     disco,
+//     reggae,
+//     pop,
+//     rock
+// ) => {
+//     const q = `INSERT INTO music (user_id, electronic, hiphop, jazz, disco, reggae, pop, rock)
+//     VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+//     ON CONFLICT (user_id)
+//     DO UPDATE SET electronic = $2, hiphop = $2, jazz = $3 disco = $4
+//     reggae = $5 pop = $6 rock =$7`;
+//     const params = [userId, electronic, hiphop, jazz, disco, reggae, pop, rock];
+//     return db.query(q, params);
+// };
+
+// module.exports.editMusicTaste = (userId, genre) => {
+//     const q = `INSERT INTO music (user_id, electronic, hiphop, jazz, disco, reggae, pop, rock)
+//     VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+//     ON CONFLICT (user_id)
+//     DO UPDATE SET electronic = $2, hiphop = $2, jazz = $3 disco = $4
+//     reggae = $5 pop = $6 rock =$7`;
+//     const params = [userId, genre];
+//     return db.query(q, params);
+// };
 
 module.exports.addBar = (
     userId,
@@ -128,6 +170,35 @@ module.exports.showAllBars = () => {
 
 module.exports.showThreeLastBars = () => {
     const q = `SELECT * FROM bars ORDER BY id DESC LIMIT 3`;
+    return db.query(q);
+};
+
+module.exports.addComment = (userId, barId, comment) => {
+    const q = `INSERT INTO comments (user_id, bar_id, comment) 
+    VALUES ($1, $2, $3) RETURNING *`;
+    const params = [userId, barId, comment];
+    return db.query(q, params);
+};
+
+module.exports.showComments = () => {
+    const q = `SELECT comments.user_id, comments.comment, comments.bar_id, comments.created_at, 
+    users.first, users.last, users.image, comments.id 
+    FROM comments
+    JOIN users
+    ON user_id = users.id
+    ORDER BY comments.id DESC`;
+
+    return db.query(q);
+};
+
+module.exports.showLastComments = () => {
+    const q = `SELECT comments.user_id, comments.comment, comments.bar_id, comments.created_at, 
+    users.first, users.last, users.image, comments.id 
+    FROM comments
+    JOIN users
+    ON user_id = users.id
+    ORDER BY comments.id DESC LIMIT 1`;
+
     return db.query(q);
 };
 

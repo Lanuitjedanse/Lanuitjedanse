@@ -2,7 +2,24 @@
 
  CREATE TABLE music_genres(
       id SERIAL PRIMARY KEY,
-      user_id INT REFERENCES users(id) NOT NULL,
+      user_id INT REFERENCES users(id) UNIQUE NOT NULL,
       genres VARCHAR NOT NULL,
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       );
+
+
+--        DROP TABLE IF EXISTS music;
+
+--  CREATE TABLE music(
+--       id SERIAL PRIMARY KEY,
+--       user_id INT REFERENCES users(id) UNIQUE NOT NULL,
+--       genres VARCHAR NOT NULL,
+--       electronic BOOLEAN DEFAULT false,
+--       hiphop BOOLEAN DEFAULT false,
+--       jazz BOOLEAN DEFAULT false,
+--       disco BOOLEAN DEFAULT false,
+--       reggae BOOLEAN DEFAULT false,
+--       pop BOOLEAN DEFAULT false,
+--      rock BOOLEAN DEFAULT false,
+--       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+--       );

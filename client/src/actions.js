@@ -56,3 +56,28 @@ export async function addBarPic(newBar) {
         console.log("err accepting friend: ", err);
     }
 }
+
+/// comments
+
+export function sendComment(comment) {
+    console.log("comment: ", comment);
+
+    return {
+        type: "SEND_COMMENT",
+        comment,
+    };
+}
+
+export function showComments(comments) {
+    return {
+        type: "SHOW_COMMENTS",
+        comments,
+    };
+}
+
+export function showNewComments(newComment) {
+    return {
+        type: "SHOW_NEW_COMMENT",
+        newComment,
+    };
+}

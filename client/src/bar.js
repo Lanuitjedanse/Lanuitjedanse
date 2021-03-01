@@ -1,5 +1,6 @@
 import axios from "./Axios";
 import { useState, useEffect } from "react";
+import Comments from "./comments";
 
 export default function Bar(props) {
     const [barId, setBarId] = useState("");
@@ -7,7 +8,7 @@ export default function Bar(props) {
     const [imgBar, setImgBar] = useState("");
     const [description, setDescription] = useState("");
     const [music, setMusic] = useState("");
-    const [error, setError] = useState("");
+    const [error, setError] = useState(false);
 
     useEffect(() => {
         axios
@@ -53,6 +54,7 @@ export default function Bar(props) {
                         <img className="bar-bop-icon" src="/subwoofer.svg" />
                         <p>{music}</p>
                     </div>
+                    <Comments id={props.id} barId={barId} />
                 </div>
             )}
             {error && <p>This bar doesn't exist</p>}

@@ -10,6 +10,7 @@ import CreateBar from "./createBar";
 import Bar from "./bar";
 import YesOrNo from "./yesOrNo";
 import AllBars from "./allBars";
+import Comments from "./comments";
 
 export default function App() {
     // console.log("this.state in app: ", this.state);
@@ -135,6 +136,7 @@ export default function App() {
                     path="/"
                     render={() => (
                         <MyMap
+                            id={id}
                             updateBarLocation={updateBarLocation}
                             barName={barName}
                             barMusic={barMusic}
@@ -168,6 +170,10 @@ export default function App() {
             </div>
         </BrowserRouter>
     );
+}
+
+{
+    /* <Route path="/comments" render={() => <Comments id={id} barId={barId} />} />; */
 }
 
 //    <Route
