@@ -7,8 +7,8 @@ export default function Comments(props) {
     const textRef = useRef("");
     const scrollRef = useRef();
 
-    const allComments = useSelector((state) => state.comments);
-    console.log("comments: ", allComments);
+    // const allComments = useSelector((state) => state.comments);
+    // console.log("comments: ", allComments);
 
     const commentsPerPost = useSelector(
         (state) =>
@@ -16,17 +16,17 @@ export default function Comments(props) {
             state.comments.filter((comment) => comment.bar_id == props.barId)
     );
 
-    console.log("commentsPerpost: ", commentsPerPost);
-    console.log("props.barId: ", props.barId);
-    console.log("");
+    // console.log("commentsPerpost: ", commentsPerPost);
+    // console.log("props.barId: ", props.barId);
+    // console.log("");
 
     const scrollToBottom = () => {
         scrollRef.current.scrollTop =
             scrollRef.current.scrollHeight - scrollRef.current.clientHeight;
     };
 
-    const user = useSelector((state) => state.cookie);
-    console.log("user: ", user);
+    // const user = useSelector((state) => state.cookie);
+    // console.log("user: ", user);
 
     useEffect(() => {
         scrollToBottom();

@@ -1,6 +1,10 @@
 import axios from "./Axios";
 import { useState, useEffect } from "react";
 import Comments from "./comments";
+// import { Ratings, RateLayout } from "./ratings";
+import Ratings from "./ratings";
+import { useDispatch, useSelector } from "react-redux";
+import { receiveRatings, addRating } from "./actions";
 
 export default function Bar(props) {
     const [barId, setBarId] = useState("");
@@ -9,6 +13,17 @@ export default function Bar(props) {
     const [description, setDescription] = useState("");
     const [music, setMusic] = useState("");
     const [error, setError] = useState(false);
+    // const [rating, setRating] = useState("");
+
+    // const changeRating = (newRating, name) => {
+    //     setRating(newRating);
+    // // };
+    // const dispatch = useDispatch();
+
+    // const ratings = useSelector(
+    //     (state) =>
+    //         state.allReviews && state.allReviews.filter((bar) => bar.bar_id)
+    // );
 
     useEffect(() => {
         axios
@@ -29,6 +44,10 @@ export default function Bar(props) {
             });
     }, []);
 
+    // useEffect(() => {
+    //     dispatch(receiveRatings());
+    // }, []);
+
     return (
         <div className="overlay">
             {barId && (
@@ -39,7 +58,7 @@ export default function Bar(props) {
                         <img
                             className="bar-bop-icon "
                             src="/x-btn.svg"
-                            onClick={props.showPopUpBar}
+                            onClick={() => props.history.goBack()}
                         />
                     </div>
 
@@ -48,8 +67,14 @@ export default function Bar(props) {
                         src={imgBar || "/avatar.jpg"}
                         alt={name}
                     />
+                    <Ratings
+                        rating={props.rating}
+                        barId={barId}
+                        id={props.match.params.id}
+                    />
 
                     <p>{description}</p>
+
                     <div className="music-box">
                         <img className="bar-bop-icon" src="/subwoofer.svg" />
                         <p>{music}</p>
@@ -60,4 +85,19 @@ export default function Bar(props) {
             {error && <p>This bar doesn't exist</p>}
         </div>
     );
+}
+
+{
+    /* <Route
+    path="/ratings/:id"
+    render={(props) => (
+        <Ratings
+            id={id}
+            barId={barId}
+            key={props.match.url}
+            match={props.match}
+            history={props.history}
+        />
+    )}
+/>; */
 }

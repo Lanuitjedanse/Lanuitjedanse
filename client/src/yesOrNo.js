@@ -12,7 +12,7 @@ export default function YesOrNo() {
             state.musicGenres.filter((music) => music.giveLike == null)
     );
 
-    musicGenres && musicGenres.length == 0 && window.location.replace("/");
+    musicGenres && musicGenres.length == 0 && location.replace("/");
 
     useEffect(() => {
         dispatch(receiveGenres());
@@ -30,7 +30,7 @@ export default function YesOrNo() {
                     <h2>{musicGenres[0].genre}</h2>
                     <div className="buttons">
                         <button
-                            className="btn"
+                            className="btn yes"
                             onClick={() =>
                                 dispatch(likeGenre(musicGenres[0].genre))
                             }
@@ -38,7 +38,7 @@ export default function YesOrNo() {
                             Yes
                         </button>
                         <button
-                            className="btn"
+                            className="btn no"
                             onClick={() =>
                                 dispatch(dislikeGenre(musicGenres[0].genre))
                             }
@@ -48,15 +48,6 @@ export default function YesOrNo() {
                     </div>
                 </div>
             )}
-
-            <div id="genres">
-                <nav>
-                    <Link to="/disliked-music">
-                        See which music you don't like
-                    </Link>
-                    <Link to="/liked-music">See which music you like</Link>
-                </nav>
-            </div>
         </div>
     );
 }

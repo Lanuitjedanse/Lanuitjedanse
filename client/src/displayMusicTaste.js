@@ -69,31 +69,38 @@ export default function DisplayMusicTaste() {
     return (
         <>
             <div className="music-genre-box">
-                <p>Music taste page</p>
-                <p>Music you like: </p>
-                {likedMusic &&
-                    likedMusic.map((item, index) => (
-                        <div key={index}>
-                            <p>{item}</p>
+                <h1>Music Preferences</h1>
+                <h3>Music you like </h3>
+                <div className="genre-box">
+                    {likedMusic &&
+                        likedMusic.map((item, index) => (
+                            <div className="genre" key={index}>
+                                <p>{item}</p>
 
-                            <button
-                                onClick={() => dispatch(dislikeGenre(item))}
-                            >
-                                Dislike
-                            </button>
-                        </div>
-                    ))}
-
-                <p>Music you dislike: </p>
-                {dislikedMusic &&
-                    dislikedMusic.map((item, index) => (
-                        <div key={index}>
-                            <p>{item}</p>
-                            <button onClick={() => dispatch(likeGenre(item))}>
-                                Like
-                            </button>
-                        </div>
-                    ))}
+                                <button
+                                    className="btn"
+                                    onClick={() => dispatch(dislikeGenre(item))}
+                                >
+                                    Dislike
+                                </button>
+                            </div>
+                        ))}
+                </div>
+                <h3>Music you dislike </h3>
+                <div className="genre-box">
+                    {dislikedMusic &&
+                        dislikedMusic.map((item, index) => (
+                            <div className="genre" key={index}>
+                                <p>{item}</p>
+                                <button
+                                    className="btn"
+                                    onClick={() => dispatch(likeGenre(item))}
+                                >
+                                    Like
+                                </button>
+                            </div>
+                        ))}
+                </div>
             </div>
         </>
     );

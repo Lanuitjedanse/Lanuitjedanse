@@ -31,7 +31,7 @@ export default class Registration extends React.Component {
                     });
                 } else {
                     // if everything goes well redirect the user to "/" route
-                    location.replace("/");
+                    location.replace("/yes-or-no");
                 }
             })
             .catch((err) => {

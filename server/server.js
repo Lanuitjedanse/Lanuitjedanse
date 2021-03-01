@@ -493,6 +493,37 @@ app.get("/api/all-bars", (req, res) => {
         });
 });
 
+app.get("/reviews/:id", (req, res) => {
+    const { id } = req.params;
+    console.log("reviews get route");
+
+    db.getRatings(id)
+        .then(({ rows }) => {
+            console.log("received all reviews: ", rows);
+            res.json({ success: true, reviews: rows });
+        })
+        .catch((err) => {
+            console.log("err in receiving reviews: ", err);
+            res.json({ success: false });
+        });
+});
+
+app.post("/reviews/:id", (req, res) => {
+    const { id } = req.params;
+    const { rate } = req.body;
+    console.log("reviews get route");
+
+    db.addLike(req.session.userId, id, rate)
+        .then(({ rows }) => {
+            console.log("posted a review: ", rows);
+            res.json({ success: true, reviews: rows });
+        })
+        .catch((err) => {
+            console.log("err in posting reviews: ", err);
+            res.json({ success: false });
+        });
+});
+
 app.get("/logout", (req, res) => {
     req.session = null;
     res.redirect("/welcome");

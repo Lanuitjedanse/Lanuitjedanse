@@ -27,11 +27,11 @@ export default function AllBars() {
         (state) => state.allBars && state.allBars.filter((bar) => bar.id)
     );
 
-    const barPerGenre = useSelector(
-        (state) =>
-            state.allBars &&
-            state.allBars.filter((bar) => bar.music == genres.name)
-    );
+    // const barPerGenre = useSelector(
+    //     (state) =>
+    //         state.allBars &&
+    //         state.allBars.filter((bar) => bar.music == genres.name)
+    // );
 
     // console.log("barPerGenre: ", barPerGenre);
     const showPopUpBar = () => {
@@ -58,16 +58,17 @@ export default function AllBars() {
                         <div className="event-box" key={bar.id}>
                             <h3>{bar.name}</h3>
                             <img src={bar.img_bar || "/avatar.jpg"} />
-                            <div className="music-genre">
-                                <img className="icon" src="/subwoofer.svg" />
-                                <p>{bar.music || "No info"}</p>
-                            </div>
                             <p>
-                                Added on:{" "}
+                                Added on{" "}
                                 {bar.created_at
                                     .slice(0, 16)
                                     .replace("T", " at ")}
                             </p>
+                            <div className="music-genre">
+                                <img className="icon" src="/subwoofer.svg" />
+                                <p>{bar.music || "No info"}</p>
+                            </div>
+
                             <Link
                                 onClick={showPopUpBar}
                                 to={`/all-bars/${bar.id}`}
@@ -76,23 +77,26 @@ export default function AllBars() {
                             </Link>
                         </div>
                     ))}
-                {barPopUpVisible && (
-                    <Route
-                        path="/all-bars/:id"
-                        render={(props) => (
-                            <Bar
-                                showPopUpBar={showPopUpBar}
-                                key={props.match.url}
-                                match={props.match}
-                                history={props.history}
-                            />
-                        )}
-                    />
-                )}
             </div>
         </>
     );
 }
+
+//  {
+//      barPopUpVisible && (
+//          <Route
+//              path="/all-bars/:id"
+//              render={(props) => (
+//                  <Bar
+//                      showPopUpBar={showPopUpBar}
+//                      key={props.match.url}
+//                      match={props.match}
+//                      history={props.history}
+//                  />
+//              )}
+//          />
+//      );
+//  }
 
 //  {
 //      bars &&

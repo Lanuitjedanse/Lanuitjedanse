@@ -95,6 +95,8 @@ module.exports.uploadPic = (userId, image) => {
 //     return db.query(q, params);
 // };
 
+// music
+
 module.exports.likeMusic = (userId, value, genre) => {
     const q = `INSERT INTO music (user_id, ${genre})
     VALUES ($1, $2) 
@@ -118,40 +120,6 @@ module.exports.receiveMusicTaste = (userId) => {
     const params = [userId];
     return db.query(q, params);
 };
-
-// INSERT INTO music_genres (user_id, genres)
-//     VALUES (3, 'electronic, jazz, hiphop')
-//     ON CONFLICT (user_id)
-//     DO UPDATE SET genres = 'electronic, jazz, disco, house' RETURNING *;
-
-// module.exports.editMusicTaste = (
-//     userId,
-//     electronic,
-//     hiphop,
-//     jazz,
-//     disco,
-//     reggae,
-//     pop,
-//     rock
-// ) => {
-//     const q = `INSERT INTO music (user_id, electronic, hiphop, jazz, disco, reggae, pop, rock)
-//     VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
-//     ON CONFLICT (user_id)
-//     DO UPDATE SET electronic = $2, hiphop = $2, jazz = $3 disco = $4
-//     reggae = $5 pop = $6 rock =$7`;
-//     const params = [userId, electronic, hiphop, jazz, disco, reggae, pop, rock];
-//     return db.query(q, params);
-// };
-
-// module.exports.editMusicTaste = (userId, genre) => {
-//     const q = `INSERT INTO music (user_id, electronic, hiphop, jazz, disco, reggae, pop, rock)
-//     VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
-//     ON CONFLICT (user_id)
-//     DO UPDATE SET electronic = $2, hiphop = $2, jazz = $3 disco = $4
-//     reggae = $5 pop = $6 rock =$7`;
-//     const params = [userId, genre];
-//     return db.query(q, params);
-// };
 
 module.exports.addBar = (
     userId,
@@ -218,6 +186,36 @@ module.exports.showLastComments = () => {
     ORDER BY comments.id DESC LIMIT 1`;
 
     return db.query(q);
+};
+
+// module.exports.addLike = (userId, barId, value) => {
+//     const q = `INSERT INTO music (user_id, bar_id, rate)
+//     VALUES ($1, $2, $3)
+//     ON CONFLICT (user_id, bar_id)
+//     DO UPDATE SET rate = $3 RETURNING *`;
+//     const params = [userId, barId, value];
+//     return db.query(q, params);
+// };
+
+module.exports.addLike = (userId, barId, value) => {
+    const q = `INSERT INTO ratings (user_id, bar_id, rate)
+    VALUES ($1, $2, $3)
+    DO UPDATE SET rate = $3 RETURNING *`;
+    const params = [userId, barId, value];
+    return db.query(q, params);
+};
+
+// module.exports.addLike = (userId, barId, value) => {
+//     const q = `INSERT INTO music (user_id, bar_id, rate)
+//     VALUES ($1, $2, $3) RETURNING *`;
+//     const params = [userId, barId, value];
+//     return db.query(q, params);
+// };
+
+module.exports.getRatings = (barId) => {
+    const q = `SELECT * FROM ratings WHERE id = $1`;
+    const params = [barId];
+    return db.query(q, params);
 };
 
 // module.exports.uploadBarImg = (id, image) => {

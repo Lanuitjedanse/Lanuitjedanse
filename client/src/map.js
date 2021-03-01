@@ -11,7 +11,7 @@ import Bar from "./bar";
 
 const containerStyle = {
     width: "100vw",
-    height: "100vh",
+    height: "calc(100vh - 80px)",
 };
 
 function myMap(props) {
@@ -74,25 +74,30 @@ function myMap(props) {
         (state) =>
             state.allBars && state.allBars.filter((bar) => bar.music == "jazz")
     );
-    console.log("electronic: ", barElectronic);
 
-    let icon;
+    const barDisco = useSelector(
+        (state) =>
+            state.allBars && state.allBars.filter((bar) => bar.music == "disco")
+    );
+    // console.log("electronic: ", barElectronic);
 
-    if (barElectronic) {
-        icon = "/electronic.svg";
-    } else if (barHiphop) {
-        icon = "/hiphop.svg";
-    } else if (barPop) {
-        icon = "/pop.svg";
-    } else if (barRock) {
-        icon = "/rock.svg";
-    } else if (barReggae) {
-        icon = "/reggae.svg";
-    } else if (barJazz) {
-        icon = "/jazz.svg";
-    }
+    // let icon;
 
-    barElectronic && icon == "/electronic.svg";
+    // if (barElectronic) {
+    //     icon = "/electronic.svg";
+    // } else if (barHiphop) {
+    //     icon = "/hiphop.svg";
+    // } else if (barPop) {
+    //     icon = "/pop.svg";
+    // } else if (barRock) {
+    //     icon = "/rock.svg";
+    // } else if (barReggae) {
+    //     icon = "/reggae.svg";
+    // } else if (barJazz) {
+    //     icon = "/jazz.svg";
+    // }
+
+    // barElectronic && icon == "/electronic.svg";
     // const barPerGenre = useSelector(
     //     (state) =>
     //         state.allBars &&
@@ -343,6 +348,24 @@ function myMap(props) {
                         />
                     ))}
 
+                {barDisco &&
+                    barDisco.map((marker) => (
+                        <Marker
+                            key={marker.id}
+                            position={{
+                                lat: parseFloat(marker.lat),
+                                lng: parseFloat(marker.lng),
+                            }}
+                            icon={{
+                                url: "/disco.svg",
+                                scaledSize: new window.google.maps.Size(30, 30),
+                                origin: new window.google.maps.Point(0, 0),
+                                anchor: new window.google.maps.Point(15, 15),
+                            }}
+                            onClick={() => showPopUp(marker)}
+                        />
+                    ))}
+
                 {barPopUpVisible && (
                     <CreateBar
                         toggleCreateBar={toggleCreateBar}
@@ -380,13 +403,13 @@ function myMap(props) {
                                     src="/subwoofer.svg"
                                 />
                                 <p>{selectedBar.music}</p>
-                                <Link
-                                    to={`/all-bars/${selectedBar.id}`}
-                                    onClick={props.showPopUpBar}
-                                >
-                                    <p>View more</p>
-                                </Link>
                             </div>
+                            <Link
+                                to={`/all-bars/${selectedBar.id}`}
+                                onClick={props.showPopUpBar}
+                            >
+                                <p>View more</p>
+                            </Link>
                         </div>
                     </div>
                 )}

@@ -13,6 +13,7 @@ import AllBars from "./allBars";
 import LikedMusic from "./likedMusic";
 import DislikedMusic from "./dislikedMusic";
 import DisplayMusicTaste from "./displayMusicTaste";
+import Ratings from "./ratings";
 
 export default function App() {
     // console.log("this.state in app: ", this.state);
@@ -153,11 +154,7 @@ export default function App() {
                 />
 
                 <Route path="/yes-or-no" render={() => <YesOrNo />} />
-                <Route path="/liked-music" render={() => <LikedMusic />} />
-                <Route
-                    path="/disliked-music"
-                    render={() => <DislikedMusic />}
-                />
+
                 <Route
                     path="/display-taste"
                     render={() => <DisplayMusicTaste />}
@@ -176,6 +173,30 @@ export default function App() {
                             lat={lat}
                             lng={lng}
                             barId={barId}
+                        />
+                    )}
+                />
+                <Route
+                    path="/all-bars/:id"
+                    render={(props) => (
+                        <Bar
+                            barPopUpVisible={props.barPopUpVisible}
+                            showPopUpBar={props.showPopUpBar}
+                            key={props.match.url}
+                            match={props.match}
+                            history={props.history}
+                        />
+                    )}
+                />
+                <Route
+                    path="/ratings/:id"
+                    render={(props) => (
+                        <Ratings
+                            id={id}
+                            barId={barId}
+                            key={props.match.url}
+                            match={props.match}
+                            history={props.history}
                         />
                     )}
                 />
@@ -199,3 +220,9 @@ export default function App() {
 //            />
 //        )}
 //    />;
+
+//   <Route path="/liked-music" render={() => <LikedMusic />} />
+//                 <Route
+//                     path="/disliked-music"
+//                     render={() => <DislikedMusic />}
+//                 />

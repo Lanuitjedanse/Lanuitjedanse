@@ -2,7 +2,7 @@ import axios from "./Axios";
 
 export async function receiveGenres() {
     const { data } = await axios.get("/music-genres-pref");
-    console.log("data music genre: ", data.musicGenres);
+    // console.log("data music genre: ", data.musicGenres);
     return {
         type: "RECEIVE_GENRES",
         musicGenres: data.musicGenres,
@@ -11,7 +11,7 @@ export async function receiveGenres() {
 
 export async function musicTasteUser() {
     const { data } = await axios.get("/music-taste");
-    console.log("data music genre: ", data.musicTaste);
+    // console.log("data music genre: ", data.musicTaste);
     return {
         type: "RECEIVE_PREF_USER",
         musicTaste: data.musicTaste,
@@ -20,7 +20,7 @@ export async function musicTasteUser() {
 
 export async function likeGenre(genre) {
     const { data } = await axios.post(`/like/${genre}`);
-    console.log(("data: ", data));
+    // console.log(("data: ", data));
 
     if (data.success) {
         return {
@@ -32,7 +32,7 @@ export async function likeGenre(genre) {
 
 export async function dislikeGenre(genre) {
     const { data } = await axios.post(`/dislike/${genre}`);
-    console.log("data: ", data);
+    // console.log("data: ", data);
 
     if (data.success) {
         return {
@@ -68,7 +68,7 @@ export async function addBar(newBar) {
 /// comments
 
 export function sendComment(comment) {
-    console.log("comment: ", comment);
+    // console.log("comment: ", comment);
 
     return {
         type: "SEND_COMMENT",
@@ -87,5 +87,26 @@ export function showNewComments(newComment) {
     return {
         type: "SHOW_NEW_COMMENT",
         newComment,
+    };
+}
+
+// RATINGS
+
+export async function receiveRatings(id) {
+    const { data } = await axios.get(`/reviews/${id}`);
+    console.log("id: ", id);
+    console.log("receive ratings: ", data.reviews);
+    return {
+        type: "SHOW_RATINGS",
+        allReviews: data.reviews,
+    };
+}
+
+export async function addRating(id) {
+    const { data } = await axios.post(`/reviews/${id}`);
+    console.log("add rating: ", data.reviews);
+    return {
+        type: "ADD_RATING",
+        newReview: id,
     };
 }

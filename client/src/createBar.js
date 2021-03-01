@@ -51,6 +51,11 @@ export default function CreateBar(props) {
             key: "reggae",
             value: "reggae",
         },
+        {
+            name: "Disco",
+            key: "disco",
+            value: "disco",
+        },
     ];
 
     const submitBar = (e) => {
