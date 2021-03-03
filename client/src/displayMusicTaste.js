@@ -54,7 +54,7 @@ export default function DisplayMusicTaste() {
                                     src={`/music/${item}.svg`}
                                 />
                                 <button
-                                    className="btn"
+                                    className="btn no"
                                     onClick={() => dispatch(dislikeGenre(item))}
                                 >
                                     Dislike
@@ -73,7 +73,7 @@ export default function DisplayMusicTaste() {
                                     src={`/music/${item}.svg`}
                                 />
                                 <button
-                                    className="btn"
+                                    className="btn yes"
                                     onClick={() => dispatch(likeGenre(item))}
                                 >
                                     Like

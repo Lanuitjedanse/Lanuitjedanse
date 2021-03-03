@@ -473,8 +473,21 @@ app.get("/bar/:id", (req, res) => {
     const { id } = req.params;
     db.showBar(id)
         .then(({ rows }) => {
-            // console.log("rows: ", rows);
-            res.json({ success: true, rows: rows });
+            console.log("rows: ", rows);
+            let rowsBars = rows;
+
+            db.getInfoUploader(rows[0].user_id)
+                .then(({ rows }) => {
+                    console.log("user rows: ", rows);
+                    res.json({
+                        success: true,
+                        rowsUser: rows,
+                        rowsBar: rowsBars,
+                    });
+                })
+                .catch((err) => {
+                    console.log("err in getting info uploader: ", err);
+                });
         })
         .catch((err) => {
             console.log("there was an error in bar dynamic route: ", err);
@@ -493,86 +506,131 @@ app.get("/api/all-bars", (req, res) => {
         });
 });
 
-app.get("/reviews/:id", (req, res) => {
-    const { id } = req.params;
-    console.log("reviews get route");
+// app.get("/reviews/:id", (req, res) => {
+//     const { id } = req.params;
+//     console.log("reviews get route");
 
-    db.getRatings(id)
+//     db.getRatings(id)
+//         .then(({ rows }) => {
+//             console.log("received all reviews: ", rows);
+//             res.json({ success: true, reviews: rows });
+//         })
+//         .catch((err) => {
+//             console.log("err in receiving reviews: ", err);
+//             res.json({ success: false });
+//         });
+// });
+
+// app.post("/reviews/:id", (req, res) => {
+//     const { id } = req.params;
+//     const { rate } = req.body;
+//     console.log("reviews get route");
+
+//     db.addLike(req.session.userId, id, rate)
+//         .then(({ rows }) => {
+//             console.log("posted a review: ", rows);
+//             res.json({ success: true, reviews: rows });
+//         })
+//         .catch((err) => {
+//             console.log("err in posting reviews: ", err);
+//             res.json({ success: false });
+//         });
+// });
+
+app.get("/api/all-my-posts", (req, res) => {
+    console.log("All my posts get route!");
+
+    db.showMyPins(req.session.userId)
         .then(({ rows }) => {
-            console.log("received all reviews: ", rows);
-            res.json({ success: true, reviews: rows });
+            console.log("rows in all my posts: ", rows);
+            res.json({ success: true, rows: rows });
         })
         .catch((err) => {
-            console.log("err in receiving reviews: ", err);
-            res.json({ success: false });
-        });
-});
-
-app.post("/reviews/:id", (req, res) => {
-    const { id } = req.params;
-    const { rate } = req.body;
-    console.log("reviews get route");
-
-    db.addLike(req.session.userId, id, rate)
-        .then(({ rows }) => {
-            console.log("posted a review: ", rows);
-            res.json({ success: true, reviews: rows });
-        })
-        .catch((err) => {
-            console.log("err in posting reviews: ", err);
-            res.json({ success: false });
+            console.log("err in all my posts: ", err);
         });
 });
 
 app.get("/api-last-bar", (req, res) => {
     db.lastBar()
         .then(({ rows }) => {
-            // console.log("rows: ", rows);
-            res.json({ rows: rows });
+            let rowBar = rows;
+            db.getInfoUploader(rows[0].user_id)
+                .then(({ rows }) => {
+                    res.json({ rowUser: rows, rowBar: rowBar });
+                })
+                .catch((err) => {
+                    console.log("err in api last bar: ", err);
+                });
         })
         .catch((err) => {
             console.log("there was an error in getting last one ", err);
         });
 });
 
+app.post("/edit-bar-pic", uploader.single("file"), s3.upload, (req, res) => {
+    // console.log("I am profile-pic");
+    console.log("req.session.userId", req.session.userId);
+    const { barId, barName, description, music, lat, lng } = req.body;
+    console.log(
+        "barId, barName, description, music, lat, lng",
+        barId,
+        barName,
+        description,
+        music,
+        lat,
+        lng
+    );
+    const { filename } = req.file;
+    const fullUrl = config.s3Url + filename;
+    db.editBarPic(
+        req.session.userId,
+        barId,
+        barName,
+        description,
+        fullUrl,
+        music,
+        lat,
+        lng
+    )
+        .then(({ rows }) => {
+            console.log("rows", rows);
+            res.json({ success: true, rows: rows });
+        })
+        .catch((err) => {
+            console.log("error in add venue post route", err);
+            res.json({ success: false });
+        });
+});
 app.post("/edit-bar", (req, res) => {
-    let { first, last, email, pass } = req.body;
-    console.log("first: ", first);
-    console.log("last: ", last);
-    console.log("email: ", email);
-    console.log("password: ", pass);
-
-    if (pass) {
-        hash(pass)
-            .then((hashedPw) => {
-                db.updateProfileWithPass(
-                    req.session.userId,
-                    first,
-                    last,
-                    email,
-                    hashedPw
-                )
-                    .then(({ rows }) => {
-                        console.log("password was changed!");
-                        res.json({ success: true, rows: rows });
-                    })
-                    .catch((err) => {
-                        console.log("err in updating profile with pass: ", err);
-                    });
-            })
-            .catch((err) => {
-                console.log("err in hashing pass: ", err);
-            });
-    } else {
-        db.updateProfileNoPass(req.session.userId, first, last, email)
-            .then(({ rows }) => {
-                console.log("profile updated except password!");
-                res.json({ success: true, rows: rows });
-            })
-            .catch((err) => {
-                console.log("err in update profile no pass: ", err);
-            });
-    }
+    const { barId, barName, description, music, lat, lng } = req.body;
+    console.log(
+        "route edit ven prop",
+        barId,
+        barName,
+        description,
+        music,
+        lat,
+        lng
+    );
+    console.log("cookie", req.session.userId);
+    db.editBarNoPic(
+        req.session.userId,
+        barId,
+        barName,
+        description,
+        music,
+        lat,
+        lng
+    )
+        .then(({ rows }) => {
+            console.log("rows edit no pic", rows);
+            // console.log("rows edit no pic", rows[0]);
+            res.json({ success: true, rows: rows });
+        })
+        .catch((err) => {
+            console.log("error in add venue post route", err);
+            res.json({ success: false });
+        });
 });
 
 app.get("/logout", (req, res) => {

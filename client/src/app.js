@@ -13,8 +13,9 @@ import AllBars from "./allBars";
 import LikedMusic from "./likedMusic";
 import DislikedMusic from "./dislikedMusic";
 import DisplayMusicTaste from "./displayMusicTaste";
-import Ratings from "./ratings";
+// import Ratings from "./ratings";
 import MyLastBar from "./myLastBar";
+import AllMyPosts from "./allMyPosts";
 
 export default function App() {
     // console.log("this.state in app: ", this.state);
@@ -110,6 +111,14 @@ export default function App() {
     const setProfilePicUrl = (image) => {
         setImage(image);
     };
+    if (!id) {
+        // return null;
+        return (
+            <div className="spinner-page">
+                <img src="/reload.svg" className="spinner" />
+            </div>
+        );
+    }
 
     return (
         <BrowserRouter>
@@ -197,28 +206,38 @@ export default function App() {
                         />
                     )}
                 />
-                <Route
-                    path="/ratings/:id"
-                    render={(props) => (
-                        <Ratings
-                            id={id}
-                            barId={barId}
-                            key={props.match.url}
-                            match={props.match}
-                            history={props.history}
-                        />
-                    )}
-                />
 
                 <Route
                     path="/my-last-bar"
-                    render={(props) => (
+                    render={() => (
                         <MyLastBar
                             id={id}
+                            updateBarLocation={updateBarLocation}
                             barId={barId}
-                            key={props.match.url}
-                            match={props.match}
-                            history={props.history}
+                            barName={barName}
+                            barMusic={barMusic}
+                            imgBar={imgBar}
+                            userIdBar={userIdBar}
+                            description={description}
+                            lat={lat}
+                            lng={lng}
+                        />
+                    )}
+                />
+                <Route
+                    path="/all-my-posts"
+                    render={() => (
+                        <AllMyPosts
+                            id={id}
+                            updateBarLocation={updateBarLocation}
+                            barId={barId}
+                            barName={barName}
+                            barMusic={barMusic}
+                            imgBar={imgBar}
+                            userIdBar={userIdBar}
+                            description={description}
+                            lat={lat}
+                            lng={lng}
                         />
                     )}
                 />
@@ -248,3 +267,16 @@ export default function App() {
 //                     path="/disliked-music"
 //                     render={() => <DislikedMusic />}
 //                 />
+
+// <Route
+//     path="/ratings/:id"
+//     render={(props) => (
+//         <Ratings
+//             id={id}
+//             barId={barId}
+//             key={props.match.url}
+//             match={props.match}
+//             history={props.history}
+//         />
+//     )}
+// />;

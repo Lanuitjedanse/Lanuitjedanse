@@ -43,58 +43,57 @@ function myMap(props) {
             )
     );
 
-    console.log("likedMusic.length: ", likedMusic);
+    // console.log("likedMusic.length: ", likedMusic);
 
-    const musicGenre = {
-        electronic: "electronic",
-        hiphop: "hiphop",
-        pop: "pop",
-        rock: "rock",
-        jazz: "jazz",
-        reggae: "reggae",
-        disco: "disco",
-    };
+    // const musicGenre = {
+    //     electronic: "electronic",
+    //     hiphop: "hiphop",
+    //     pop: "pop",
+    //     rock: "rock",
+    //     jazz: "jazz",
+    //     reggae: "reggae",
+    //     disco: "disco",
+    // };
 
-    const barElectronic = useSelector(
-        (state) =>
-            state.allBars &&
-            state.allBars.filter((bar) => bar.music == musicGenre.electronic)
-    );
-    const barHiphop = useSelector(
-        (state) =>
-            state.allBars &&
-            state.allBars.filter((bar) => bar.music == musicGenre.hiphop)
-    );
-    const barPop = useSelector(
-        (state) =>
-            state.allBars &&
-            state.allBars.filter((bar) => bar.music == musicGenre.pop)
-    );
-    const barRock = useSelector(
-        (state) =>
-            state.allBars &&
-            state.allBars.filter((bar) => bar.music == musicGenre.rock)
-    );
-    const barReggae = useSelector(
-        (state) =>
-            state.allBars &&
-            state.allBars.filter((bar) => bar.music == musicGenre.reggae)
-    );
+    // const barElectronic = useSelector(
+    //     (state) =>
+    //         state.allBars &&
+    //         state.allBars.filter((bar) => bar.music == musicGenre.electronic)
+    // );
+    // const barHiphop = useSelector(
+    //     (state) =>
+    //         state.allBars &&
+    //         state.allBars.filter((bar) => bar.music == musicGenre.hiphop)
+    // );
+    // const barPop = useSelector(
+    //     (state) =>
+    //         state.allBars &&
+    //         state.allBars.filter((bar) => bar.music == musicGenre.pop)
+    // );
+    // const barRock = useSelector(
+    //     (state) =>
+    //         state.allBars &&
+    //         state.allBars.filter((bar) => bar.music == musicGenre.rock)
+    // );
+    // const barReggae = useSelector(
+    //     (state) =>
+    //         state.allBars &&
+    //         state.allBars.filter((bar) => bar.music == musicGenre.reggae)
+    // );
 
-    const barJazz = useSelector(
-        (state) =>
-            state.allBars &&
-            state.allBars.filter((bar) => bar.music == musicGenre.jazz)
-    );
+    // const barJazz = useSelector(
+    //     (state) =>
+    //         state.allBars &&
+    //         state.allBars.filter((bar) => bar.music == musicGenre.jazz)
+    // );
 
-    const barDisco = useSelector(
-        (state) =>
-            state.allBars &&
-            state.allBars.filter((bar) => bar.music == musicGenre.disco)
-    );
+    // const barDisco = useSelector(
+    //     (state) =>
+    //         state.allBars &&
+    //         state.allBars.filter((bar) => bar.music == musicGenre.disco)
+    // );
 
     let matches = [];
-    let icon;
 
     if (likedMusic && bars) {
         for (let i = 0; i < likedMusic.length; i++) {
@@ -108,25 +107,19 @@ function myMap(props) {
                 }
             }
         }
-
-        for (var k = 0; k < matches.length; k++) {
-            if (matches[k].music == "electronic") {
-                icon = "/markers/electronic.svg";
-            } else if (matches[k].music == "hiphop") {
-                icon = "/markers/hiphop.svg";
-            } else if (matches[k].music == "pop") {
-                icon = "/markers/pop.svg";
-            } else if (matches[k].music == "rock") {
-                icon = "/markers/rock.svg";
-            } else if (matches[k].music == "reggae") {
-                icon = "/markers/reggae.svg";
-            } else if (matches[k].music == "jazz") {
-                icon = "/markers/jazz.svg";
-            } else if (matches[k].music == "disco") {
-                icon = "/markers/disco.svg";
-            }
-        }
     }
+
+    const musicForIcon = {
+        electronic: "/markers/electronic.svg",
+        hiphop: "/markers/hiphop.svg",
+        pop: "/markers/pop.svg",
+        rock: "/markers/rock.svg",
+        jazz: "/markers/jazz.svg",
+        reggae: "/markers/reggae.svg",
+        disco: "/markers/disco.svg",
+    };
+
+    let setIconColor = (someStyle) => musicForIcon[someStyle];
 
     let watchId;
 
@@ -251,7 +244,7 @@ function myMap(props) {
                         lng: parseFloat(pinBarLocation.lng),
                     }}
                     icon={{
-                        url: "/placeholder-new.svg",
+                        url: "/markers/placeholder-new.svg",
                         scaledSize: new window.google.maps.Size(30, 30),
                         origin: new window.google.maps.Point(0, 0),
                         anchor: new window.google.maps.Point(15, 15),
@@ -259,7 +252,7 @@ function myMap(props) {
                 />
 
                 {matches &&
-                    matches.map((marker) => (
+                    matches.map((marker, i) => (
                         <Marker
                             key={marker.id}
                             position={{
@@ -267,7 +260,7 @@ function myMap(props) {
                                 lng: parseFloat(marker.lng),
                             }}
                             icon={{
-                                url: `${icon}`,
+                                url: `${setIconColor(matches[i].music)}`,
                                 scaledSize: new window.google.maps.Size(30, 30),
                                 origin: new window.google.maps.Point(0, 0),
                                 anchor: new window.google.maps.Point(15, 15),
@@ -276,7 +269,105 @@ function myMap(props) {
                         />
                     ))}
 
-                {matches.length == 0 ||
+                {barPopUpVisible && (
+                    <CreateBar
+                        toggleCreateBar={toggleCreateBar}
+                        setPinBarLocation={setPinBarLocation}
+                        pinBarLocation={pinBarLocation}
+                        updateBarLocation={props.updateBarLocation}
+                    />
+                )}
+                {barPreviewVisible && (
+                    <div className="overlay">
+                        <div className="preview-bar-box">
+                            <div className="preview-title">
+                                <img
+                                    className="bar-icon"
+                                    src="/cocktails.svg"
+                                />
+                                <h2>{selectedBar.name}</h2>
+                                <img
+                                    className="bar-icon-close"
+                                    src="/x-btn.svg"
+                                    onClick={toggleBarPreview}
+                                />
+                            </div>
+
+                            <img
+                                className="preview-pop-img"
+                                src={selectedBar.img || "/avatar.jpg"}
+                                alt={selectedBar.name}
+                            />
+
+                            <div className="music-box">
+                                <img
+                                    className="bar-icon"
+                                    src={`/music-white/${selectedBar.music}.svg`}
+                                />
+                                <p className="capitalize">
+                                    {selectedBar.music}
+                                </p>
+                            </div>
+                            <Link
+                                to={`/all-bars/${selectedBar.id}`}
+                                onClick={props.showPopUpBar}
+                            >
+                                <button className="btn white">View more</button>
+                            </Link>
+                        </div>
+                    </div>
+                )}
+            </>
+        </GoogleMap>
+    ) : (
+        <></>
+    );
+}
+
+export default React.memo(myMap);
+
+//  {
+//      popAllBar && (
+//          <Route
+//              path="/all-bars/:id"
+//              render={(props) => (
+//                  <Bar
+//                      openPopUpinAllBars={openPopUpinAllBars}
+//                      key={props.match.url}
+//                      match={props.match}
+//                      history={props.history}
+//                  />
+//              )}
+//          />
+//      );
+//  }
+
+// {
+//     barPreviewVisible && (
+//         <Route
+//             path={"/:id"}
+//             render={(props) => (
+//                 <Bar
+//                     selectedBar={selectedBar}
+//                     barPreviewVisible={barPreviewVisible}
+//                     key={props.match.url}
+//                     match={props.match}
+//                     history={props.history}
+//                 />
+//             )}
+//         />
+//     );
+// }
+
+//   <Marker
+//       onLoad={loadMarker}
+//       position={{
+//           lat: parseFloat(props.lat),
+//           lng: parseFloat(props.lng),
+//       }}
+//   />;
+
+/* {matches.length == 0 ||
                     (likedMusic.length == 7 && (
                         <>
                             {barElectronic &&
@@ -464,100 +555,4 @@ function myMap(props) {
                                     />
                                 ))}
                         </>
-                    ))}
-
-                {barPopUpVisible && (
-                    <CreateBar
-                        toggleCreateBar={toggleCreateBar}
-                        setPinBarLocation={setPinBarLocation}
-                        pinBarLocation={pinBarLocation}
-                        updateBarLocation={props.updateBarLocation}
-                    />
-                )}
-                {barPreviewVisible && (
-                    <div className="overlay">
-                        <div className="preview-bar-box">
-                            <div className="preview-title">
-                                <img
-                                    className="bar-icon"
-                                    src="/cocktails.svg"
-                                />
-                                <h2>{selectedBar.name}</h2>
-                                <img
-                                    className="bar-icon-close"
-                                    src="/x-btn.svg"
-                                    onClick={toggleBarPreview}
-                                />
-                            </div>
-
-                            <img
-                                className="preview-pop-img"
-                                src={selectedBar.img || "/avatar.jpg"}
-                                alt={selectedBar.name}
-                            />
-
-                            <div className="music-box">
-                                <img
-                                    className="bar-icon"
-                                    src="/subwoofer.svg"
-                                />
-                                <p>{selectedBar.music}</p>
-                            </div>
-                            <Link
-                                to={`/all-bars/${selectedBar.id}`}
-                                onClick={props.showPopUpBar}
-                            >
-                                <button className="btn white">View more</button>
-                            </Link>
-                        </div>
-                    </div>
-                )}
-            </>
-        </GoogleMap>
-    ) : (
-        <></>
-    );
-}
-
-export default React.memo(myMap);
-
-//  {
-//      popAllBar && (
-//          <Route
-//              path="/all-bars/:id"
-//              render={(props) => (
-//                  <Bar
-//                      openPopUpinAllBars={openPopUpinAllBars}
-//                      key={props.match.url}
-//                      match={props.match}
-//                      history={props.history}
-//                  />
-//              )}
-//          />
-//      );
-//  }
-
-// {
-//     barPreviewVisible && (
-//         <Route
-//             path={"/:id"}
-//             render={(props) => (
-//                 <Bar
-//                     selectedBar={selectedBar}
-//                     barPreviewVisible={barPreviewVisible}
-//                     key={props.match.url}
-//                     match={props.match}
-//                     history={props.history}
-//                 />
-//             )}
-//         />
-//     );
-// }
-
-//   <Marker
-//       onLoad={loadMarker}
-//       position={{
-//           lat: parseFloat(props.lat),
-//           lng: parseFloat(props.lng),
-//       }}
-//   />;
+                    ))} */

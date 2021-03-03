@@ -39,7 +39,7 @@ export default function AllBars() {
         console.log("visibility: ", barPopUpVisible);
     };
 
-    console.log("bars: ", bars);
+    // console.log("bars: ", bars);
 
     useEffect(() => {
         dispatch(showAllBars());
@@ -52,12 +52,16 @@ export default function AllBars() {
 
     return (
         <>
+            <h2 className="all-bars-title">All Bars</h2>
             <div className="bar-container">
                 {bars &&
                     bars.map((bar) => (
                         <div className="event-box" key={bar.id}>
                             <h3>{bar.name}</h3>
-                            <img src={bar.img_bar || "/avatar.jpg"} />
+                            <img
+                                className="event-box-img"
+                                src={bar.img_bar || "/avatar.jpg"}
+                            />
                             <p>
                                 Added on{" "}
                                 {bar.created_at
@@ -65,8 +69,13 @@ export default function AllBars() {
                                     .replace("T", " at ")}
                             </p>
                             <div className="music-genre">
-                                <img className="icon" src="/subwoofer.svg" />
-                                <p>{bar.music || "No info"}</p>
+                                <img
+                                    className="icon"
+                                    src={`/music-white/${bar.music}.svg`}
+                                />
+                                <p className="capitalize">
+                                    {bar.music || "No info"}
+                                </p>
                             </div>
 
                             <Link

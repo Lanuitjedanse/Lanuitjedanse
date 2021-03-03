@@ -14,6 +14,10 @@ export default function Bar(props) {
     const [music, setMusic] = useState("");
     const [error, setError] = useState(false);
     const [createdAt, setCreatedAt] = useState("");
+    const [userFirst, setUserFirst] = useState("");
+    const [userLast, setUserLast] = useState("");
+    const [userPic, setUserPic] = useState("");
+
     // const [rating, setRating] = useState("");
 
     // const changeRating = (newRating, name) => {
@@ -31,12 +35,15 @@ export default function Bar(props) {
             .get(`/bar/${props.match.params.id}`)
             .then((res) => {
                 // console.log("data: ", res.data.rows[0]);
-                setBarId(res.data.rows[0].id);
-                setName(res.data.rows[0].name);
-                setImgBar(res.data.rows[0].img_bar);
-                setDescription(res.data.rows[0].description);
-                setMusic(res.data.rows[0].music);
-                setCreatedAt(res.data.rows[0].created_at);
+                setBarId(res.data.rowsBar[0].id);
+                setName(res.data.rowsBar[0].name);
+                setImgBar(res.data.rowsBar[0].img_bar);
+                setDescription(res.data.rowsBar[0].description);
+                setMusic(res.data.rowsBar[0].music);
+                setCreatedAt(res.data.rowsBar[0].created_at);
+                setUserFirst(res.data.rowsUser[0].first);
+                setUserLast(res.data.rowsUser[0].last);
+                setUserPic(res.data.rowsUser[0].image);
 
                 setError(false);
             })
@@ -56,45 +63,47 @@ export default function Bar(props) {
                 <div className="bar-pop-box">
                     <div className="box-left-bar">
                         <div className="bar-title">
-                            <img
+                            {/* <img
                                 className="bar-bop-icon"
                                 src="/cocktails.svg"
-                            />
+                            /> */}
                             <h2>{name}</h2>
-                            <img
-                                className="bar-bop-icon "
-                                src="/x-btn.svg"
-                                onClick={() => props.history.goBack()}
-                            />
                         </div>
                         <img
                             className="img-bar-pop-up"
                             src={imgBar || "/avatar.jpg"}
                             alt={name}
                         />
-                        <Ratings
-                            rating={props.rating}
-                            barId={barId}
-                            id={props.match.params.id}
-                        />
+                        <div className="ratings">
+                            <Ratings
+                                rating={props.rating}
+                                barId={barId}
+                                id={props.match.params.id}
+                            />
+                        </div>
                         <div className="created-by">
                             <img
                                 className="user-pic"
-                                src={props.image || "/avatar.jpg"}
+                                src={userPic || "/avatar.jpg"}
                             />
-                            {props.first} {props.last} added this bar on{" "}
+                            {userFirst} {userLast} added this bar on{" "}
                             {createdAt.slice(0, 16).replace("T", " at ")}
                         </div>
                         <p>{description}</p>
                         <div className="music-box">
                             <img
-                                className="bar-bop-icon"
-                                src="/subwoofer.svg"
+                                className="bar-icon"
+                                src={`/music-white/${music}.svg`}
                             />
-                            <p>{music}</p>
+                            <p className="capitalize">{music}</p>
                         </div>
                     </div>
                     <div className="box-right-bar">
+                        <img
+                            className="bar-bop-icon"
+                            src="/x-btn-black.svg"
+                            onClick={() => props.history.goBack()}
+                        />
                         <Comments id={props.id} barId={barId} />
                     </div>
                 </div>

@@ -123,49 +123,51 @@ export default function CreateBar(props) {
                         onClick={props.toggleCreateBar}
                     />
                     <h2>Add a Bar</h2>
-                    <input
-                        className="create-bar-field"
-                        onChange={(e) => setBarName(e.target.value)}
-                        name="bar"
-                        type="text"
-                        placeholder="Bar Name"
-                        autoComplete="off"
-                    ></input>
-                    <input
-                        onChange={(e) => setBarImg(e.target.files[0])}
-                        name="file"
-                        type="file"
-                        accept="image/*"
-                    ></input>
+                    <div className="edit-innerbox">
+                        <input
+                            className="reg-field"
+                            onChange={(e) => setBarName(e.target.value)}
+                            name="bar"
+                            type="text"
+                            placeholder="Bar Name"
+                            autoComplete="off"
+                        ></input>
 
-                    <textarea
-                        className="create-bar-field"
-                        name="message"
-                        placeholder="Type a description"
-                        onChange={(e) => setDescription(e.target.value)}
-                    ></textarea>
+                        <textarea
+                            className="reg-field"
+                            name="message"
+                            placeholder="Type a description"
+                            onChange={(e) => setDescription(e.target.value)}
+                        ></textarea>
+                        <input
+                            onChange={(e) => setBarImg(e.target.files[0])}
+                            name="file"
+                            type="file"
+                            accept="image/*"
+                        ></input>
 
-                    <label htmlFor="music">Choose a music genre:</label>
-                    <select
-                        id="music"
-                        name="music"
-                        onChange={(e) => setMusic(e.target.value)}
-                    >
-                        {selectGenre.map((item) => (
-                            <option
-                                key={item.key}
-                                value={item.value}
-                                type="text"
+                        <div className=" box-choose-music">
+                            <label htmlFor="music">Music: </label>
+                            <select
+                                id="music"
+                                name="music"
+                                className="select-music"
+                                onChange={(e) => setMusic(e.target.value)}
                             >
-                                {item.name}
-                            </option>
-                        ))}
-                    </select>
+                                {selectGenre.map((item) => (
+                                    <option
+                                        key={item.key}
+                                        value={item.value}
+                                        type="text"
+                                    >
+                                        {item.name}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+                    </div>
 
-                    <button
-                        className="btn-purple"
-                        onClick={(e) => submitBar(e)}
-                    >
+                    <button className="btn white" onClick={(e) => submitBar(e)}>
                         Send
                     </button>
                     {errorNoName && <p>You need to add a Name for the bar</p>}

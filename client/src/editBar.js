@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "./Axios";
 import { useSelector, useDispatch } from "react-redux";
-import { myLastBar } from "./actions";
+import { myLastBar, addBar } from "./actions";
 
 export default function EditBar(props) {
     // console.log("editprofile: ", props);
@@ -62,92 +62,147 @@ export default function EditBar(props) {
             value: "disco",
         },
     ];
+    console.log("showLast: ", showLast[0].lat);
 
     const editBar = (e) => {
+        barName = barName.length == 0 ? showLast[0].name : barName;
+        description =
+            description.length == 0 ? showLast[0].description : description;
+        music = music.length == 0 ? showLast[0].music : music;
+
         e.preventDefault();
+        let formDataPic = new FormData();
+        formDataPic.append("barId", showLast[0].id);
+        formDataPic.append("file", barImg);
+        formDataPic.append("description", description);
+        formDataPic.append("barName", barName);
+        formDataPic.append("lat", showLast[0].lat);
+        formDataPic.append("lng", showLast[0].lng);
 
-        barName = barName.length == 0 ? props.barName : barName;
-        barImg = barImg.length == 0 ? props.barImg : barImg;
-        description = description == 0 ? props.description : description;
-        music = music == 0 ? props.music : description;
+        formDataPic.append("music", music);
 
-        axios
-            .post("/edit-profile", { first, email, last, pass })
-            .then((res) => {
-                // console.log("response: ", res);
+        let lat = showLast[0].lat;
+        let lng = showLast[0].lng;
+        let barId = showLast[0].id;
 
-                props.updateProfileData(res.data.rows[0]);
-                props.toggleEditBox(!props.editProfOpen);
+        if (barName.length == 0) {
+            setErrorNoName(true);
+        } else if (barImg != 0) {
+            axios
+                .post("/edit-bar-pic", formDataPic)
+                .then((response) => {
+                    console.log(("response: ", response));
 
-                setError(false);
-            })
-            .catch((err) => {
-                console.log("error in axios api/user: ", err);
-                setError(true);
-            });
+                    setError(false);
+                    props.updateBarLocation(response.data.rows[0]);
+                    // dispatch(addBar(response.data.rows[0]));
+                    dispatch(myLastBar(response.data.rows[0]));
+
+                    props.toggleEditBar(!props.editBarVisible);
+                })
+                .catch((err) => {
+                    console.log("err in axios post profile pic: ", err);
+                    setErrorPic(true);
+                    setErrorNoName(false);
+                });
+        } else {
+            axios
+                .post("/edit-bar", {
+                    barId,
+                    barName,
+                    description,
+                    lat,
+                    lng,
+                    music,
+                })
+                .then((response) => {
+                    console.log(("response: ", response));
+                    setError(false);
+                    props.updateBarLocation(response.data.rows[0]);
+                    // dispatch(addBar(response.data.rows[0]));
+                    dispatch(myLastBar(response.data.rows[0]));
+
+                    props.toggleEditBar(!props.editBarVisible);
+                })
+                .catch((err) => {
+                    console.log("err in axios post profile pic: ", err);
+                    setError(true);
+                });
+        }
     };
 
     return (
         <>
-            <p>I am the edit bar component</p>
-            <div className="create-bar-box">
-                <img
-                    className="close-icon"
-                    src="/x-btn.svg"
-                    onClick={props.toggleCreateBar}
-                />
-                <h2>Edit Bar</h2>
-                {showLast &&
-                    showLast.map((bar) => (
-                        <div key={bar.id}>
-                            <input
-                                className="create-bar-field"
-                                onChange={(e) => setBarName(e.target.value)}
-                                name="bar"
-                                type="text"
-                                placeholder="Bar Name"
-                                autoComplete="off"
-                                defaultValue={bar.name}
-                            ></input>
-                            <input
-                                onChange={(e) => setBarImg(e.target.files[0])}
-                                name="file"
-                                type="file"
-                                accept="image/*"
-                            ></input>
+            <div className="overlay">
+                <div className="edit-bar-box">
+                    <img
+                        className="close-icon edit-close"
+                        src="/x-btn.svg"
+                        onClick={props.toggleEditBar}
+                    />
+                    <h2>Edit Bar</h2>
+                    {showLast &&
+                        showLast.map((bar) => (
+                            <div className="edit-innerbox" key={bar.id}>
+                                <input
+                                    className="reg-field"
+                                    onChange={(e) => setBarName(e.target.value)}
+                                    name="bar"
+                                    type="text"
+                                    placeholder="Bar Name"
+                                    autoComplete="off"
+                                    defaultValue={bar.name}
+                                ></input>
 
-                            <textarea
-                                className="create-bar-field"
-                                name="message"
-                                placeholder="Type a description"
-                                onChange={(e) => setDescription(e.target.value)}
-                                defaultValue={bar.description}
-                            ></textarea>
-
-                            <label htmlFor="music">Choose a music genre:</label>
-                            <select
-                                id="music"
-                                name="music"
-                                onChange={(e) => setMusic(e.target.value)}
-                                value={bar.music}
-                            >
-                                {selectGenre.map((item) => (
-                                    <option
-                                        key={item.key}
-                                        value={item.value}
-                                        type="text"
+                                <textarea
+                                    className="reg-field"
+                                    name="message"
+                                    placeholder="Type a description"
+                                    onChange={(e) =>
+                                        setDescription(e.target.value)
+                                    }
+                                    defaultValue={bar.description}
+                                ></textarea>
+                                <input
+                                    onChange={(e) =>
+                                        setBarImg(e.target.files[0])
+                                    }
+                                    name="file"
+                                    type="file"
+                                    accept="image/*"
+                                ></input>
+                                <div className=" box-choose-music">
+                                    <label htmlFor="music">Music:</label>
+                                    <select
+                                        id="music"
+                                        name="music"
+                                        className="select-music"
+                                        onChange={(e) =>
+                                            setMusic(e.target.value)
+                                        }
+                                        defaultValue={bar.music}
                                     >
-                                        {item.name}
-                                    </option>
-                                ))}
-                            </select>
-                        </div>
-                    ))}
+                                        {selectGenre.map((item) => (
+                                            <option
+                                                key={item.key}
+                                                value={item.value}
+                                                type="text"
+                                            >
+                                                {item.name}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </div>
+                            </div>
+                        ))}
 
-                <button onClick={(e) => editBar(e)}>Submit new info</button>
+                    <button className="btn white" onClick={(e) => editBar(e)}>
+                        Submit new info
+                    </button>
 
-                {errorNoName && <p>You need to add a Name for the bar</p>}
-                {errorPic && <p>The file is too large - max 2MB</p>}
+                    {errorNoName && <p>You need to add a Name for the bar</p>}
+                    {errorPic && <p>The file is too large - max 2MB</p>}
+                </div>
             </div>
         </>
     );

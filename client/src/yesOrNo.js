@@ -51,3 +51,11 @@ export default function YesOrNo() {
         </div>
     );
 }
+
+//    {
+//        musicGenres && musicGenres.length == 0 && (
+//            <Link to="/">
+//                <button className="btn">Go to map</button>
+//            </Link>
+//        );
+//    }

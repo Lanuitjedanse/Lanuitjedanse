@@ -92,31 +92,42 @@ export function showNewComments(newComment) {
 
 // RATINGS
 
-export async function receiveRatings(id) {
-    const { data } = await axios.get(`/reviews/${id}`);
-    console.log("id: ", id);
-    console.log("receive ratings: ", data.reviews);
-    return {
-        type: "SHOW_RATINGS",
-        allReviews: data.reviews,
-    };
-}
+// export async function receiveRatings(id) {
+//     const { data } = await axios.get(`/reviews/${id}`);
+//     console.log("id: ", id);
+//     console.log("receive ratings: ", data.reviews);
+//     return {
+//         type: "SHOW_RATINGS",
+//         allReviews: data.reviews,
+//     };
+// }
 
-export async function addRating(id) {
-    const { data } = await axios.post(`/reviews/${id}`);
-    console.log("add rating: ", data.reviews);
-    return {
-        type: "ADD_RATING",
-        newReview: id,
-    };
-}
+// export async function addRating(id) {
+//     const { data } = await axios.post(`/reviews/${id}`);
+//     console.log("add rating: ", data.reviews);
+//     return {
+//         type: "ADD_RATING",
+//         newReview: id,
+//     };
+// }
 
 export async function myLastBar() {
     const { data } = await axios.get("/api-last-bar");
     // console.log("data.rows in axios all venues: ", data.rows);
     // console.log("data in axios all venues: ", data);
     return {
-        type: "LAST-BAR",
-        lastBar: data.rows,
+        type: "LAST_BAR",
+        lastBar: data.rowBar,
+        creator: data.rowUser,
+    };
+}
+
+export async function allMyPosts() {
+    const { data } = await axios.get("/api/all-my-posts");
+    console.log("data.rows in axios all venues: ", data.rows);
+    // console.log("data in axios all venues: ", data);
+    return {
+        type: "SHOW_ALL_MY_POSTS",
+        allMyPosts: data.rows,
     };
 }

@@ -225,30 +225,48 @@ module.exports.lastBar = () => {
     const q = `SELECT * FROM bars ORDER BY id DESC LIMIT 1`;
     return db.query(q);
 };
-// module.exports.uploadBarImg = (id, image) => {
-//     const q = `UPDATE bars
-//     SET image = $2
-//     WHERE id = $1 RETURNING image`;
-//     const params = [id, image];
-//     return db.query(q, params);
-// };
 
-//  const q = `INSERT INTO music_genres (user_id, genres)
-//     VALUES ($1, $2)
-//     ON CONFLICT (user_id)
-//     DO UPDATE SET genres = $2 RETURNING genres`;
-
-module.exports.editBarNoPic = (userId, name, description, lat, lng) => {
-    const q = `UPDATE bars
-    SET name = $2, description = $3, lat = $4, lng = $5
-    WHERE id = $1`;
-    const params = [userId, name, description, lat, lng];
+module.exports.getInfoUploader = (userId) => {
+    const q = `SELECT id, first, last, image FROM users WHERE id = $1`;
+    const params = [userId];
     return db.query(q, params);
 };
-module.exports.editBarNoPic = (userId, name, description, image, lat, lng) => {
+
+module.exports.editBarNoPic = (
+    userId,
+    barId,
+    name,
+    description,
+    music,
+    lat,
+    lng
+) => {
     const q = `UPDATE bars
-    SET name = $2, description = $3, image = $4, lat = $5, lng = $6
-    WHERE id = $1`;
-    const params = [userId, name, description, image, lat, lng];
+    SET name = $3, description = $4, music = $5, lat = $6, lng = $7
+    WHERE id = $2 AND user_id = $1 RETURNING *`;
+    const params = [userId, barId, name, description, music, lat, lng];
+    return db.query(q, params);
+};
+
+module.exports.editBarPic = (
+    userId,
+    barId,
+    name,
+    description,
+    image,
+    music,
+    lat,
+    lng
+) => {
+    const q = `UPDATE bars
+    SET name = $3, description = $4, img_bar = $5, music = $6, lat = $7, lng = $8
+    WHERE id = $2 AND user_id = $1 RETURNING *`;
+    const params = [userId, barId, name, description, image, music, lat, lng];
+    return db.query(q, params);
+};
+
+module.exports.showMyPins = (userId) => {
+    const q = `SELECT * FROM bars WHERE user_id = $1`;
+    const params = [userId];
     return db.query(q, params);
 };

@@ -94,7 +94,7 @@ export default function Comments(props) {
                 placeholder="Type your message"
                 onChange={(e) => messageHandleChange(e)}
             ></textarea>
-            <button className="btn-purple" onClick={() => newComment()}>
+            <button className="btn" onClick={() => newComment()}>
                 Send
             </button>
         </div>

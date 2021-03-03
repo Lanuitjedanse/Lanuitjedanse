@@ -1,10 +1,10 @@
-import Logo from "./logo";
 // import Menu from "./menu";
 // import React from "react";
 import HamburgerMenu from "./hamburgerMenu";
 import { useState, useEffect } from "react";
 import ProfilePic from "./profilePic";
 import Playlist from "./playlist";
+import { Link } from "react-router-dom";
 
 export default function Header(props) {
     // console.log("props in header: ", props);
@@ -48,7 +48,9 @@ export default function Header(props) {
         <>
             <header>
                 <div className="logo-title">
-                    <img src="/dance.svg" />
+                    <Link to="/">
+                        <img src="/dance.svg" />
+                    </Link>
 
                     <h2 className="brand-header">Lanuitjedanse</h2>
                 </div>
@@ -61,12 +63,16 @@ export default function Header(props) {
                         src={srcB}
                         onClick={togglePlaylist}
                     />
+
                     <img
                         onClick={toggleBurgerMenu}
                         className="icon-menu"
                         src={srcA}
                     />
-                    <ProfilePic {...props} />
+
+                    <Link to="/profile">
+                        <ProfilePic {...props} />
+                    </Link>
                 </div>
             </header>
             {burgerOpen && (
