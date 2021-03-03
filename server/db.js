@@ -266,7 +266,8 @@ module.exports.editBarPic = (
 };
 
 module.exports.showMyPins = (userId) => {
-    const q = `SELECT * FROM bars WHERE user_id = $1`;
+    const q = `SELECT * FROM bars WHERE user_id = $1 
+    ORDER BY id DESC`;
     const params = [userId];
     return db.query(q, params);
 };

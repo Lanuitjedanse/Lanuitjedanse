@@ -522,7 +522,7 @@ label {
 }
 
 .music-box {
-    /* padding: 14px; */
+    padding: 14px;
     display: flex;
     align-items: center;
     width: 150px;
