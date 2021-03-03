@@ -13,10 +13,6 @@ export default function DisplayMusicTaste() {
 
     const userTaste = useSelector((state) => state.musicTaste);
 
-    // console.log("userTaste: ", userTaste);
-
-    // const [music, setMusic] = useState([]);
-
     const [error, setError] = useState(false);
 
     const likedMusic = useSelector(
@@ -28,23 +24,6 @@ export default function DisplayMusicTaste() {
             )
     );
 
-    const music = useSelector(
-        (state) =>
-            state.musicGenres &&
-            state.musicGenres.filter(
-                (music) => music.giveLike == true || music.giveLike == false
-            )
-    );
-    console.log("music: ", music);
-
-    const dislikedMusicGenre = useSelector(
-        (state) =>
-            state.musicGenres &&
-            state.musicGenres.filter((music) => music.giveLike == false)
-    );
-
-    console.log(" dislikedMusicGenre: ", dislikedMusicGenre);
-
     const dislikedMusic = useSelector(
         (state) =>
             state.musicTaste &&
@@ -54,17 +33,10 @@ export default function DisplayMusicTaste() {
             )
     );
 
-    // console.log("dislikedMusic: ", dislikedMusic);
-
     useEffect(() => {
         dispatch(musicTasteUser());
         dispatch(receiveGenres());
     }, []);
-
-    // const handleChangeCheckBox = (e) => {
-    //     // updating an object instead of a Map
-    //     setCheckedItems([...checkedItems, e.target.name]);
-    // };
 
     return (
         <>
@@ -77,6 +49,10 @@ export default function DisplayMusicTaste() {
                             <div className="genre" key={index}>
                                 <p>{item}</p>
 
+                                <img
+                                    className="icon-menu"
+                                    src={`/music/${item}.svg`}
+                                />
                                 <button
                                     className="btn"
                                     onClick={() => dispatch(dislikeGenre(item))}
@@ -92,6 +68,10 @@ export default function DisplayMusicTaste() {
                         dislikedMusic.map((item, index) => (
                             <div className="genre" key={index}>
                                 <p>{item}</p>
+                                <img
+                                    className="icon-menu"
+                                    src={`/music/${item}.svg`}
+                                />
                                 <button
                                     className="btn"
                                     onClick={() => dispatch(likeGenre(item))}

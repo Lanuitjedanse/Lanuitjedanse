@@ -56,15 +56,15 @@ export default function Comments(props) {
 
     return (
         <div className="comments">
-            <h2>Chat</h2>
+            <h3>Comments</h3>
             <div className="previous-messages" ref={scrollRef}>
                 {commentsPerPost &&
                     commentsPerPost.map((msg) => (
                         <div
                             className={
                                 props.id === msg.user_id
-                                    ? "chat-msg-box-purple"
-                                    : "chat-msg-box-pink"
+                                    ? "chat-msg-box-sender"
+                                    : "chat-msg-box-recipient"
                             }
                             key={msg.id}
                         >

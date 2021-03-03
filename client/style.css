@@ -188,7 +188,7 @@ header {
 .link-log {
     text-decoration: none;
     color: white;
-    line-height: 3;
+    line-height: 2;
 }
 
 .reg-box h2 {
@@ -253,9 +253,50 @@ header {
     z-index: 400;
 }
 
-.bar-icon {
-    height: 40px;
+input:focus {
+    outline: none;
 }
+
+.reg-field:-webkit-autofill,
+.reg-field:-webkit-autofill:hover,
+.reg-field:-webkit-autofill:focus,
+.reg-field:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 30px black inset;
+}
+
+.reg-field:-webkit-autofill {
+    -webkit-text-fill-color: white !important;
+}
+
+.preview-bar-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    width: 350px;
+    height: 400px;
+    justify-content: flex-start;
+    background-color: black;
+    border-radius: 10px;
+    color: white;
+    z-index: 400;
+}
+
+.preview-bar-box a {
+    text-decoration: none;
+    color: white;
+}
+
+.preview-pop-img {
+    object-fit: cover;
+    width: 350px;
+    height: 200px;
+    margin-bottom: 20px;
+}
+
+/* .bar-icon {
+    height: 40px;
+} */
 
 .close-icon {
     justify-self: flex-end;
@@ -334,14 +375,32 @@ label {
 }
 
 .bar-pop-box {
-    display: flex;
+    /* display: flex;
     justify-content: flex-start;
     align-items: center;
-    flex-direction: column;
-    height: 70%;
+   
+    height: 75%;
+    width: 90%;
+    
+    position: fixed;
+    left: 0;
+    right: 0;
+  
+    bottom: 0;
+    top: 0;
+    margin: auto;
+    color: white;
+    background-color: black;
+    border-radius: 10px;
+    */
+    display: flex;
+    /* justify-content: flex-start; */
+    align-items: center;
+    /* flex-direction: column; */
+    height: 75%;
     width: 90%;
     /* width: 50%; */
-    position: fixed;
+    /* position: fixed; */
     left: 0;
     right: 0;
     /* border: 2px solid hotpink; */
@@ -351,7 +410,6 @@ label {
     color: white;
     background-color: black;
     border-radius: 10px;
-    /* z-index: 5679; */
 }
 
 .img-bar-pop-up {
@@ -372,19 +430,43 @@ label {
     width: 30px;
 }
 
-.bar-title {
+.bar-title,
+.preview-title {
     display: flex;
     width: 100%;
     align-items: center;
     justify-content: space-between;
 }
 
+.bar-title h2,
+.preview-title h2 {
+    text-transform: uppercase;
+}
+
 .bar-title h2 {
     text-transform: uppercase;
+    line-height: 41px;
 }
 
 .bar-icon {
     padding: 5px;
+    height: 50px;
+    width: 50px;
+}
+
+.bar-icon-close {
+    height: 40px;
+    width: 40px;
+    padding: 5px;
+}
+
+.music-box {
+    /* display: flex;
+    align-items: center; */
+    display: flex;
+    align-items: center;
+    width: 100px;
+    justify-content: space-evenly;
 }
 
 #yes-or-no {
@@ -512,8 +594,9 @@ label {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 200px;
-    width: 80%;
+    height: 90%;
+    /* width: 80%; */
+    width: 100%;
 }
 
 .comments textarea {
@@ -549,8 +632,12 @@ textarea::placeholder {
     /* background-color: #9870fc42; */
 }
 
+.chat-msg-box-sender {
+    background-color: rgba(0, 0, 0, 0.432);
+}
+
 .user-comment-box p {
-    color: white;
+    color: black;
 }
 
 .music-genre-box {
@@ -612,4 +699,49 @@ textarea::placeholder {
     text-decoration: none;
     color: white;
     font-weight: bold;
+}
+
+.my-bar-pic {
+    height: 50%;
+    width: 50%;
+}
+
+.select-music {
+    background-color: black;
+    color: white;
+    border: none;
+    border-bottom: 1px solid white;
+}
+.select-music:focus {
+    outline: none;
+}
+
+.white {
+    color: black;
+    background-color: white;
+    border: 1px solid black;
+}
+
+.created-by {
+    display: flex;
+    align-items: center;
+}
+
+.box-left-bar {
+    height: 100%;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+}
+
+.box-right-bar {
+    color: black;
+    height: 100%;
+    display: flex;
+    width: 50%;
+    align-items: center;
+    flex-direction: column;
+    background-color: white;
+    border-radius: 0px 10px 10px 0px;
 }

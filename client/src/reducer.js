@@ -102,6 +102,13 @@ export default function (state = {}, action) {
         };
     }
 
+    if (action.type === "LAST-BAR") {
+        state = {
+            ...state,
+            lastBar: action.lastBar,
+        };
+    }
+
     // if (action.type === "SHOW_ALL_BAR") {
     //     state = {
     //         ...state,

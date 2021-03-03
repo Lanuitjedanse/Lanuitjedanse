@@ -9,16 +9,16 @@ export default function Ratings(props) {
     console.log("props in ratings: ", props);
 
     const ratings = useSelector(
-        (state) =>
-            state.allReviews && state.allReviews.filter((bar) => bar.bar_id)
+        (state) => state.allReviews && state.allReviews.filter((bar) => bar.id)
     );
-    // console.log("ratings:", ratings);
+    console.log("ratings:", ratings);
 
     const changeRating = (newRating) => {
         setRating(newRating);
         console.log("newRating: ", newRating);
         console.log("newRating: ", typeof newRating);
     };
+    console.log("rating: ", rating);
 
     useEffect(() => {
         dispatch(receiveRatings());

@@ -14,6 +14,7 @@ import LikedMusic from "./likedMusic";
 import DislikedMusic from "./dislikedMusic";
 import DisplayMusicTaste from "./displayMusicTaste";
 import Ratings from "./ratings";
+import MyLastBar from "./myLastBar";
 
 export default function App() {
     // console.log("this.state in app: ", this.state);
@@ -30,6 +31,8 @@ export default function App() {
     const [userIdBar, setUserIdBar] = useState("");
     const [description, setDescription] = useState("");
     const [barId, setBarId] = useState("");
+    const [createdAt, setCreatedAt] = useState("");
+
     const [lat, setLat] = useState("");
     const [lng, setLng] = useState("");
 
@@ -64,6 +67,7 @@ export default function App() {
                 setUserIdBar(res.data.rows.user_id);
                 setDescription(res.data.rows.description);
                 setBarId(res.data.rows.id);
+                setCreatedAt(res.data.rows.created_at);
             })
             .catch((err) => {
                 console.log("error in axios api/user: ", err);
@@ -180,6 +184,11 @@ export default function App() {
                     path="/all-bars/:id"
                     render={(props) => (
                         <Bar
+                            id={id}
+                            first={first}
+                            last={last}
+                            image={image}
+                            createdAt={createdAt}
                             barPopUpVisible={props.barPopUpVisible}
                             showPopUpBar={props.showPopUpBar}
                             key={props.match.url}
@@ -192,6 +201,19 @@ export default function App() {
                     path="/ratings/:id"
                     render={(props) => (
                         <Ratings
+                            id={id}
+                            barId={barId}
+                            key={props.match.url}
+                            match={props.match}
+                            history={props.history}
+                        />
+                    )}
+                />
+
+                <Route
+                    path="/my-last-bar"
+                    render={(props) => (
+                        <MyLastBar
                             id={id}
                             barId={barId}
                             key={props.match.url}

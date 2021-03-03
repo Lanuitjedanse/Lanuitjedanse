@@ -77,7 +77,10 @@ export default class Registration extends React.Component {
                         placeholder="Password"
                         autoComplete="off"
                     ></input>
-                    <button className="btn" onClick={() => this.handleClick()}>
+                    <button
+                        className="btn white"
+                        onClick={() => this.handleClick()}
+                    >
                         Submit
                     </button>
                     <Link className="link-log" to="/login">

@@ -6,7 +6,7 @@ import axios from "./Axios";
 import { useState, useEffect } from "react";
 import EditProfile from "./editProfile";
 import UploaderPic from "./uploaderPic";
-import MusicTaste from "./musicTaste";
+// import MusicTaste from "./musicTaste";
 
 export default function Profile(props) {
     // console.log("props in profile: ", props);
@@ -50,10 +50,6 @@ export default function Profile(props) {
                 editProfOpen={editProfOpen}
                 updateProfileData={props.updateProfileData}
             />
-            <MusicTaste
-                toggleMusicTaste={toggleMusicTaste}
-                musicTasteVisible={musicTasteVisible}
-            />
         </div>
     );
 }
@@ -61,3 +57,7 @@ export default function Profile(props) {
 //  <div className="icon-box">
 //      <img className="camera-icon" src="/camera.svg" />
 //  </div>;
+//  <MusicTaste
+//      toggleMusicTaste={toggleMusicTaste}
+//      musicTasteVisible={musicTasteVisible}
+//  />;

@@ -1,6 +1,6 @@
 DROP TABLE IF EXISTS ratings;
 
- CREATE TABLE rating(
+ CREATE TABLE ratings(
       id SERIAL PRIMARY KEY,
       rate INT DEFAULT NULL, 
       user_id INT REFERENCES users(id) NOT NULL,

@@ -38,23 +38,33 @@ export default function Header(props) {
         setPlaylistOpen(!playlistOpen);
     };
 
-    let src;
+    let srcA;
+    let srcB;
 
-    burgerOpen ? (src = "/x-btn.svg") : (src = "/hamburger-menu.svg");
+    burgerOpen ? (srcA = "/x-btn.svg") : (srcA = "/hamburger-menu.svg");
+    playlistOpen ? (srcB = "/pause.svg") : (srcB = "/play.svg");
 
     return (
         <>
             <header>
                 <div className="logo-title">
-                    <img src="/dance.svg" onClick={togglePlaylist} />
+                    <img src="/dance.svg" />
 
                     <h2 className="brand-header">Lanuitjedanse</h2>
                 </div>
                 <div className="menu-container">
+                    {playlistOpen && (
+                        <Playlist togglePlaylist={togglePlaylist} />
+                    )}
+                    <img
+                        className="icon-menu"
+                        src={srcB}
+                        onClick={togglePlaylist}
+                    />
                     <img
                         onClick={toggleBurgerMenu}
                         className="icon-menu"
-                        src={src}
+                        src={srcA}
                     />
                     <ProfilePic {...props} />
                 </div>
@@ -62,8 +72,6 @@ export default function Header(props) {
             {burgerOpen && (
                 <HamburgerMenu toggleBurgerMenu={toggleBurgerMenu} />
             )}
-
-            {playlistOpen && <Playlist togglePlaylist={togglePlaylist} />}
         </>
     );
 }

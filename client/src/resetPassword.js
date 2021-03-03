@@ -59,7 +59,10 @@ export default class ResetPassword extends React.Component {
                         type="email"
                         placeholder="Email"
                     ></input>
-                    <button className="btn" onClick={() => this.handleClick()}>
+                    <button
+                        className="btn white"
+                        onClick={() => this.handleClick()}
+                    >
                         Reset Password
                     </button>
                 </div>
@@ -83,7 +86,10 @@ export default class ResetPassword extends React.Component {
                         type="password"
                         placeholder="Password"
                     ></input>
-                    <button className="btn" onClick={() => this.handleClick()}>
+                    <button
+                        className="btn white"
+                        onClick={() => this.handleClick()}
+                    >
                         Confirm
                     </button>
                 </div>

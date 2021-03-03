@@ -110,3 +110,13 @@ export async function addRating(id) {
         newReview: id,
     };
 }
+
+export async function myLastBar() {
+    const { data } = await axios.get("/api-last-bar");
+    // console.log("data.rows in axios all venues: ", data.rows);
+    // console.log("data in axios all venues: ", data);
+    return {
+        type: "LAST-BAR",
+        lastBar: data.rows,
+    };
+}

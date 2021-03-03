@@ -19,7 +19,7 @@ export default function UploaderPic(props) {
             .post("/profile-pic", formData)
             .then((response) => {
                 props.setProfilePicUrl(response.data.rows);
-                props.setUploaderPicVisible(!props.uploaderPicVisible);
+                props.togglePicUploader(!props.togglePicUploader);
                 setError(false);
             })
             .catch((err) => {
@@ -30,11 +30,14 @@ export default function UploaderPic(props) {
 
     return (
         <>
-            <button className="btn" onClick={() => props.togglePicUploader()}>
-                Add a pic
-            </button>
+            <img
+                className="bar-icon"
+                src="/camera.svg"
+                onClick={() => props.togglePicUploader()}
+            />
+
             {props.uploaderPicVisible && (
-                <>
+                <div className="upload-box">
                     <input
                         onChange={(e) => setFile(e.target.files[0])}
                         name="file"
@@ -44,7 +47,7 @@ export default function UploaderPic(props) {
                     <button className="btn" onClick={(e) => submitPic(e)}>
                         Upload
                     </button>
-                </>
+                </div>
             )}
         </>
     );

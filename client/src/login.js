@@ -61,7 +61,10 @@ export default class Login extends React.Component {
                         type="password"
                         placeholder="Password"
                     ></input>
-                    <button className="btn" onClick={() => this.handleClick()}>
+                    <button
+                        className="btn white"
+                        onClick={() => this.handleClick()}
+                    >
                         Login
                     </button>
 

@@ -212,12 +212,19 @@ module.exports.addLike = (userId, barId, value) => {
 //     return db.query(q, params);
 // };
 
+// INSERT INTO ratings (user_id, bar_id, rate)
+//     VALUES (1, 2, 5);
+
 module.exports.getRatings = (barId) => {
     const q = `SELECT * FROM ratings WHERE id = $1`;
     const params = [barId];
     return db.query(q, params);
 };
 
+module.exports.lastBar = () => {
+    const q = `SELECT * FROM bars ORDER BY id DESC LIMIT 1`;
+    return db.query(q);
+};
 // module.exports.uploadBarImg = (id, image) => {
 //     const q = `UPDATE bars
 //     SET image = $2
@@ -230,3 +237,18 @@ module.exports.getRatings = (barId) => {
 //     VALUES ($1, $2)
 //     ON CONFLICT (user_id)
 //     DO UPDATE SET genres = $2 RETURNING genres`;
+
+module.exports.editBarNoPic = (userId, name, description, lat, lng) => {
+    const q = `UPDATE bars
+    SET name = $2, description = $3, lat = $4, lng = $5
+    WHERE id = $1`;
+    const params = [userId, name, description, lat, lng];
+    return db.query(q, params);
+};
+module.exports.editBarNoPic = (userId, name, description, image, lat, lng) => {
+    const q = `UPDATE bars
+    SET name = $2, description = $3, image = $4, lat = $5, lng = $6
+    WHERE id = $1`;
+    const params = [userId, name, description, image, lat, lng];
+    return db.query(q, params);
+};

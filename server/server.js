@@ -334,22 +334,22 @@ app.get("/music-taste", (req, res) => {
         });
 });
 
-app.post("/music-taste", (req, res) => {
-    console.log("I am the post music taste route");
-    const { checkedItems } = req.body;
+// app.post("/music-taste", (req, res) => {
+//     console.log("I am the post music taste route");
+//     const { checkedItems } = req.body;
 
-    console.log("genres: ", checkedItems);
+//     console.log("genres: ", checkedItems);
 
-    db.editMusicTaste(req.session.userId, checkedItems)
-        .then(({ rows }) => {
-            console.log("music genre updated!");
-            res.json({ success: true, rows: rows });
-        })
-        .catch((err) => {
-            console.log("err in updating music post: ", err);
-            res.json({ success: false });
-        });
-});
+//     db.editMusicTaste(req.session.userId, checkedItems)
+//         .then(({ rows }) => {
+//             console.log("music genre updated!");
+//             res.json({ success: true, rows: rows });
+//         })
+//         .catch((err) => {
+//             console.log("err in updating music post: ", err);
+//             res.json({ success: false });
+//         });
+// });
 
 app.post("/edit-profile", (req, res) => {
     let { first, last, email, pass } = req.body;
@@ -522,6 +522,57 @@ app.post("/reviews/:id", (req, res) => {
             console.log("err in posting reviews: ", err);
             res.json({ success: false });
         });
+});
+
+app.get("/api-last-bar", (req, res) => {
+    db.lastBar()
+        .then(({ rows }) => {
+            // console.log("rows: ", rows);
+            res.json({ rows: rows });
+        })
+        .catch((err) => {
+            console.log("there was an error in getting last one ", err);
+        });
+});
+
+app.post("/edit-bar", (req, res) => {
+    let { first, last, email, pass } = req.body;
+    console.log("first: ", first);
+    console.log("last: ", last);
+    console.log("email: ", email);
+    console.log("password: ", pass);
+
+    if (pass) {
+        hash(pass)
+            .then((hashedPw) => {
+                db.updateProfileWithPass(
+                    req.session.userId,
+                    first,
+                    last,
+                    email,
+                    hashedPw
+                )
+                    .then(({ rows }) => {
+                        console.log("password was changed!");
+                        res.json({ success: true, rows: rows });
+                    })
+                    .catch((err) => {
+                        console.log("err in updating profile with pass: ", err);
+                    });
+            })
+            .catch((err) => {
+                console.log("err in hashing pass: ", err);
+            });
+    } else {
+        db.updateProfileNoPass(req.session.userId, first, last, email)
+            .then(({ rows }) => {
+                console.log("profile updated except password!");
+                res.json({ success: true, rows: rows });
+            })
+            .catch((err) => {
+                console.log("err in update profile no pass: ", err);
+            });
+    }
 });
 
 app.get("/logout", (req, res) => {

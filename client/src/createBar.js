@@ -1,7 +1,7 @@
 import axios from "./Axios";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addBar } from "./actions";
+import { addBar, myLastBar } from "./actions";
 
 export default function CreateBar(props) {
     const dispatch = useDispatch();
@@ -84,6 +84,8 @@ export default function CreateBar(props) {
 
                     props.updateBarLocation(response.data.rows[0]);
                     dispatch(addBar(response.data.rows[0]));
+                    dispatch(myLastBar(response.data.rows[0]));
+
                     setError(false);
                     props.toggleCreateBar(!props.barPopUpVisible);
                 })
@@ -100,6 +102,7 @@ export default function CreateBar(props) {
 
                     props.updateBarLocation(response.data.rows[0]);
                     dispatch(addBar(response.data.rows[0]));
+                    dispatch(myLastBar(response.data.rows[0]));
                     setError(false);
                     props.toggleCreateBar(!props.barPopUpVisible);
                 })

@@ -13,6 +13,7 @@ export default function Bar(props) {
     const [description, setDescription] = useState("");
     const [music, setMusic] = useState("");
     const [error, setError] = useState(false);
+    const [createdAt, setCreatedAt] = useState("");
     // const [rating, setRating] = useState("");
 
     // const changeRating = (newRating, name) => {
@@ -35,6 +36,7 @@ export default function Bar(props) {
                 setImgBar(res.data.rows[0].img_bar);
                 setDescription(res.data.rows[0].description);
                 setMusic(res.data.rows[0].music);
+                setCreatedAt(res.data.rows[0].created_at);
 
                 setError(false);
             })
@@ -52,34 +54,49 @@ export default function Bar(props) {
         <div className="overlay">
             {barId && (
                 <div className="bar-pop-box">
-                    <div className="bar-title">
-                        <img className="bar-bop-icon" src="/cocktails.svg" />
-                        <h2>{name}</h2>
+                    <div className="box-left-bar">
+                        <div className="bar-title">
+                            <img
+                                className="bar-bop-icon"
+                                src="/cocktails.svg"
+                            />
+                            <h2>{name}</h2>
+                            <img
+                                className="bar-bop-icon "
+                                src="/x-btn.svg"
+                                onClick={() => props.history.goBack()}
+                            />
+                        </div>
                         <img
-                            className="bar-bop-icon "
-                            src="/x-btn.svg"
-                            onClick={() => props.history.goBack()}
+                            className="img-bar-pop-up"
+                            src={imgBar || "/avatar.jpg"}
+                            alt={name}
                         />
+                        <Ratings
+                            rating={props.rating}
+                            barId={barId}
+                            id={props.match.params.id}
+                        />
+                        <div className="created-by">
+                            <img
+                                className="user-pic"
+                                src={props.image || "/avatar.jpg"}
+                            />
+                            {props.first} {props.last} added this bar on{" "}
+                            {createdAt.slice(0, 16).replace("T", " at ")}
+                        </div>
+                        <p>{description}</p>
+                        <div className="music-box">
+                            <img
+                                className="bar-bop-icon"
+                                src="/subwoofer.svg"
+                            />
+                            <p>{music}</p>
+                        </div>
                     </div>
-
-                    <img
-                        className="img-bar-pop-up"
-                        src={imgBar || "/avatar.jpg"}
-                        alt={name}
-                    />
-                    <Ratings
-                        rating={props.rating}
-                        barId={barId}
-                        id={props.match.params.id}
-                    />
-
-                    <p>{description}</p>
-
-                    <div className="music-box">
-                        <img className="bar-bop-icon" src="/subwoofer.svg" />
-                        <p>{music}</p>
+                    <div className="box-right-bar">
+                        <Comments id={props.id} barId={barId} />
                     </div>
-                    <Comments id={props.id} barId={barId} />
                 </div>
             )}
             {error && <p>This bar doesn't exist</p>}
