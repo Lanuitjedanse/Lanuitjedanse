@@ -3,6 +3,10 @@ const webpack = require("webpack");
 
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
+if (process.env.NODE_ENV !== "production") {
+    process.env.apiKey = require("./google.json");
+}
+
 module.exports = () => ({
     entry: [
         "@babel/polyfill",
@@ -56,5 +60,6 @@ module.exports = () => ({
         new webpack.DefinePlugin({
             apiKey: JSON.stringify(require("./google.json")),
         }),
+        new webpack.EnvironmentPlugin("apiKey"),
     ],
 });

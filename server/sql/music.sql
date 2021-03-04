@@ -23,10 +23,10 @@ DROP TABLE IF EXISTS music;
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       );
 
-SELECT * FROM music WHERE user_id = $1; 
+-- SELECT * FROM music WHERE user_id = $1; 
 
-INSERT INTO music
-UPDATE MUSIC SET $1 = true; 
+-- INSERT INTO music
+-- UPDATE MUSIC SET $1 = true; 
 
-INSERT INTO music
-UPDATE MUSIC SET $1 = false; 
+-- INSERT INTO music
+-- UPDATE MUSIC SET $1 = false; 
