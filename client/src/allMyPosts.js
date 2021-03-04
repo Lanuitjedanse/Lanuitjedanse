@@ -24,6 +24,21 @@ export default function AllMyPosts() {
     return (
         <>
             <h2 className="title-allposts">All my posts</h2>
+            {showAllPosts.length === 0 && (
+                <div className="bar-container">
+                    <h3 className="title-allposts">
+                        You haven't posted anything yet!
+                    </h3>
+                    <iframe
+                        src="https://giphy.com/embed/1BXa2alBjrCXC"
+                        width="300"
+                        height="300"
+                        frameBorder="0"
+                        className="giphy-embed"
+                        allowFullScreen
+                    ></iframe>
+                </div>
+            )}
             <div className="bar-container">
                 {showAllPosts &&
                     showAllPosts.map((bar) => (

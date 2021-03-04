@@ -883,3 +883,102 @@ textarea::placeholder {
     text-align: center;
     padding-top: 10px;
 }
+
+@media screen and (min-width: 300px) and (max-width: 900px) {
+    .super-container {
+        flex-direction: column;
+    }
+
+    .welcome-box {
+        height: 35vh;
+    }
+
+    .right-box {
+        height: 65vh;
+    }
+
+    .music-genres {
+        width: 40vh;
+    }
+
+    nav {
+        width: 50%;
+    }
+
+    .music-genre-box {
+        height: 100%;
+    }
+
+    .genre-box {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .music-genre-box h1 {
+        margin: 30px;
+    }
+
+    .my-bar-pic {
+        height: 40vh;
+        width: 40vh;
+    }
+
+    .music-box {
+        padding: 0px;
+    }
+
+    .title-allposts,
+    .all-bars-title {
+        text-align: center;
+        padding-top: 30px;
+    }
+
+    .box-left-bar {
+        height: 60%;
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    }
+    .box-left-bar {
+        height: 60%;
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .box-right-bar {
+        height: 50%;
+
+        width: 100%;
+
+        border-radius: 0px 0px 10px 10px;
+    }
+
+    .bar-pop-box {
+        flex-direction: column;
+    }
+
+    .comments textarea {
+        margin-top: 20px;
+
+        height: 60%;
+    }
+    /* 
+    .previous-messages {
+        width: 90%;
+    }
+    .chat h2 {
+        margin: 10px;
+    }
+
+    .chat {
+        width: 100%;
+    }
+
+    .chat textarea {
+        margin: 0 auto;
+        width: 80%;
+    } */
+}

@@ -57,9 +57,11 @@ module.exports = () => ({
         new MiniCssExtractPlugin({
             filename: "bundle.css",
         }),
-        new webpack.DefinePlugin({
-            apiKey: JSON.stringify(require("./google.json")),
-        }),
-        new webpack.EnvironmentPlugin("apiKey"),
+
+        new webpack.EnvironmentPlugin(["apiKey"]),
     ],
 });
+
+//   new webpack.DefinePlugin({
+//             apiKey: JSON.stringify(require("./google.json")),
+//         }),

@@ -19,6 +19,10 @@ export default function MyLastBar(props) {
         setEditBarVisible(!editBarVisible);
     };
 
+    if (!showLast || !userCreator) {
+        return null;
+    }
+
     return (
         <>
             {showLast && userCreator[0].id == props.id && (
