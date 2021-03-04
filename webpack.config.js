@@ -6,6 +6,7 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 // if (process.env.NODE_ENV !== "production") {
 //     process.env.apiKey = require("./google.json");
 // }
+process.env.apiKey = process.env.apiKey || JSON.stringify("./google.json");
 
 module.exports = () => ({
     entry: [
@@ -61,9 +62,11 @@ module.exports = () => ({
         //     apiKey:
         //         process.env.apiKey || JSON.stringify(require("./google.json")),
         // }),
-        new webpack.EnvironmentPlugin([
-            "apiKey",
-            process.env.apiKey || JSON.stringify(require("./google.json")),
-        ]),
+        new webpack.EnvironmentPlugin(["apiKey"]),
     ],
 });
+
+// new webpack.EnvironmentPlugin([
+//     "apiKey",
+//     process.env.apiKey || JSON.stringify(require("./google.json")),
+// ]);
