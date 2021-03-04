@@ -160,7 +160,7 @@ function myMap(props) {
         dispatch(musicTasteUser());
     }, []);
 
-    // console.log("userLocation: ", userLocation);
+    // console.log("apiKey: ", apiKey);
 
     const { isLoaded } = useJsApiLoader({
         id: "google-map-script",
