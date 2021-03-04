@@ -160,11 +160,11 @@ function myMap(props) {
         dispatch(musicTasteUser());
     }, []);
 
-    // console.log("apiKey: ", apiKey);
+    console.log("apiKey: ", apiKey);
 
     const { isLoaded } = useJsApiLoader({
         id: "google-map-script",
-        googleMapsApiKey: process.env.apiKey,
+        googleMapsApiKey: apiKey || process.env.apiKey,
     });
     const [map, setMap] = React.useState(null);
 
