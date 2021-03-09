@@ -334,22 +334,40 @@ app.get("/music-taste", (req, res) => {
         });
 });
 
-// app.post("/music-taste", (req, res) => {
-//     console.log("I am the post music taste route");
-//     const { checkedItems } = req.body;
-
-//     console.log("genres: ", checkedItems);
-
-//     db.editMusicTaste(req.session.userId, checkedItems)
+// app.post("/delete-bar", (req, res) => {
+//     console.log("delete post route");
+//     const { barId } = req.body;
+//     db.deleteMyPost(req.session.userId, barId)
 //         .then(({ rows }) => {
-//             console.log("music genre updated!");
-//             res.json({ success: true, rows: rows });
+//             console.log("rows: ", rows);
+//             console.log("deleted a bar");
+//             res.json({ success: true });
 //         })
 //         .catch((err) => {
-//             console.log("err in updating music post: ", err);
-//             res.json({ success: false });
+//             console.log("err in delete my post: ", err);
 //         });
 // });
+
+app.post("/delete-bar", async (req, res) => {
+    console.log("I'm the delete post route");
+    const userId = req.session.userId;
+    const { barId } = req.body;
+    console.log("barId: ", barId);
+
+    try {
+        const bar = await db.getBarInfo(barId);
+
+        if (bar.rows[0].img_bar != null) {
+            s3.deleteImage(bar.rows[0].img_bar);
+        }
+        db.deleteComments(barId);
+        await db.deleteMyPost(userId, barId);
+        res.json({ success: true });
+    } catch (err) {
+        console.log("err in delete bar: ", err);
+        res.json({ success: false });
+    }
+});
 
 app.post("/edit-profile", (req, res) => {
     let { first, last, email, pass } = req.body;

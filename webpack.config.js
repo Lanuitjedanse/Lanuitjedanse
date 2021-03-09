@@ -3,12 +3,14 @@ const webpack = require("webpack");
 
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
-// if (process.env.NODE_ENV !== "production") {
-//     process.env.apiKey = require("./google.json");
-// }
-let googleSecret =
-    process.env.apiKey || JSON.stringify(require("./google.json"));
-console.log("googlesecret: ", googleSecret);
+if (process.env.NODE_ENV !== "production") {
+    // Already set on heroku production
+    process.env.apiKey = require("./secrets.json").apiKey;
+}
+
+// let googleSecret =
+//     process.env.apiKey || JSON.stringify(require("./google.json"));
+// console.log("googlesecret: ", googleSecret);
 // process.env.apiKey = process.env.apiKey || JSON.stringify("./google.json");
 
 module.exports = () => ({
@@ -57,15 +59,21 @@ module.exports = () => ({
             },
         ],
     },
+    // plugins: [
+    //     new MiniCssExtractPlugin({
+    //         filename: "bundle.css",
+    //     }),
+    //     new webpack.EnvironmentPlugin(["apiKey"]),
+    //     new webpack.DefinePlugin({
+    //         apiKey:
+    //             process.env.apiKey || JSON.stringify(require("./google.json")),
+    //     }),
+    // ],
     plugins: [
         new MiniCssExtractPlugin({
             filename: "bundle.css",
         }),
         new webpack.EnvironmentPlugin(["apiKey"]),
-        new webpack.DefinePlugin({
-            apiKey:
-                process.env.apiKey || JSON.stringify(require("./google.json")),
-        }),
     ],
 });
 

@@ -88,6 +88,12 @@ export default function (state = {}, action) {
         };
     }
 
+    if (action.type === "DELETE_BAR") {
+        state = {
+            ...state,
+            allBars: state.allBars.filter((item) => action.deletedBar !== item),
+        };
+    }
     // if (action.type == "SHOW_RATINGS") {
     //     state = {
     //         ...state,

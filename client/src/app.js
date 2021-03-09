@@ -16,6 +16,7 @@ import DisplayMusicTaste from "./displayMusicTaste";
 // import Ratings from "./ratings";
 import MyLastBar from "./myLastBar";
 import AllMyPosts from "./allMyPosts";
+import DeleteBar from "./deleteBar";
 
 export default function App() {
     // console.log("this.state in app: ", this.state);

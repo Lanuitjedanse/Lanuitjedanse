@@ -271,3 +271,21 @@ module.exports.showMyPins = (userId) => {
     const params = [userId];
     return db.query(q, params);
 };
+
+module.exports.deleteMyPost = (userId, barId) => {
+    const q = `DELETE FROM bars WHERE user_id = $1 AND id = $2`;
+    const params = [userId, barId];
+    return db.query(q, params);
+};
+
+module.exports.deleteComments = (barId) => {
+    const q = `DELETE FROM comments WHERE bar_id = $1`;
+    const params = [barId];
+    return db.query(q, params);
+};
+
+module.exports.getBarInfo = (barId) => {
+    const q = `SELECT * FROM bars WHERE id = $1`;
+    const params = [barId];
+    return db.query(q, params);
+};

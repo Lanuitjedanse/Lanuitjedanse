@@ -90,6 +90,12 @@ export function showNewComments(newComment) {
     };
 }
 
+export function deleteBar(deletedBar) {
+    return {
+        type: "DELETE_BAR",
+        deletedBar,
+    };
+}
 // RATINGS
 
 // export async function receiveRatings(id) {

@@ -1,8 +1,10 @@
 import axios from "./Axios";
 import { useState, useEffect } from "react";
+import { Route } from "react-router-dom";
 import Comments from "./comments";
 // import { Ratings, RateLayout } from "./ratings";
 import Ratings from "./ratings";
+import DeleteBar from "./deleteBar";
 import { useDispatch, useSelector } from "react-redux";
 import { receiveRatings, addRating } from "./actions";
 
@@ -17,8 +19,9 @@ export default function Bar(props) {
     const [userFirst, setUserFirst] = useState("");
     const [userLast, setUserLast] = useState("");
     const [userPic, setUserPic] = useState("");
+    const [userId, setUserId] = useState("");
 
-    // const [rating, setRating] = useState("");
+    console.log("props.toggleDelete: ", props.toggleDelete); // const [rating, setRating] = useState("");
 
     // const changeRating = (newRating, name) => {
     //     setRating(newRating);
@@ -44,6 +47,7 @@ export default function Bar(props) {
                 setUserFirst(res.data.rowsUser[0].first);
                 setUserLast(res.data.rowsUser[0].last);
                 setUserPic(res.data.rowsUser[0].image);
+                setUserId(res.data.rowsUser[0].id);
 
                 setError(false);
             })
@@ -97,6 +101,12 @@ export default function Bar(props) {
                             />
                             <p className="capitalize">{music}</p>
                         </div>
+                        {userId == props.id && (
+                            <DeleteBar
+                                barId={barId}
+                                toggleDelete={props.toggleDelete}
+                            />
+                        )}
                     </div>
                     <div className="box-right-bar">
                         <img
