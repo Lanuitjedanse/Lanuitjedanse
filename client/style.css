@@ -12,6 +12,11 @@ body {
     font-weight: 200;
 }
 
+.name {
+    color: white !important;
+    font-size: 20px;
+}
+
 h1,
 h2,
 h3,

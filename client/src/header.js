@@ -63,7 +63,7 @@ export default function Header(props) {
                         src={srcB}
                         onClick={togglePlaylist}
                     />
-
+                    <h2 className="name">Hi {props.first}</h2>
                     <img
                         onClick={toggleBurgerMenu}
                         className="icon-menu"

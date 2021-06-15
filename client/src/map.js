@@ -170,6 +170,7 @@ function myMap(props) {
         id: "google-map-script",
         googleMapsApiKey: process.env.apiKey,
     });
+
     const [map, setMap] = React.useState(null);
 
     const mapRef = useRef();
